@@ -9,11 +9,11 @@ public partial class Notification
 
     public string? Message { get; set; }
 
-    public string AccountId { get; set; } = null!;
+    public string? AccountId { get; set; }
 
-    public DateTime? SendDate { get; set; }
+    public DateTime SendDate { get; set; }
 
-    public bool? IsRead { get; set; }
+    public bool IsRead { get; set; }
 
     public string? Type { get; set; }
 

@@ -15,13 +15,13 @@ public partial class ServiceFeedback
 
     public string? Content { get; set; }
 
-    public bool? Rating { get; set; }
+    public bool Rating { get; set; }
 
-    public DateTime? CreateAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
     public virtual Account? Customer { get; set; }
 
-    public virtual Post Post { get; set; } = null!;
+    public virtual Post? Post { get; set; }
 
-    public virtual Service Service { get; set; } = null!;
+    public virtual Service? Service { get; set; }
 }

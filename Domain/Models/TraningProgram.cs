@@ -15,7 +15,7 @@ public partial class TraningProgram
 
     public string? TraningProgramDuration { get; set; }
 
-    public bool? Stauts { get; set; }
+    public bool Stauts { get; set; }
 
     public virtual ICollection<RegistrationProgram> RegistrationPrograms { get; set; } = new List<RegistrationProgram>();
 }

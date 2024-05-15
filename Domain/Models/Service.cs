@@ -7,15 +7,15 @@ public partial class Service
 {
     public int ServiceId { get; set; }
 
-    public float? OriginalPrice { get; set; }
+    public float OriginalPrice { get; set; }
 
-    public float? FinalPrice { get; set; }
+    public float FinalPrice { get; set; }
 
     public string? ServiceName { get; set; }
 
     public string? ServiceDescription { get; set; }
 
-    public float? RatingAvg { get; set; }
+    public float RatingAvg { get; set; }
 
     public virtual ICollection<Package> Packages { get; set; } = new List<Package>();
 

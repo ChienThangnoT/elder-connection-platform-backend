@@ -7,7 +7,7 @@ public partial class ServiceType
 {
     public int ServiceTypeId { get; set; }
 
-    public int? ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
     public string? TypeName { get; set; }
 

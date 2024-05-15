@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Models;
 
-public partial class Account
+public partial class Account : IdentityUser
 {
-    public string AccountId { get; set; } = null!;
+    public string? FirstName { get; set; }
 
-    public string FirstName { get; set; } = null!;
-
-    public string LastName { get; set; } = null!;
+    public string? LastName { get; set; }
 
     public string? Biography { get; set; }
 
@@ -17,29 +16,23 @@ public partial class Account
 
     public DateTime? Birthday { get; set; }
 
-    public bool? Sex { get; set; }
+    public bool Sex { get; set; }
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
+    public string? DeviceToken { get; set; }
 
     public string? RefreshToken { get; set; }
 
-    public DateTime? RefreshTokenExpiryTime { get; set; }
-
-    public string? Password { get; set; }
-
-    public string Email { get; set; } = null!;
-
-    public bool? EmailValidation { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
 
     public string? WalletBalance { get; set; }
 
-    public float? AvgRating { get; set; }
+    public float AvgRating { get; set; }
 
-    public DateTime? CreateAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
-    public string? Address { get; set; }
 
-    public int? ConnectorInforId { get; set; }
+    public int ConnectorInforId { get; set; }
 
     public virtual ConnectorInfo? ConnectorInfor { get; set; }
 
@@ -54,6 +47,7 @@ public partial class Account
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual ICollection<RegistrationProgram> RegistrationPrograms { get; set; } = new List<RegistrationProgram>();
 

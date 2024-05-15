@@ -7,9 +7,9 @@ public partial class JobSchedule
 {
     public int JobScheduleId { get; set; }
 
-    public DateTime? StartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateTime? EndDate { get; set; }
+    public DateTime EndDate { get; set; }
 
     public string? Description { get; set; }
 
@@ -17,9 +17,9 @@ public partial class JobSchedule
 
     public string? LocationWork { get; set; }
 
-    public int? TaskStauts { get; set; }
+    public int TaskStatus { get; set; }
 
-    public bool? OnTask { get; set; }
+    public bool OnTask { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
