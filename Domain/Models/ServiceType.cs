@@ -11,7 +11,7 @@ public partial class ServiceType
 
     public string? ServiceTypeHours { get; set; }
 
-    public float? ServicePricePerHour { get; set; }
+    public float ServicePricePerHour { get; set; }
 
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 }

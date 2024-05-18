@@ -8,12 +8,22 @@
 
   <ItemGroup>
     <Folder Include="Cronjob\" />
-    <Folder Include="IServices\" />
-    <Folder Include="Common\" />
-    <Folder Include="IRepositories\" />
-    <Folder Include="ResponseModels\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\AccountViewModels\" />
+    <Folder Include="ViewModels\AddressViewModels\" />
+    <Folder Include="ViewModels\ConnectorFeedbackViewModels\" />
+    <Folder Include="ViewModels\ConnectorInfoViewModels\" />
+    <Folder Include="ViewModels\FavoriteListViewModels\" />
+    <Folder Include="ViewModels\JobScheduleViewModels\" />
+    <Folder Include="ViewModels\TransactionHistoryViewModels\" />
+    <Folder Include="ViewModels\TrainingProgramViewModels\" />
+    <Folder Include="ViewModels\TaskEDViewModels\" />
+    <Folder Include="ViewModels\ServiceTypeViewModels\" />
+    <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
+    <Folder Include="ViewModels\ServiceViewModels\" />
+    <Folder Include="ViewModels\SaleViewModels\" />
+    <Folder Include="ViewModels\RegistrationProgramViewModels\" />
+    <Folder Include="ViewModels\PostViewModels\" />
+    <Folder Include="ViewModels\NotificationViewModels\" />
   </ItemGroup>
 
   <ItemGroup>

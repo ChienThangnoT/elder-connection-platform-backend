@@ -11,7 +11,7 @@ public partial class Sale
 
     public string? SaleDescription { get; set; }
 
-    public float? SalePercent { get; set; }
+    public float SalePercent { get; set; }
 
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 }

@@ -7,13 +7,13 @@ public partial class Post
 {
     public int PostId { get; set; }
 
-    public int? ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
-    public int? JobScheduleId { get; set; }
+    public int JobScheduleId { get; set; }
 
     public string? CustomerId { get; set; }
 
-    public int? AddressId { get; set; }
+    public int AddressId { get; set; }
 
     public bool? IsPriorityFavoriteConnector { get; set; }
 
@@ -21,17 +21,17 @@ public partial class Post
 
     public string? Title { get; set; }
 
-    public string? PostStatus { get; set; }
+    public int PostStatus { get; set; }
 
-    public TimeOnly? StartTime { get; set; }
+    public TimeOnly StartTime { get; set; }
 
-    public DateTime? CreateAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
-    public DateTime? UpdateAt { get; set; }
+    public DateTime UpdateAt { get; set; }
 
-    public float? Price { get; set; }
+    public float Price { get; set; }
 
-    public float? SalaryAfterWork { get; set; }
+    public float SalaryAfterWork { get; set; }
 
     public virtual Address? Address { get; set; }
 
