@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Cronjob\" />
     <Folder Include="IServices\" />
     <Folder Include="Common\" />
-    <Folder Include="Cronjob\" />
     <Folder Include="IRepositories\" />
     <Folder Include="ResponseModels\" />
     <Folder Include="Services\" />

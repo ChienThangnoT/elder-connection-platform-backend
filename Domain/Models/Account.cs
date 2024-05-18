@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace Domain.Models;
 
-public partial class Account : IdentityUser
+public partial class Account :IdentityUser
 {
+    public int? ConnectorInforId { get; set; }
+
     public string? FirstName { get; set; }
 
     public string? LastName { get; set; }
@@ -16,38 +18,31 @@ public partial class Account : IdentityUser
 
     public DateTime? Birthday { get; set; }
 
-    public bool Sex { get; set; }
+    public string? Sex { get; set; }
 
-    public bool Status { get; set; }
+    public string? Status { get; set; }
+
     public string? DeviceToken { get; set; }
 
     public string? RefreshToken { get; set; }
 
-    public DateTime RefreshTokenExpiryTime { get; set; }
+    public string? RefreshTokenExpiryTime { get; set; }
 
     public string? WalletBalance { get; set; }
 
-    public float AvgRating { get; set; }
+    public float? AvgRating { get; set; }
 
-    public DateTime CreateAt { get; set; }
+    public DateTime? CreateAt { get; set; }
 
-
-    public int ConnectorInforId { get; set; }
+    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual ConnectorInfo? ConnectorInfor { get; set; }
 
-    public virtual ICollection<ConnectorsFeedback> ConnectorsFeedbackConnectors { get; set; } = new List<ConnectorsFeedback>();
-
-    public virtual ICollection<ConnectorsFeedback> ConnectorsFeedbackCustomers { get; set; } = new List<ConnectorsFeedback>();
-
-    public virtual ICollection<FavoriteList> FavoriteListConnectors { get; set; } = new List<FavoriteList>();
-
-    public virtual ICollection<FavoriteList> FavoriteListCustomers { get; set; } = new List<FavoriteList>();
+    public virtual ICollection<FavoriteList> FavoriteLists { get; set; } = new List<FavoriteList>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
-    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual ICollection<RegistrationProgram> RegistrationPrograms { get; set; } = new List<RegistrationProgram>();
 

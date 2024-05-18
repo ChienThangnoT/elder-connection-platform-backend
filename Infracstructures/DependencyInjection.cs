@@ -1,5 +1,4 @@
-﻿using Infracstructures.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,7 +14,7 @@ namespace Infracstructures
         public static IServiceCollection AddInfractstructure(this IServiceCollection services, IConfiguration config)
         {
             //Congig local db
-            services.AddDbContext<ElderConnectDbContext>(options =>
+            services.AddDbContext<ElderConnectionContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
             });

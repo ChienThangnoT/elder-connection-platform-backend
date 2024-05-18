@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Models;
 
-public partial class TraningProgram
+public partial class TrainingProgram
 {
     public int TraningProgramId { get; set; }
 
@@ -15,7 +15,7 @@ public partial class TraningProgram
 
     public string? TraningProgramDuration { get; set; }
 
-    public bool Stauts { get; set; }
+    public bool? Status { get; set; }
 
     public virtual ICollection<RegistrationProgram> RegistrationPrograms { get; set; } = new List<RegistrationProgram>();
 }

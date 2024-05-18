@@ -9,9 +9,9 @@ public partial class ConnectorInfo
 
     public string? SocialNumber { get; set; }
 
-    public DateTime SendDate { get; set; }
+    public string? SendDate { get; set; }
 
-    public bool IsApproved { get; set; }
+    public string? IsApproved { get; set; }
 
     public string? CccdFrontImg { get; set; }
 

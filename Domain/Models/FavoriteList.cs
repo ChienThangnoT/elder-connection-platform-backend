@@ -11,7 +11,5 @@ public partial class FavoriteList
 
     public string? ConnectorId { get; set; }
 
-    public virtual Account? Connector { get; set; }
-
     public virtual Account? Customer { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using Domain.Models;
-using Infracstructures.Models;
+using Infracstructures;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -52,7 +52,7 @@ namespace ElderConnectionPlatform.API
             // Add Identity
             builder.Services
                 .AddIdentity<Account, IdentityRole>()
-                .AddEntityFrameworkStores<ElderConnectDbContext>()
+                .AddEntityFrameworkStores<ElderConnectionContext>()
                 .AddDefaultTokenProviders();
  
         }

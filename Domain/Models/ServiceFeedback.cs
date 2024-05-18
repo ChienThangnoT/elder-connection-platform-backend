@@ -7,17 +7,17 @@ public partial class ServiceFeedback
 {
     public int ServiceFeedbackId { get; set; }
 
-    public int ServiceId { get; set; }
+    public int? ServiceId { get; set; }
 
-    public int PostId { get; set; }
+    public int? PostId { get; set; }
 
     public string? CustomerId { get; set; }
 
-    public string? Content { get; set; }
+    public string? FeedbackContent { get; set; }
 
-    public bool Rating { get; set; }
+    public int? RatingStars { get; set; }
 
-    public DateTime CreateAt { get; set; }
+    public DateTime? CreateAt { get; set; }
 
     public virtual Account? Customer { get; set; }
 
