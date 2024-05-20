@@ -15,7 +15,7 @@ public partial class Address
 
     public string? AddressDescription { get; set; }
 
-    public string? HomeType { get; set; }
+    public int HomeType { get; set; }
 
     public string? ContactName { get; set; }
 
