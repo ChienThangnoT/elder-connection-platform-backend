@@ -15,7 +15,7 @@ namespace Infracstructures.Repositories
         protected DbSet<TModel> _dbSet;
         //private readonly IClaimsService _claimsService;
 
-        public GenericRepository(ElderConnectionContext context,  /*IClaimsService claimsService*/)
+        public GenericRepository(ElderConnectionContext context/*,  IClaimsService claimsService*/)
         {
             _dbSet = context.Set<TModel>();
             //_claimsService = claimsService;
