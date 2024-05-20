@@ -173,7 +173,6 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.OnTask).HasColumnName("on_task");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.TaskProcess).HasColumnName("task_process");
-            entity.Property(e => e.TaskStatus).HasColumnName("task_status");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -310,7 +309,6 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.FeedbackContent).HasColumnName("feedback_content");
             entity.Property(e => e.PostId).HasColumnName("post_id");
             entity.Property(e => e.RatingStars).HasColumnName("rating_stars");
-            entity.Property(e => e.ServiceId).HasColumnName("service_id");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.ServiceFeedbacks)
                 .HasForeignKey(d => d.CustomerId)
@@ -319,10 +317,6 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.HasOne(d => d.Post).WithMany(p => p.ServiceFeedbacks)
                 .HasForeignKey(d => d.PostId)
                 .HasConstraintName("FK_ServiceFeedback_Post");
-
-            entity.HasOne(d => d.Service).WithMany(p => p.ServiceFeedbacks)
-                .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK_ServiceFeedback_Service");
         });
 
         modelBuilder.Entity<ServiceType>(entity =>

@@ -4,6 +4,7 @@ using Infracstructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(ElderConnectionContext))]
-    partial class ElderConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20240518164521_UpdateClassConnectorInfo")]
+    partial class UpdateClassConnectorInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +114,9 @@ namespace Infracstructures.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Sex")
+                    b.Property<string>("Sex")
                         .HasMaxLength(150)
-                        .HasColumnType("int")
+                        .HasColumnType("nvarchar(150)")
                         .HasColumnName("sex");
 
                     b.Property<string>("Status")
@@ -182,8 +185,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("contact_phone");
 
-                    b.Property<int>("HomeType")
-                        .HasColumnType("int")
+                    b.Property<string>("HomeType")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("home_type");
 
                     b.HasKey("AddressId");
@@ -332,6 +335,10 @@ namespace Infracstructures.Migrations
                         .HasColumnType("real")
                         .HasColumnName("task_process");
 
+                    b.Property<string>("TaskStatus")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("task_status");
+
                     b.HasKey("JobScheduleId");
 
                     b.ToTable("JobSchedule", (string)null);
@@ -416,9 +423,9 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("post_description");
 
-                    b.Property<int>("PostStatus")
+                    b.Property<string>("PostStatus")
                         .HasMaxLength(50)
-                        .HasColumnType("int")
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("post_status");
 
                     b.Property<float>("Price")
@@ -656,8 +663,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("int")
                         .HasColumnName("job_schedule_id");
 
-                    b.Property<int>("TaskStatus")
-                        .HasColumnType("int")
+                    b.Property<string>("TaskStatus")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("task_status");
 
                     b.Property<DateTime>("TaskUpdateAt")
@@ -745,8 +752,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("payment_method");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
                     b.Property<float>("TransactionAmount")
