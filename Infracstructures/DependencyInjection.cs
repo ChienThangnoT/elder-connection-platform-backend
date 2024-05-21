@@ -23,6 +23,10 @@ namespace Infracstructures
             // Configure Account services and repositories
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IAccountService, AccountService>();
+            
+            // Configure Account services and repositories
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
 
             // Configure the local database connection
             services.AddDbContext<ElderConnectionContext>(options =>
