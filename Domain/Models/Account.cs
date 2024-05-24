@@ -18,7 +18,7 @@ public partial class Account :IdentityUser
 
     public int Sex { get; set; }
 
-    public string? Status { get; set; }
+    public int Status { get; set; }
 
     public string? DeviceToken { get; set; }
 
@@ -26,13 +26,14 @@ public partial class Account :IdentityUser
 
     public string? RefreshTokenExpiryTime { get; set; }
 
-    public string? WalletBalance { get; set; }
+    public float WalletBalance { get; set; }
 
     public float? AvgRating { get; set; }
 
     public DateTime? CreateAt { get; set; }
 
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+    public virtual ICollection<ElderInformation> ElderInformation { get; set; } = new List<ElderInformation>();
 
     public virtual ConnectorInfo? ConnectorInfor { get; set; }
 
