@@ -18,7 +18,7 @@ namespace ElderConnectionPlatform.API.Controllers
         }
 
         #region Detail
-        [HttpGet("get-account-detail{id:int}")]
+        [HttpGet("get-account-detail{id}")]
         public async Task<IActionResult> Detail(string id)
         {
             try
@@ -36,10 +36,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 {
                     Status = StatusCodes.Status200OK,
                     Message = "Succeed.",
-                    Result = new
-                    {
-                        User = user
-                    }
+                    Result = user
                 });
             }
             catch (ArgumentException ex)

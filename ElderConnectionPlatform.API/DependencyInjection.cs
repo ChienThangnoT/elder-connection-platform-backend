@@ -19,10 +19,23 @@ namespace ElderConnectionPlatform.API
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
-            builder.Services.AddEndpointsApiExplorer();
+            services.AddEndpointsApiExplorer();
+
+            //add cors
+            services.AddCors(options =>
+            {
+                options.AddPolicy("app-cors",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .WithExposedHeaders("X-Pagination")
+                        .AllowAnyMethod();
+                    });
+            });
 
             //config authen swagger
-            builder.Services.AddSwaggerGen(opt =>
+            services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Elder Connection Platform", Version = "v.10.24" });
                 opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -53,6 +66,7 @@ namespace ElderConnectionPlatform.API
             // Add Identity
             builder.Services
                 .AddIdentity<Account, IdentityRole>()
+                .AddSignInManager()
                 .AddEntityFrameworkStores<ElderConnectionContext>()
                 .AddDefaultTokenProviders();
  

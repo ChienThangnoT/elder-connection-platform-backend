@@ -22,7 +22,7 @@ namespace Application.ViewModels.AccountViewModels
 
         public int Sex { get; set; }
 
-        public string? Status { get; set; }
+        public int Status { get; set; }
 
         public string? WalletBalance { get; set; }
 
