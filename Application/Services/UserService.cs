@@ -45,7 +45,7 @@ namespace Application.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Birthday = model.BirthDate,
-                Status = "Is Active",
+                Status = (int)AccountStatus.Active,
                 UserName = model.AccountEmail,
                 Sex = (int)model.Sex,
                 Email = model.AccountEmail,

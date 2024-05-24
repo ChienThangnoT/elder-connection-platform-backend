@@ -48,6 +48,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
     public virtual DbSet<TrainingProgram> TrainingPrograms { get; set; }
 
     public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
+    public virtual DbSet<ElderInformation> ElderInformations { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,21 +60,19 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
         {
             entity.HasKey(e => e.Id).HasName("PK_Account");
             entity.Property(e => e.AvgRating).HasColumnName("avg_rating");
-            entity.Property(e => e.Biography).HasColumnName("biography");
+            entity.Property(e => e.Biography).HasColumnName("biography").HasMaxLength(450);
             entity.Property(e => e.Birthday).HasColumnName("birthday");
             entity.Property(e => e.ConnectorInforId).HasColumnName("connector_infor_id");
             entity.Property(e => e.CreateAt).HasColumnName("create_at");
             entity.Property(e => e.DeviceToken).HasColumnName("device_token");
-            entity.Property(e => e.FirstName).HasColumnName("first_name");
-            entity.Property(e => e.LastName).HasColumnName("last_name");
+            entity.Property(e => e.FirstName).HasColumnName("first_name").HasMaxLength(50);
+            entity.Property(e => e.LastName).HasColumnName("last_name").HasMaxLength(50);
             entity.Property(e => e.ProfilePicture).HasColumnName("profile_picture");
-            entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
-            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time");
+            entity.Property(e => e.RefreshToken).HasColumnName("refresh_token").HasMaxLength(350);
+            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time").HasMaxLength(350);
             entity.Property(e => e.Sex)
-                .HasMaxLength(150)
                 .HasColumnName("sex");
             entity.Property(e => e.Status)
-                .HasMaxLength(150)
                 .HasColumnName("status");
             entity.Property(e => e.WalletBalance).HasColumnName("wallet_balance");
 
@@ -91,11 +90,11 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.AccountId)
                 .HasMaxLength(450)
                 .HasColumnName("account_id");
-            entity.Property(e => e.AddressDescription).HasColumnName("address_description");
-            entity.Property(e => e.AddressDetail).HasColumnName("address_detail");
-            entity.Property(e => e.AddressName).HasColumnName("address_name");
-            entity.Property(e => e.ContactName).HasColumnName("contact_name");
-            entity.Property(e => e.ContactPhone).HasColumnName("contact_phone");
+            entity.Property(e => e.AddressDescription).HasColumnName("address_description").HasMaxLength(350);
+            entity.Property(e => e.AddressDetail).HasColumnName("address_detail").HasMaxLength(350);
+            entity.Property(e => e.AddressName).HasColumnName("address_name").HasMaxLength(150);
+            entity.Property(e => e.ContactName).HasColumnName("contact_name").HasMaxLength(150);
+            entity.Property(e => e.ContactPhone).HasColumnName("contact_phone").HasMaxLength(50);
             entity.Property(e => e.HomeType).HasColumnName("home_type");
 
             entity.HasOne(d => d.Account).WithMany(p => p.Addresses)
@@ -140,7 +139,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.GxnhkImg).HasColumnName("gxnhk_img");
             entity.Property(e => e.IsApproved).HasColumnName("is_approved");
             entity.Property(e => e.SendDate).HasColumnName("send_date");
-            entity.Property(e => e.SocialNumber).HasColumnName("social_number");
+            entity.Property(e => e.SocialNumber).HasColumnName("social_number").HasMaxLength(50);
         });
 
         modelBuilder.Entity<FavoriteList>(entity =>
@@ -167,9 +166,9 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
 
             entity.Property(e => e.JobScheduleId)
                 .HasColumnName("job_schedule_id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(450);
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.LocationWork).HasColumnName("location_work");
+            entity.Property(e => e.LocationWork).HasColumnName("location_work").HasMaxLength(450);
             entity.Property(e => e.OnTask).HasColumnName("on_task");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.TaskProcess).HasColumnName("task_process");
@@ -186,14 +185,35 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
                 .HasColumnName("account_id");
             entity.Property(e => e.Action).HasColumnName("action");
             entity.Property(e => e.IsRead).HasColumnName("is_read");
-            entity.Property(e => e.Message).HasColumnName("message");
+            entity.Property(e => e.Message).HasColumnName("message").HasMaxLength(450);
             entity.Property(e => e.SendDate).HasColumnName("send_date");
-            entity.Property(e => e.Title).HasColumnName("title");
-            entity.Property(e => e.Type).HasColumnName("type");
+            entity.Property(e => e.Title).HasColumnName("title").HasMaxLength(150);
+            entity.Property(e => e.Type).HasColumnName("type").HasMaxLength(50);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.AccountId)
                 .HasConstraintName("FK_Notification_Account");
+        }); 
+        
+        modelBuilder.Entity<ElderInformation>(entity =>
+        {
+            entity.ToTable("ElderInformation");
+
+            entity.HasKey(e => e.ElderId);
+            entity.Property(e => e.ElderId)
+                .HasColumnName("elder_id");
+            entity.Property(e => e.ChildId)
+                .HasMaxLength(450)
+                .HasColumnName("child_id");
+            entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(150);
+            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
+            entity.Property(e => e.Pathology).HasColumnName("pathology");
+            entity.Property(e => e.ProfilePicture).HasColumnName("profile_picture");
+            entity.Property(e => e.Sex).HasColumnName("sex");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.ElderInformation)
+                .HasForeignKey(d => d.ChildId)
+                .HasConstraintName("FK_ElderInformation_Account");
         });
 
         modelBuilder.Entity<Post>(entity =>
@@ -210,15 +230,14 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
                 .HasColumnName("customer_id");
             entity.Property(e => e.IsPriorityFavoriteConnector).HasColumnName("is_priority_favorite_connector");
             entity.Property(e => e.JobScheduleId).HasColumnName("job_schedule_id");
-            entity.Property(e => e.PostDescription).HasColumnName("post_description");
+            entity.Property(e => e.PostDescription).HasColumnName("post_description").HasMaxLength(450);
             entity.Property(e => e.PostStatus)
-                .HasMaxLength(50)
                 .HasColumnName("post_status");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.SalaryAfterWork).HasColumnName("salary_after_work");
             entity.Property(e => e.ServiceId).HasColumnName("service_id");
             entity.Property(e => e.StartTime).HasColumnName("start_time");
-            entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.Title).HasColumnName("title").HasMaxLength(450);
             entity.Property(e => e.UpdateAt).HasColumnName("update_at");
 
             entity.HasOne(d => d.Address).WithMany(p => p.Posts)
@@ -268,8 +287,8 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
 
             entity.Property(e => e.SaleId)
                 .HasColumnName("sale_id");
-            entity.Property(e => e.SaleDescription).HasColumnName("sale_description");
-            entity.Property(e => e.SaleName).HasColumnName("sale_name");
+            entity.Property(e => e.SaleDescription).HasColumnName("sale_description").HasMaxLength(450);
+            entity.Property(e => e.SaleName).HasColumnName("sale_name").HasMaxLength(450);
             entity.Property(e => e.SalePercent).HasColumnName("sale_percent");
         });
 
@@ -283,8 +302,8 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.OriginalPrice).HasColumnName("original_price");
             entity.Property(e => e.RatingAvg).HasColumnName("rating_avg");
             entity.Property(e => e.SaleId).HasColumnName("sale_id");
-            entity.Property(e => e.ServiceDescription).HasColumnName("service_description");
-            entity.Property(e => e.ServiceName).HasColumnName("service_name");
+            entity.Property(e => e.ServiceDescription).HasColumnName("service_description").HasMaxLength(450);
+            entity.Property(e => e.ServiceName).HasColumnName("service_name").HasMaxLength(150);
             entity.Property(e => e.ServiceTypeId).HasColumnName("service_type_id");
 
             entity.HasOne(d => d.Sale).WithMany(p => p.Services)
@@ -306,7 +325,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(450)
                 .HasColumnName("customer_id");
-            entity.Property(e => e.FeedbackContent).HasColumnName("feedback_content");
+            entity.Property(e => e.FeedbackContent).HasColumnName("feedback_content").HasMaxLength(450);
             entity.Property(e => e.PostId).HasColumnName("post_id");
             entity.Property(e => e.RatingStars).HasColumnName("rating_stars");
 
@@ -326,8 +345,8 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.ServiceTypeId)
                 .HasColumnName("service_type_id");
             entity.Property(e => e.ServicePricePerHour).HasColumnName("service_price_per_hour");
-            entity.Property(e => e.ServiceTypeHours).HasColumnName("service_type_hours");
-            entity.Property(e => e.ServiceTypeName).HasColumnName("service_type_name");
+            entity.Property(e => e.ServiceTypeHours).HasColumnName("service_type_hours").HasMaxLength(150);
+            entity.Property(e => e.ServiceTypeName).HasColumnName("service_type_name").HasMaxLength(150);
         });
 
         modelBuilder.Entity<TaskED>(entity =>
@@ -345,7 +364,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.JobScheduleId).HasColumnName("job_schedule_id");
             entity.Property(e => e.TaskStatus).HasColumnName("task_status");
             entity.Property(e => e.TaskUpdateAt).HasColumnName("task_update_at");
-            entity.Property(e => e.TaskUpdateDescription).HasColumnName("task_update_description");
+            entity.Property(e => e.TaskUpdateDescription).HasColumnName("task_update_description").HasMaxLength(450);
             entity.Property(e => e.WorkDateAt).HasColumnName("work_date_at");
 
             entity.HasOne(d => d.Connector).WithMany(p => p.Tasks)
@@ -366,10 +385,10 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.TraningProgramId)
                 .HasColumnName("traning_program_id");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.TraningProgramContent).HasColumnName("traning_program_content");
-            entity.Property(e => e.TraningProgramDuration).HasColumnName("traning_program_duration");
-            entity.Property(e => e.TraningProgramLevel).HasColumnName("traning_program_level");
-            entity.Property(e => e.TraningProgramTitle).HasColumnName("traning_program_title");
+            entity.Property(e => e.TraningProgramContent).HasColumnName("traning_program_content").HasMaxLength(450);
+            entity.Property(e => e.TraningProgramDuration).HasColumnName("traning_program_duration").HasMaxLength(150);
+            entity.Property(e => e.TraningProgramLevel).HasColumnName("traning_program_level").HasMaxLength(150);
+            entity.Property(e => e.TraningProgramTitle).HasColumnName("traning_program_title").HasMaxLength(150);
         });
 
         modelBuilder.Entity<TransactionHistory>(entity =>
@@ -383,14 +402,14 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.AccountId)
                 .HasMaxLength(450)
                 .HasColumnName("account_id");
-            entity.Property(e => e.AccountName).HasColumnName("account_name");
-            entity.Property(e => e.CurrencyCode).HasColumnName("currency_code");
+            entity.Property(e => e.AccountName).HasColumnName("account_name").HasMaxLength(150);
+            entity.Property(e => e.CurrencyCode).HasColumnName("currency_code").HasMaxLength(450);
             entity.Property(e => e.PaymentDate).HasColumnName("payment_date");
-            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
+            entity.Property(e => e.PaymentMethod).HasColumnName("payment_method").HasMaxLength(150);
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TransactionAmount).HasColumnName("transaction_amount");
-            entity.Property(e => e.TransactionNo).HasColumnName("transaction_no");
-            entity.Property(e => e.TransactionType).HasColumnName("transaction_type");
+            entity.Property(e => e.TransactionNo).HasColumnName("transaction_no").HasMaxLength(450);
+            entity.Property(e => e.TransactionType).HasColumnName("transaction_type").HasMaxLength(450);
             entity.Property(e => e.WalletBalanceChange).HasColumnName("wallet_balance_change");
 
             entity.HasOne(d => d.Account).WithMany(p => p.TransactionHistories)
