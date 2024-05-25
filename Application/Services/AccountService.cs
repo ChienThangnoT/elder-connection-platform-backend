@@ -33,5 +33,20 @@ namespace Application.Services
             return result;
         }
         #endregion
+
+        #region UpdateUserDetailASync
+        public async Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model)
+        {
+            // retrieve user with the id
+            var exisedUser = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id);
+            // update user with the new data
+            _mapper.Map(model, exisedUser);
+            _unitOfWork.AccountRepo.Update(exisedUser);
+            await _unitOfWork.SaveChangesAsync();
+            // map user entity to user detail model
+            var result = _mapper.Map<AccountDetailViewModel>(exisedUser);
+            return result;
+        }
+        #endregion
     }
 }
