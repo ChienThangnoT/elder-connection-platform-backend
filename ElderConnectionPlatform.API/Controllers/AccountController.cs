@@ -26,23 +26,18 @@ namespace ElderConnectionPlatform.API.Controllers
                 var user = await _accountService.GetUserDetailAsync(id);
 
                 // return status codes with result according to user object
-                return (user == null) ? NotFound(new BaseFailedResponseModel
+                return (user == null) ? NotFound(new FailedResponseModel
                 {
                     Status = StatusCodes.Status404NotFound,
                     Message = "Account not found.",
                 })
                     :
-                Ok(new BaseResponseModel
-                {
-                    Status = StatusCodes.Status200OK,
-                    Message = "Succeed.",
-                    Result = user
-                });
+                Ok(user);
             }
             catch (ArgumentException ex)
             {
                 // return status code bad request for validation
-                return BadRequest(new BaseFailedResponseModel
+                return BadRequest(new FailedResponseModel
                 {
                     Status = StatusCodes.Status400BadRequest,
                     Message = "Invalid parameters.",

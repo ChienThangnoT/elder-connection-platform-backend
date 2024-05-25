@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace Application.IServices
 {
     public interface IAccountService 
     {
-        Task<AccountDetailViewModel?> GetUserDetailAsync(string id);
+        Task<BaseResponseModel> GetUserDetailAsync(string id);
     }
 }
