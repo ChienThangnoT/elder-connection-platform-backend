@@ -56,13 +56,13 @@ namespace ElderConnectionPlatform.API.Controllers
             {
                 var user = await _accountService.UpdateUserDetailASync(id, model);
 
-                return (user == null) ? NotFound(new BaseFailedResponseModel
+                return (user == null) ? NotFound(new FailedResponseModel
                 {
                     Status = StatusCodes.Status404NotFound,
                     Message = "Account not found with id: " + id,
                 })
                     :
-                Ok(new BaseResponseModel
+                Ok(new SuccessResponseModel
                 {
                     Status = StatusCodes.Status200OK,
                     Message = "Update succeed.",
@@ -72,7 +72,7 @@ namespace ElderConnectionPlatform.API.Controllers
             catch (Exception ex)
             {
                 // return status code bad request for validation
-                return BadRequest(new BaseFailedResponseModel
+                return BadRequest(new FailedResponseModel
                 {
                     Status = StatusCodes.Status400BadRequest,
                     Message = "Bad Request",
