@@ -1,6 +1,7 @@
 ﻿using Application.IServices;
 using Application.ResponseModels;
 using Application.Services;
+using Application.ViewModels.AccountViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,40 @@ namespace ElderConnectionPlatform.API.Controllers
                 {
                     Status = StatusCodes.Status400BadRequest,
                     Message = "Invalid parameters.",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Update
+        [HttpPut("update-account-detail{id}")]
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] AccountUpdateModel model)
+        {
+            try
+            {
+                var user = await _accountService.UpdateUserDetailASync(id, model);
+
+                return (user == null) ? NotFound(new BaseFailedResponseModel
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Message = "Account not found with id: " + id,
+                })
+                    :
+                Ok(new BaseResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Update succeed.",
+                    Result = user
+                });
+            }
+            catch (Exception ex)
+            {
+                // return status code bad request for validation
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Bad Request",
                     Errors = ex.Message
                 });
             }

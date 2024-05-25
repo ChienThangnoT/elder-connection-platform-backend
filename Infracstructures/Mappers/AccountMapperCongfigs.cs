@@ -14,6 +14,7 @@ namespace Infracstructures.Mappers
         partial void AccountMapperCongfigs()
         {
              CreateMap<Account, AccountDetailViewModel>().ReverseMap();
+               CreateMap<AccountUpdateModel, Account>().ReverseMap();
         }
     }
 }
