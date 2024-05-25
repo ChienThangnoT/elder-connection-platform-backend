@@ -1,6 +1,8 @@
 ﻿using Application.IServices;
+using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,15 +24,24 @@ namespace Application.Services
         }
 
         #region GetUserDetailAsync
-        public async Task<AccountDetailViewModel?> GetUserDetailAsync(string id)
+        public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
-            // retrieve user with the id
             var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id);
 
-            // map user entity to user detail model
+            if (user == null)
+            {
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Message = "Account not found."
+                };
+            }
             var result = _mapper.Map<AccountDetailViewModel>(user);
 
-            return result;
+            return new SuccessResponseModel {
+                Status = StatusCodes.Status200OK,
+                Message = "Get user detail success",
+                Result = result};
         }
         #endregion
 

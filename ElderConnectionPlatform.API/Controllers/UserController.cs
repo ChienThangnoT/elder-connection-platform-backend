@@ -30,14 +30,14 @@ namespace ElderConnectionPlatform.API.Controllers
                     var result = await _userService.SignUpAsync(accountSignUpModel);
                     if (result == true)
                     {
-                        return Ok(new BaseResponseModel()
+                        return Ok(new SuccessResponseModel()
                         {
                             Status = Ok().StatusCode,
                             Message = "Account signup success",
                             Result = new {User = accountSignUpModel}
                         });
                     }
-                    return BadRequest(new BaseFailedResponseModel
+                    return BadRequest(new FailedResponseModel
                     {
                         Status = StatusCodes.Status400BadRequest,
                         Message = "Create account failed",
@@ -48,7 +48,7 @@ namespace ElderConnectionPlatform.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return BadRequest(new FailedResponseModel
                 {
                     Status = StatusCodes.Status400BadRequest,
                     Message =  ex.Message

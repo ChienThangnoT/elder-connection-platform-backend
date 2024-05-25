@@ -1,8 +1,10 @@
 ﻿using Domain.Models;
 using Infracstructures;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Text.Json.Serialization;
 
 namespace ElderConnectionPlatform.API
@@ -17,6 +19,7 @@ namespace ElderConnectionPlatform.API
             services.AddControllers().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
             });
 
             services.AddEndpointsApiExplorer();
