@@ -11,5 +11,7 @@ namespace Application.IServices
     public interface IAccountService 
     {
         Task<AccountDetailViewModel?> GetUserDetailAsync(string id);
+
+        Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model);
     }
 }
