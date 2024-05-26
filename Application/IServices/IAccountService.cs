@@ -13,5 +13,6 @@ namespace Application.IServices
     {
         Task<BaseResponseModel> GetUserDetailAsync(string id);
         Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model);
+        Task<BaseResponseModel> GetAccountByEmail(string email);
     }
 }

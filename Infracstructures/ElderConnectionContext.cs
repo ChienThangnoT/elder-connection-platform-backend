@@ -69,7 +69,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.LastName).HasColumnName("last_name").HasMaxLength(50);
             entity.Property(e => e.ProfilePicture).HasColumnName("profile_picture");
             entity.Property(e => e.RefreshToken).HasColumnName("refresh_token").HasMaxLength(350);
-            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time").HasMaxLength(350);
+            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time");
             entity.Property(e => e.Sex)
                 .HasColumnName("sex");
             entity.Property(e => e.Status)

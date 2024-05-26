@@ -14,6 +14,11 @@ namespace Infracstructures.Repositories
         public AccountRepository(ElderConnectionContext context ) : base(context)
         {
         }
+
+        public async Task<Account> GetAccountByEmailAsync(string email)
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
+        }
         #region GetByIdAsyncIncludeRole
         public async Task<Account?> GetAccountByIdAsync(string id)
         {
