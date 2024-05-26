@@ -1,4 +1,5 @@
 using ElderConnectionPlatform.API;
+using ElderConnectionPlatform.API.Middleware;
 using Infracstructures;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors("app-cors");
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

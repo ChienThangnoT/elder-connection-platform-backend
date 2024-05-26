@@ -1,8 +1,13 @@
-﻿using Domain.Models;
+﻿using Application.IServices;
+using Application.Services;
+using Domain.Models;
 using Infracstructures;
+using Application.Helper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Text.Json.Serialization;
 
 namespace ElderConnectionPlatform.API
@@ -17,6 +22,7 @@ namespace ElderConnectionPlatform.API
             services.AddControllers().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
             });
 
             services.AddEndpointsApiExplorer();
@@ -69,7 +75,19 @@ namespace ElderConnectionPlatform.API
                 .AddSignInManager()
                 .AddEntityFrameworkStores<ElderConnectionContext>()
                 .AddDefaultTokenProviders();
- 
+
+            //add dj mail service
+            services.AddTransient<IMailService, MailService>();
+
+            //Add config mail setting
+            services.Configure<EmailConfig>(builder.Configuration.GetSection("MailSettings"));
+
+            //Add Email Confirm
+            services.Configure<IdentityOptions>(
+                opt => opt.SignIn.RequireConfirmedEmail = true
+                );
+
+
         }
     }
 }

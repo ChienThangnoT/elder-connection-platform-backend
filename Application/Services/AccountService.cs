@@ -1,6 +1,9 @@
-﻿using Application.IServices;
+﻿using Application.Exceptions;
+using Application.IServices;
+using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,14 +25,29 @@ namespace Application.Services
         }
 
         #region GetUserDetailAsync
-        public async Task<AccountDetailViewModel?> GetUserDetailAsync(string id)
+        public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
-            // retrieve user with the id
-            var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id);
-
-            // map user entity to user detail model
+            var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id) ?? throw new NotExistsException();
             var result = _mapper.Map<AccountDetailViewModel>(user);
 
+            return new SuccessResponseModel {
+                Status = StatusCodes.Status200OK,
+                Message = "Get user detail success",
+                Result = result};
+        }
+        #endregion
+
+        #region UpdateUserDetailASync
+        public async Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model)
+        {
+            // retrieve user with the id
+            var exisedUser = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id);
+            // update user with the new data
+            _mapper.Map(model, exisedUser);
+            _unitOfWork.AccountRepo.Update(exisedUser);
+            await _unitOfWork.SaveChangesAsync();
+            // map user entity to user detail model
+            var result = _mapper.Map<AccountDetailViewModel>(exisedUser);
             return result;
         }
         #endregion
