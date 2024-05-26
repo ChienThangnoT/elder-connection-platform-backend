@@ -19,32 +19,11 @@ namespace ElderConnectionPlatform.API.Controllers
         }
 
         #region Detail
-        [HttpGet("get-account-detail{id}")]
+        [HttpGet("get-account-detail/{id}")]
         public async Task<IActionResult> Detail(string id)
         {
-            try
-            {
-                var user = await _accountService.GetUserDetailAsync(id);
-
-                // return status codes with result according to user object
-                return (user == null) ? NotFound(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status404NotFound,
-                    Message = "Account not found.",
-                })
-                    :
-                Ok(user);
-            }
-            catch (ArgumentException ex)
-            {
-                // return status code bad request for validation
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Invalid parameters.",
-                    Errors = ex.Message
-                });
-            }
+            var user = await _accountService.GetUserDetailAsync(id);
+            return Ok(user);
         }
         #endregion
 
@@ -52,34 +31,21 @@ namespace ElderConnectionPlatform.API.Controllers
         [HttpPut("update-account-detail{id}")]
         public async Task<IActionResult> UpdateProfile(string id, [FromBody] AccountUpdateModel model)
         {
-            try
-            {
-                var user = await _accountService.UpdateUserDetailASync(id, model);
+            var user = await _accountService.UpdateUserDetailASync(id, model);
 
-                return (user == null) ? NotFound(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status404NotFound,
-                    Message = "Account not found with id: " + id,
-                })
-                    :
-                Ok(new SuccessResponseModel
-                {
-                    Status = StatusCodes.Status200OK,
-                    Message = "Update succeed.",
-                    Result = user
-                });
-            }
-            catch (Exception ex)
+            return (user == null) ? NotFound(new FailedResponseModel
             {
-                // return status code bad request for validation
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad Request",
-                    Errors = ex.Message
-                });
-            }
+                Status = StatusCodes.Status404NotFound,
+                Message = "Account not found with id: " + id,
+            })
+                :
+            Ok(new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Update succeed.",
+                Result = user
+            });
         }
-        #endregion
     }
+    #endregion
 }

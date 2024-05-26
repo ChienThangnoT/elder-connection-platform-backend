@@ -1,4 +1,5 @@
-﻿using Application.IServices;
+﻿using Application.Exceptions;
+using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
@@ -26,16 +27,7 @@ namespace Application.Services
         #region GetUserDetailAsync
         public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
-            var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id);
-
-            if (user == null)
-            {
-                return new FailedResponseModel
-                {
-                    Status = StatusCodes.Status404NotFound,
-                    Message = "Account not found."
-                };
-            }
+            var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id) ?? throw new NotExistsException();
             var result = _mapper.Map<AccountDetailViewModel>(user);
 
             return new SuccessResponseModel {
