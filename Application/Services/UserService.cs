@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Application.Exceptions;
+using Application.IRepositories;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
@@ -13,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twilio.Types;
 
 namespace Application.Services
 {
@@ -38,21 +38,30 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> SignUpAsync(AccountSignUpModel model)
+
+        #region signup account
+        public async Task<BaseResponseModel> SignUpAsync(AccountSignUpModel model)
         {
+            var exsistAccount = await _userManager.FindByNameAsync(model.AccountEmail);
+
+            if (exsistAccount != null)
+            {
+                throw new AccountAlreadyExistsException();
+            }
+
             var user = new Account
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Birthday = model.BirthDate,
                 Status = (int)AccountStatus.Active,
                 UserName = model.AccountEmail,
-                Sex = (int)model.Sex,
                 Email = model.AccountEmail,
                 PhoneNumber = model.AccountPhone,
                 CreateAt = DateTime.Now,
             };
             var result = await _userManager.CreateAsync(user, model.AccountPassword);
+
+            string errorMessage = null;
             if (result.Succeeded)
             {
                 if (!await _roleManager.RoleExistsAsync(RoleAccountModel.Customer.ToString()))
@@ -63,9 +72,60 @@ namespace Application.Services
                 {
                     await _userManager.AddToRoleAsync(user, RoleAccountModel.Customer.ToString());
                 }
-                return true;
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                return new TokenModel
+                {
+                    Status = StatusCodes.Status201Created,
+                    Message = "Create account successfull, Please confirm your email to login into eHubSystem",
+                    ConfirmEmailToken = token
+                };
             }
-            return false;
+            foreach (var ex in result.Errors)
+            {
+                errorMessage = ex.Description;
+            }
+            return new FailedResponseModel { Status = StatusCodes.Status400BadRequest, Message = errorMessage };
         }
+
+        #endregion
+                                                                                
+        #region confirm email
+        public async Task<BaseResponseModel> ConfirmEmail(string email, string token)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+
+            if (user == null)
+            {
+                throw new NotExistsException();
+            }
+
+            if (user.EmailConfirmed)
+            {
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Email đã được xác nhận!"
+                };
+
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Xác thực email thành công!"
+                };
+            }
+            return new FailedResponseModel
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Message = "Xác thực email thất bại!"
+            };
+        }
+        #endregion
+
+
     }
 }

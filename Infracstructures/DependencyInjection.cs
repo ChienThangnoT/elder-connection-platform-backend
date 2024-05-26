@@ -28,6 +28,7 @@ namespace Infracstructures
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
 
+
             // Configure the local database connection
             services.AddDbContext<ElderConnectionContext>(options =>
             {

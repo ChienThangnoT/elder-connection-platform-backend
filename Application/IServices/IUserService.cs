@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.AccountViewModels;
+﻿using Application.ResponseModels;
+using Application.ViewModels.AccountViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Application.IServices
 {
     public interface IUserService
     {
-          public Task<bool> SignUpAsync(AccountSignUpModel model);
+          public Task<BaseResponseModel> SignUpAsync(AccountSignUpModel model);
+          public Task<BaseResponseModel> ConfirmEmail(string tokenReset, string memberEmail);
     }
 }
