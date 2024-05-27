@@ -92,7 +92,7 @@ namespace Application.Services
         }
 
         #endregion
-                                                                                
+
         #region confirm email
         public async Task<BaseResponseModel> ConfirmEmail(string email, string token)
         {
@@ -135,7 +135,7 @@ namespace Application.Services
         {
             var account = await _userManager.FindByNameAsync(model.AccountEmail);
             var result = await _signInManager.PasswordSignInAsync(model.AccountEmail, model.AccountPassword, false, false);
-            
+
 
             if (result.Succeeded)
             {
@@ -209,10 +209,10 @@ namespace Application.Services
         private async Task<List<Claim>> GetAuthClaims(Account user)
         {
             var authClaims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.UserName),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-    };
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             var userRoles = await _userManager.GetRolesAsync(user);
             foreach (var role in userRoles)
