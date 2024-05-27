@@ -9,7 +9,7 @@ public partial class ServiceType
 
     public string? ServiceTypeName { get; set; }
 
-    public string? ServiceTypeHours { get; set; }
+    //public string? ServiceTypeHours { get; set; }
 
     public float ServicePricePerHour { get; set; }
 
