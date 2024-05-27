@@ -16,6 +16,7 @@ public partial class Service
     public float FinalPrice { get; set; }
 
     public string? ServiceName { get; set; }
+    public string? ServiceTypeHours { get; set; }
 
     public string? ServiceDescription { get; set; }
 

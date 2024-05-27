@@ -4,6 +4,7 @@ using Infracstructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(ElderConnectionContext))]
-    partial class ElderConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20240526112057_Updatev2DBContext")]
+    partial class Updatev2DBContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -616,11 +619,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(150)")
                         .HasColumnName("service_name");
 
-                    b.Property<string>("ServiceTypeHours")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
-                        .HasColumnName("service_type_hours");
-
                     b.Property<int>("ServiceTypeId")
                         .HasColumnType("int")
                         .HasColumnName("service_type_id");
@@ -686,6 +684,11 @@ namespace Infracstructures.Migrations
                     b.Property<float>("ServicePricePerHour")
                         .HasColumnType("real")
                         .HasColumnName("service_price_per_hour");
+
+                    b.Property<string>("ServiceTypeHours")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("service_type_hours");
 
                     b.Property<string>("ServiceTypeName")
                         .HasMaxLength(150)

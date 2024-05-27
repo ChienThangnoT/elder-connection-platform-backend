@@ -1,4 +1,5 @@
-﻿using Application.Exceptions;
+﻿using Application.Common;
+using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
@@ -24,6 +25,19 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+        public async Task<BaseResponseModel> GetAccountByEmail(string email)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAccountByEmailAsync(email);
+            var result = _mapper.Map<AccountDetailViewModel>(account);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get user detail success",
+                Result = result
+            };
+        }
+
         #region GetUserDetailAsync
         public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
@@ -34,6 +48,28 @@ namespace Application.Services
                 Status = StatusCodes.Status200OK,
                 Message = "Get user detail success",
                 Result = result};
+        }
+
+        public async Task<Pagination<AccountDetailViewModel>> GetUserListPaginationAsync(int pageIndex = 0, int pageSize = 10)
+        {
+            if (pageIndex < 0)
+            {
+                string msg = "Page index cannot be less than 0. Input page index: " + pageIndex;
+                throw new ArgumentException(msg);
+            }
+
+            if (pageSize <= 0)
+            {
+                string msg = "Page size cannot be less than 1. Input page size: " + pageSize;
+                throw new ArgumentException(msg);
+            }
+
+            // get paginated account entities list
+            var users = await _unitOfWork.AccountRepo.ToPaginationAsync(pageIndex, pageSize);
+
+            var result = _mapper.Map<Pagination<AccountDetailViewModel>>(users);
+
+            return result;
         }
         #endregion
 

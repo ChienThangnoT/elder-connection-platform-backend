@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using AutoMapper.Configuration.Annotations;
 
 namespace Application.ResponseModels
 {
@@ -24,10 +25,21 @@ namespace Application.ResponseModels
     {
         public object? Result { get; set; }
     }  
-    public class TokenModel : BaseResponseModel
+    public class EmailTokenModel : BaseResponseModel
     {
         [IgnoreDataMember]
         [JsonIgnore]
         public string? ConfirmEmailToken { get; set; }
+    }
+    
+    public class AuthenticationResponseModel : BaseResponseModel
+    {
+        public string JwtToken { get; set; }
+        [Ignore]
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public Task<String>? VerifyEmailToken { get; set; }
+        public DateTime? Expired { get; set; }
+        public string JwtRefreshToken { get; set; }
     }
 }
