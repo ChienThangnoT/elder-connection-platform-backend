@@ -10,5 +10,6 @@ namespace Application.IRepositories
     public interface IAccountRepository : IGenericRepository<Account>
     {
         Task<Account> GetAccountByIdAsync(string id);
+        Task<Account> GetAccountByEmailAsync(string email);
     }
 }

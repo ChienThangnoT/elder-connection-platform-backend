@@ -10,7 +10,9 @@ namespace Application.IServices
 {
     public interface IUserService
     {
-          public Task<BaseResponseModel> SignUpAsync(AccountSignUpModel model);
-          public Task<BaseResponseModel> ConfirmEmail(string tokenReset, string memberEmail);
+        public Task<BaseResponseModel> SignUpAsync(AccountSignUpModel model);
+        public Task<BaseResponseModel> ConfirmEmail(string tokenReset, string memberEmail);
+        public Task<BaseResponseModel> SignInAccountAsync(SignInModel model);
+        public Task<BaseResponseModel> RefreshToken(TokenModel tokenModel);
     }
 }

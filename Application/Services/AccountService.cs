@@ -24,6 +24,19 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+        public async Task<BaseResponseModel> GetAccountByEmail(string email)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAccountByEmailAsync(email);
+            var result = _mapper.Map<AccountDetailViewModel>(account);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get user detail success",
+                Result = result
+            };
+        }
+
         #region GetUserDetailAsync
         public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {

@@ -24,7 +24,7 @@ public partial class Account :IdentityUser
 
     public string? RefreshToken { get; set; }
 
-    public string? RefreshTokenExpiryTime { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
 
     public float WalletBalance { get; set; }
 
