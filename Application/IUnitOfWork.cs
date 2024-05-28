@@ -11,6 +11,8 @@ namespace Application
     {
         public IUserRepository UserRepo { get; }
         public IAccountRepository AccountRepo { get; }
+        public IServiceRepository ServiceRepo { get; }
+        public IServiceTypeRepository ServiceTypeRepo { get; }
         public Task<int> SaveChangesAsync();
     }
 }

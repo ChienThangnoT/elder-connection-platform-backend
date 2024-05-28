@@ -14,18 +14,27 @@ namespace Infracstructures
         private readonly ElderConnectionContext _context;
         private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IServiceTypeRepository _serviceTypeRepository;
 
-        public UnitOfWork(ElderConnectionContext context, IAccountRepository accountRepository, IUserRepository userRepository)
+        public UnitOfWork(ElderConnectionContext context, 
+            IAccountRepository accountRepository, 
+            IUserRepository userRepository,
+            IServiceRepository serviceRepository,
+            IServiceTypeRepository serviceTypeRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
             _userRepository = userRepository;
             _userRepository = userRepository;
+            _serviceRepository = serviceRepository;
+            _serviceTypeRepository = serviceTypeRepository;
         }
 
         public IUserRepository UserRepo => _userRepository;
-
         public IAccountRepository AccountRepo => _accountRepository;
+        public IServiceRepository ServiceRepo => _serviceRepository;
+        public IServiceTypeRepository ServiceTypeRepo => _serviceTypeRepository;
 
         public async Task<int> SaveChangesAsync()
         {
