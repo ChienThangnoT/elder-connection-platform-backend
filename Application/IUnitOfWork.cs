@@ -13,6 +13,7 @@ namespace Application
         public IAccountRepository AccountRepo { get; }
         public IServiceRepository ServiceRepo { get; }
         public IServiceTypeRepository ServiceTypeRepo { get; }
+        public IAddressRepository AddressRepo { get; }
         public Task<int> SaveChangesAsync();
     }
 }

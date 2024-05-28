@@ -24,10 +24,12 @@ namespace Infracstructures.Mappers
 
             //add service type mapper configs
             ServiceTypeMapperCongfigs();
+            AddressMapperCongfigs();
         }
 
         partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
+        partial void AddressMapperCongfigs();
     }
 }

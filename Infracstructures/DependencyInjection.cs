@@ -23,6 +23,10 @@ namespace Infracstructures
             // Configure Account services and repositories
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IAccountService, AccountService>();
+
+            // Configure Adress services and repositories
+            services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<IAddressService, AddressService>();
             
             // Configure Account services and repositories
             services.AddTransient<IUserRepository, UserRepository>();
