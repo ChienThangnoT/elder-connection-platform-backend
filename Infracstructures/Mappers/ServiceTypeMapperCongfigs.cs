@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.AccountViewModels;
+﻿using Application.ViewModels.ServiceTypeViewModels;
+using Application.ViewModels.ServiceViewModels;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -11,10 +12,9 @@ namespace Infracstructures.Mappers
 {
     public partial class MapperConfigs : Profile
     {
-        partial void AccountMapperCongfigs()
+        partial void ServiceTypeMapperCongfigs()
         {
-             CreateMap<Account, AccountDetailViewModel>().ReverseMap();
-             CreateMap<AccountUpdateModel, Account>().ReverseMap();
+            CreateMap<ServiceType, DetailServiceTypeModel>().ReverseMap();
         }
     }
 }
