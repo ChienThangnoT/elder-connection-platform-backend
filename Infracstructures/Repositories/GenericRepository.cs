@@ -102,6 +102,25 @@ namespace Infracstructures.Repositories
 
             return result;
         }
+
+        public async Task<Pagination<TModel>> ToListPaginationAsync(IQueryable<TModel> query, int pageIndex = 0, int pageSize = 10)
+        {
+            var itemCount = await query.CountAsync();
+
+            var items = await query.Skip(pageIndex * pageSize)
+                                   .Take(pageSize)
+                                   .AsNoTracking()
+                                   .ToListAsync();
+
+            return new Pagination<TModel>
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalItemCount = itemCount,
+                Items = items
+            };
+        }
+
         public async Task<Pagination<TModel>> ToPaginationIncludeAsync(int pageIndex = 0, int pageSize = 10, Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null)
         {
             IQueryable<TModel> query = _dbSet;

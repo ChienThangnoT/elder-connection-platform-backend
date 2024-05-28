@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Application.Common;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,7 @@ namespace Application.IRepositories
 {
     public interface IAddressRepository : IGenericRepository<Address>
     {
+        Task<Pagination<Address>> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex);
+
     }
 }
