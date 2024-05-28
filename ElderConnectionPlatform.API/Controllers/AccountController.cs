@@ -49,8 +49,8 @@ namespace ElderConnectionPlatform.API.Controllers
         }
         #endregion
 
-        [HttpGet("list-pagination")]
-        public async Task<IActionResult> List(int pageIndex = 0, int pageSize = 10)
+        [HttpGet("list-account-pagination")]
+        public async Task<IActionResult> GetLisAccountt(int pageIndex = 0, int pageSize = 10)
         {
             try
             {

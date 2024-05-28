@@ -27,6 +27,14 @@ namespace Infracstructures
             // Configure Account services and repositories
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
+            
+            // Configure Service services and repositories
+            services.AddTransient<IServiceRepository, ServiceRepository>();
+            services.AddTransient<IServiceService, ServiceService>(); 
+
+            // Configure ServiceType services and repositories
+            services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
+            services.AddTransient<IServiceTypeService, ServiceTypeService>();
 
 
             // Configure the local database connection

@@ -27,5 +27,6 @@ namespace Application.IRepositories
 
         // Add paging method to generic interface 
         Task<Pagination<T>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10);
+        Task<Pagination<T>> ToPaginationIncludeAsync(int pageIndex = 0, int pageSize = 10, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
     }
 }

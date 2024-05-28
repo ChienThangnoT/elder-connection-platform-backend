@@ -16,9 +16,7 @@
     <Folder Include="ViewModels\TransactionHistoryViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\TaskEDViewModels\" />
-    <Folder Include="ViewModels\ServiceTypeViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
-    <Folder Include="ViewModels\ServiceViewModels\" />
     <Folder Include="ViewModels\SaleViewModels\" />
     <Folder Include="ViewModels\RegistrationProgramViewModels\" />
     <Folder Include="ViewModels\PostViewModels\" />
