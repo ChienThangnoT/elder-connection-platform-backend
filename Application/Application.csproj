@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Cronjob\" />
-    <Folder Include="ViewModels\AddressViewModels\" />
     <Folder Include="ViewModels\ConnectorFeedbackViewModels\" />
     <Folder Include="ViewModels\ConnectorInfoViewModels\" />
     <Folder Include="ViewModels\FavoriteListViewModels\" />
