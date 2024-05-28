@@ -25,7 +25,8 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<BaseResponseModel> GetAccountByEmail(string email)
+        #region  Get Account By Email
+        public async Task<BaseResponseModel> GetAccountByEmailAsync(string email)
         {
             var account = await _unitOfWork.AccountRepo.GetAccountByEmailAsync(email);
             var result = _mapper.Map<AccountDetailViewModel>(account);
@@ -37,8 +38,9 @@ namespace Application.Services
                 Result = result
             };
         }
+        #endregion
 
-        #region GetUserDetailAsync
+        #region Get User Detail 
         public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
             var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id) ?? throw new NotExistsException();
@@ -49,7 +51,9 @@ namespace Application.Services
                 Message = "Get user detail success",
                 Result = result};
         }
+        #endregion
 
+        #region Get User List Pagination
         public async Task<Pagination<AccountDetailViewModel>> GetUserListPaginationAsync(int pageIndex = 0, int pageSize = 10)
         {
             if (pageIndex < 0)
@@ -73,7 +77,7 @@ namespace Application.Services
         }
         #endregion
 
-        #region UpdateUserDetailASync
+        #region Update UserDetail
         public async Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model)
         {
             // retrieve user with the id

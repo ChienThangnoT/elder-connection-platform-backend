@@ -18,6 +18,7 @@ namespace Infracstructures.Mappers
                 .ForMember(dest => dest.ServiceTypeName, opt => opt.MapFrom(src => src.ServiceType != null ? src.ServiceType.ServiceTypeName : string.Empty))
                 .ForMember(dest => dest.SaleName, opt => opt.MapFrom(src => src.Sale != null ? src.Sale.SaleName : string.Empty))
                 .ReverseMap();
+            CreateMap<Service, ServiceViewModel>().ReverseMap();
         }
     }
 }

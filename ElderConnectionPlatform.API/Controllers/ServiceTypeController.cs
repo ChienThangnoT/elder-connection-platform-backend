@@ -25,7 +25,7 @@ namespace ElderConnectionPlatform.API.Controllers
         [HttpGet("get-service-type/{id}")]
         public async Task<IActionResult> GetServiceTypeById(int id)
         {
-            var result = await _serviceTypeService.GetServiceTypeById(id);
+            var result = await _serviceTypeService.GetServiceTypeByIdAsync(id);
             return Ok(result);
         }
         #endregion

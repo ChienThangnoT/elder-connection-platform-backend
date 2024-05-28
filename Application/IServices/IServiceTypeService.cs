@@ -9,6 +9,6 @@ namespace Application.IServices
 {
     public interface IServiceTypeService
     {
-        Task<BaseResponseModel> GetServiceTypeById(int  serviceId);
+        Task<BaseResponseModel> GetServiceTypeByIdAsync(int  serviceId);
     }
 }

@@ -26,7 +26,7 @@ namespace ElderConnectionPlatform.API.Controllers
             _accountService = accountService;
         }
 
-
+        #region Sign Up Account
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp(AccountSignUpModel accountSignUpModel)
         {
@@ -68,7 +68,9 @@ namespace ElderConnectionPlatform.API.Controllers
             }
             
         }
+        #endregion
 
+        #region Confirm Email
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string tokenReset, string memberEmail)
         {
@@ -79,7 +81,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 {
                     return Unauthorized(result);
                 }
-                var account = await _accountService.GetAccountByEmail(memberEmail);
+                var account = await _accountService.GetAccountByEmailAsync(memberEmail);
                 if (account != null)
                 {
                     return Redirect("google.com");
@@ -91,7 +93,9 @@ namespace ElderConnectionPlatform.API.Controllers
                 return BadRequest("Confirm email failed!");
             }
         }
+        #endregion
 
+        #region send email
         [HttpPost("send-email")]
         public async Task<IActionResult> SendEmail([FromForm] EmailRequest email)
         {
@@ -105,7 +109,9 @@ namespace ElderConnectionPlatform.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region Sign in
         [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn(SignInModel signInModel)
         {
@@ -126,10 +132,10 @@ namespace ElderConnectionPlatform.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
+        #endregion
 
-
+        #region generate refresh token
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenModel model)
         {
@@ -141,5 +147,6 @@ namespace ElderConnectionPlatform.API.Controllers
             }
             return Ok(result);
         }
+        #endregion
     }
 }

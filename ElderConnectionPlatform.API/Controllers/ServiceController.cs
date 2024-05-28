@@ -21,6 +21,7 @@ namespace ElderConnectionPlatform.API.Controllers
             _serviceService = serviceService;
         }
 
+        #region Get List Service
         [HttpGet("list-service-pagination")]
         public async Task<IActionResult> GetListService(int pageIndex = 0, int pageSize = 10)
         {
@@ -54,5 +55,15 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
         }
+        #endregion
+
+        #region Get Service By Id
+        [HttpGet("get-service/{id}")]
+        public async Task<IActionResult> GetServiceTypeById(int id)
+        {
+            var result = await _serviceService.GetServiceById(id);
+            return Ok(result);
+        }
+        #endregion
     }
 }
