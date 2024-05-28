@@ -23,6 +23,7 @@ namespace ElderConnectionPlatform.API.Controllers
             _addressService = addressService;
         }
 
+        #region Create account address
         [HttpPost("create-address")]
         public async Task<IActionResult> CreatedAddress(AddressAddModel addressAddModel)
         {
@@ -43,5 +44,16 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
         }
+        #endregion
+
+        #region Get Account Address By Account Id
+        [HttpGet("get-all-address-by-account/{accountId}")]
+        public async Task<IActionResult> GetServiceTypeById(string accountId, int pageSize = 0, int pageIndex = 10)
+        {
+            var result = await _addressService.GetAccountAddressByAccountIdAsync(accountId, pageSize, pageIndex);
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

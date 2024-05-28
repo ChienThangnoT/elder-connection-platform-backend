@@ -25,6 +25,7 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+
         #region  Get Account By Email
         public async Task<BaseResponseModel> GetAccountByEmailAsync(string email)
         {

@@ -1,4 +1,5 @@
-﻿using Application.Exceptions;
+﻿using Application.Common;
+using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AddressViewModels;
@@ -23,6 +24,23 @@ namespace Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        #region  Get Account Address By Account Id
+        public async Task<BaseResponseModel> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId) ?? throw new AccountAlreadyExistsException();
+            var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageSize, pageIndex);
+
+            var result = _mapper.Map<Pagination<AddressViewModel>>(addressList);
+            
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get all account address success",
+                Result = result
+            };
+        }
+        #endregion
 
         public async Task<BaseResponseModel> AddAccountAddressAsync(AddressAddModel addressAddModel)
         {
