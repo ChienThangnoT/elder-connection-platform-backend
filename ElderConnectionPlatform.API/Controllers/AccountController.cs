@@ -29,7 +29,7 @@ namespace ElderConnectionPlatform.API.Controllers
         #endregion
 
         #region Update
-        [HttpPut("update-account-detail{id}")]
+        [HttpPut("update-account-detail/{id}")]
         public async Task<IActionResult> UpdateProfile(string id, [FromBody] AccountUpdateModel model)
         {
             var user = await _accountService.UpdateUserDetailASync(id, model);
@@ -49,6 +49,7 @@ namespace ElderConnectionPlatform.API.Controllers
         }
         #endregion
 
+        #region Get list account
         [HttpGet("list-account-pagination")]
         public async Task<IActionResult> GetLisAccountt(int pageIndex = 0, int pageSize = 10)
         {
@@ -82,6 +83,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
         }
+        #endregion
 
     }
 }

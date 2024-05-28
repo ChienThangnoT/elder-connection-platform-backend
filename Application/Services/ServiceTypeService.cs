@@ -22,7 +22,7 @@ namespace Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<BaseResponseModel> GetServiceTypeById(int serviceId)
+        public async Task<BaseResponseModel> GetServiceTypeByIdAsync(int serviceId)
         {
             var serviceType = await _unitOfWork.ServiceTypeRepo.GetByIdAsync(serviceId) ?? throw new NotExistsException();
             var result = _mapper.Map<DetailServiceTypeModel>(serviceType);

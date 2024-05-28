@@ -13,5 +13,6 @@ namespace Application.IServices
     public interface IServiceService
     {
         Task<Pagination<DetailServiceViewModel>> GetAllServiceListPaginationAsync(int pageIndex = 0, int pageSize = 10);
+        Task<BaseResponseModel> GetServiceById(int id);
     }
 }

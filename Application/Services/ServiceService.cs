@@ -1,9 +1,11 @@
 ﻿using Application.Common;
+using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.ServiceViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,13 +19,11 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IServiceTypeService _serviceTypeService;
 
-        public ServiceService(IUnitOfWork unitOfWork, IMapper mapper, IServiceTypeService serviceTypeService)
+        public ServiceService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _serviceTypeService = serviceTypeService;
         }
         public async Task<Pagination<DetailServiceViewModel>> GetAllServiceListPaginationAsync(int pageIndex = 0, int pageSize = 10)
         {
@@ -50,6 +50,18 @@ namespace Application.Services
             var result = _mapper.Map<Pagination<DetailServiceViewModel>>(services);
 
             return result;
+        }
+
+        public async Task<BaseResponseModel> GetServiceById(int id)
+        {
+            var service = await _unitOfWork.ServiceRepo.GetByIdAsync(id) ?? throw new NotExistsException();
+            var result =  _mapper.Map<ServiceViewModel>(service);
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get service success",
+                Result = result
+            };
         }
     }
 }
