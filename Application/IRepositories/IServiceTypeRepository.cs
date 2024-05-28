@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.IRepositories
 {
-    public interface IAccountRepository : IGenericRepository<Account>
+    public interface IServiceTypeRepository : IGenericRepository<ServiceType>
     {
-        Task<Account> GetAccountByIdAsync(string id);
-        Task<Account> GetAccountByEmailAsync(string email);
     }
 }

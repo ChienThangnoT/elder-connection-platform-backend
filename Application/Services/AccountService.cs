@@ -1,4 +1,5 @@
-﻿using Application.Exceptions;
+﻿using Application.Common;
+using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
@@ -24,7 +25,22 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        #region GetUserDetailAsync
+        #region  Get Account By Email
+        public async Task<BaseResponseModel> GetAccountByEmailAsync(string email)
+        {
+            var account = await _unitOfWork.AccountRepo.GetAccountByEmailAsync(email);
+            var result = _mapper.Map<AccountDetailViewModel>(account);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get user detail success",
+                Result = result
+            };
+        }
+        #endregion
+
+        #region Get User Detail 
         public async Task<BaseResponseModel> GetUserDetailAsync(string id)
         {
             var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id) ?? throw new NotExistsException();
@@ -37,7 +53,31 @@ namespace Application.Services
         }
         #endregion
 
-        #region UpdateUserDetailASync
+        #region Get User List Pagination
+        public async Task<Pagination<AccountDetailViewModel>> GetUserListPaginationAsync(int pageIndex = 0, int pageSize = 10)
+        {
+            if (pageIndex < 0)
+            {
+                string msg = "Page index cannot be less than 0. Input page index: " + pageIndex;
+                throw new ArgumentException(msg);
+            }
+
+            if (pageSize <= 0)
+            {
+                string msg = "Page size cannot be less than 1. Input page size: " + pageSize;
+                throw new ArgumentException(msg);
+            }
+
+            // get paginated account entities list
+            var users = await _unitOfWork.AccountRepo.ToPaginationAsync(pageIndex, pageSize);
+
+            var result = _mapper.Map<Pagination<AccountDetailViewModel>>(users);
+
+            return result;
+        }
+        #endregion
+
+        #region Update UserDetail
         public async Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model)
         {
             // retrieve user with the id

@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using Application.Common;
+using Application.IRepositories;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using System;
@@ -13,5 +14,7 @@ namespace Application.IServices
     {
         Task<BaseResponseModel> GetUserDetailAsync(string id);
         Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model);
+        Task<BaseResponseModel> GetAccountByEmailAsync(string email);
+        Task<Pagination<AccountDetailViewModel>> GetUserListPaginationAsync(int pageIndex = 0, int pageSize = 10);
     }
 }

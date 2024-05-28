@@ -69,7 +69,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.LastName).HasColumnName("last_name").HasMaxLength(50);
             entity.Property(e => e.ProfilePicture).HasColumnName("profile_picture");
             entity.Property(e => e.RefreshToken).HasColumnName("refresh_token").HasMaxLength(350);
-            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time").HasMaxLength(350);
+            entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time");
             entity.Property(e => e.Sex)
                 .HasColumnName("sex");
             entity.Property(e => e.Status)
@@ -303,6 +303,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.RatingAvg).HasColumnName("rating_avg");
             entity.Property(e => e.SaleId).HasColumnName("sale_id");
             entity.Property(e => e.ServiceDescription).HasColumnName("service_description").HasMaxLength(450);
+            entity.Property(e => e.ServiceTypeHours).HasColumnName("service_type_hours").HasMaxLength(150);
             entity.Property(e => e.ServiceName).HasColumnName("service_name").HasMaxLength(150);
             entity.Property(e => e.ServiceTypeId).HasColumnName("service_type_id");
 
@@ -345,7 +346,6 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.ServiceTypeId)
                 .HasColumnName("service_type_id");
             entity.Property(e => e.ServicePricePerHour).HasColumnName("service_price_per_hour");
-            entity.Property(e => e.ServiceTypeHours).HasColumnName("service_type_hours").HasMaxLength(150);
             entity.Property(e => e.ServiceTypeName).HasColumnName("service_type_name").HasMaxLength(150);
         });
 

@@ -18,8 +18,16 @@ namespace Infracstructures.Mappers
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
             //add account mapper configs
             AccountMapperCongfigs();
+
+            //add service mapper configs
+            ServiceMapperCongfigs();
+
+            //add service type mapper configs
+            ServiceTypeMapperCongfigs();
         }
 
         partial void AccountMapperCongfigs();
+        partial void ServiceMapperCongfigs();
+        partial void ServiceTypeMapperCongfigs();
     }
 }
