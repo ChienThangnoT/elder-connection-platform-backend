@@ -85,5 +85,13 @@ namespace ElderConnectionPlatform.API.Controllers
         }
         #endregion
 
+        #region Active or Inactive account
+        [HttpPut("active-inactive-account/{id}")]
+        public async Task<IActionResult> ActiveOrInactiveAccount(string id)
+        {
+            var result = await _accountService.ActiveOrInactiveAccount(id);
+            return Ok(result);
+        }
+        #endregion
     }
 }

@@ -16,5 +16,6 @@ namespace Application.IServices
         Task<AccountDetailViewModel?> UpdateUserDetailASync(string id, AccountUpdateModel model);
         Task<BaseResponseModel> GetAccountByEmailAsync(string email);
         Task<Pagination<AccountDetailViewModel>> GetUserListPaginationAsync(int pageIndex = 0, int pageSize = 10);
+        Task<BaseResponseModel> ActiveOrInactiveAccount(string id);
     }
 }
