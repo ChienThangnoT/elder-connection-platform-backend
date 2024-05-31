@@ -24,12 +24,18 @@ namespace Infracstructures.Mappers
 
             //add service type mapper configs
             ServiceTypeMapperCongfigs();
+
+            //add address mapper configs
             AddressMapperCongfigs();
+
+            //add transaction history mapper configs
+            TransactionHistoryMapperConfigs();
         }
 
         partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
+        partial void TransactionHistoryMapperConfigs();
     }
 }
