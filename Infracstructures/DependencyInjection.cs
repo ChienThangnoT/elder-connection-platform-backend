@@ -40,6 +40,9 @@ namespace Infracstructures
             services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
             services.AddTransient<IServiceTypeService, ServiceTypeService>();
 
+            // Configure TransactionHistory services and repositories
+            services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
+            services.AddTransient<ITransactionHistoryService, TransactionHistoryService>();
 
             // Configure the local database connection
             services.AddDbContext<ElderConnectionContext>(options =>

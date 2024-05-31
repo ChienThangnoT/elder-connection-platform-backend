@@ -17,13 +17,15 @@ namespace Infracstructures
         private readonly IServiceRepository _serviceRepository;
         private readonly IServiceTypeRepository _serviceTypeRepository;
         private readonly IAddressRepository _addressRepository;
+        private readonly ITransactionHistoryRepository _transactionHistoryRepository;
 
-        public UnitOfWork(ElderConnectionContext context, 
+        public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
             IUserRepository userRepository,
             IServiceRepository serviceRepository,
             IServiceTypeRepository serviceTypeRepository,
-            IAddressRepository addressRepository)
+            IAddressRepository addressRepository,
+            ITransactionHistoryRepository transactionHistoryRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -32,6 +34,7 @@ namespace Infracstructures
             _serviceRepository = serviceRepository;
             _serviceTypeRepository = serviceTypeRepository;
             _addressRepository = addressRepository;
+            _transactionHistoryRepository = transactionHistoryRepository;
         }
 
         public IUserRepository UserRepo => _userRepository;
@@ -39,7 +42,7 @@ namespace Infracstructures
         public IServiceRepository ServiceRepo => _serviceRepository;
         public IServiceTypeRepository ServiceTypeRepo => _serviceTypeRepository;
         public IAddressRepository AddressRepo => _addressRepository;
-
+        public ITransactionHistoryRepository TransactionHistoryRepo => _transactionHistoryRepository;
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();

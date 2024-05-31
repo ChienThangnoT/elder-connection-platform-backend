@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Cronjob\" />
+    <Compile Remove="Cronjob\**" />
+    <EmbeddedResource Remove="Cronjob\**" />
+    <None Remove="Cronjob\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ViewModels\ConnectorFeedbackViewModels\" />
     <Folder Include="ViewModels\ConnectorInfoViewModels\" />
     <Folder Include="ViewModels\FavoriteListViewModels\" />
     <Folder Include="ViewModels\JobScheduleViewModels\" />
-    <Folder Include="ViewModels\TransactionHistoryViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\TaskEDViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
