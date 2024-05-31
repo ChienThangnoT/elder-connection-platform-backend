@@ -4,6 +4,7 @@ using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
+using Domain.Enums.AccountEnums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -25,6 +26,32 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+        #region Active Or Inactive Account
+        public async Task<BaseResponseModel> ActiveOrInactiveAccount(string id)
+        {
+            var user = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id) ?? throw new NotExistsException();
+
+            if (user.Status == (int)AccountStatus.Active)
+            {
+                user.Status = (int)AccountStatus.InActive;
+                _unitOfWork.AccountRepo.Update(user);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            else if (user.Status == (int)AccountStatus.InActive){
+                user.Status = (int)AccountStatus.Active;
+                _unitOfWork.AccountRepo.Update(user);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            
+            var result = _mapper.Map<AccountDetailViewModel>(user);
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Active or inactive account success",
+                Result = result
+            };
+        }
+        #endregion
 
         #region  Get Account By Email
         public async Task<BaseResponseModel> GetAccountByEmailAsync(string email)
