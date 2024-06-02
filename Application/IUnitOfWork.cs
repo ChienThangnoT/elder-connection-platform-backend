@@ -15,6 +15,8 @@ namespace Application
         public IServiceTypeRepository ServiceTypeRepo { get; }
         public IAddressRepository AddressRepo { get; }
         public ITransactionHistoryRepository TransactionHistoryRepo { get; }    
+        public IPostRepostiory PostRepo { get; }
+        public IJobScheduleRepository JobScheduleRepo { get; }
         public Task<int> SaveChangesAsync();
     }
 }

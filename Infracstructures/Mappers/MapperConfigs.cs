@@ -30,6 +30,15 @@ namespace Infracstructures.Mappers
 
             //add transaction history mapper configs
             TransactionHistoryMapperConfigs();
+
+            //add post mapper configs
+            PostMapperConfigs();
+
+            //add job schedule mapper configs
+            JobScheduleMapperConfigs();
+
+            //add task ed mapper configs
+            TaskEDMapperConfigs();
         }
 
         partial void AccountMapperCongfigs();
@@ -37,5 +46,8 @@ namespace Infracstructures.Mappers
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
         partial void TransactionHistoryMapperConfigs();
+        partial void PostMapperConfigs();
+        partial void JobScheduleMapperConfigs();
+        partial void TaskEDMapperConfigs();
     }
 }

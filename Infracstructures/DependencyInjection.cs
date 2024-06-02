@@ -44,6 +44,13 @@ namespace Infracstructures
             services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddTransient<ITransactionHistoryService, TransactionHistoryService>();
 
+            // Configure Post services and repositories
+            services.AddTransient<IPostRepostiory, PostRepository>();
+            services.AddTransient<IPostService, PostService>();
+
+            // Configure JobSchedule services and repositories
+            services.AddTransient<IJobScheduleRepository, JobScheduleRepository>();
+            services.AddTransient<IJobScheduleService, JobScheduleService>();
             // Configure the local database connection
             services.AddDbContext<ElderConnectionContext>(options =>
             {
