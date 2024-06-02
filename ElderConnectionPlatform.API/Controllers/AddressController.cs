@@ -55,5 +55,14 @@ namespace ElderConnectionPlatform.API.Controllers
         }
         #endregion
 
+        #region Update Account Address By Id
+        [HttpPut("update-account-address/{addressId}")]
+        public async Task<IActionResult> UpdateAccountAddressAsync(int addressId, AddressUpdateModel addressUpdateModel)
+        {
+            var result = await _addressService.UpdateAccountAddressAsync(addressId, addressUpdateModel);
+            return Ok(result);
+        }
+        #endregion
+
     }
 }

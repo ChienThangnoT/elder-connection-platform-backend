@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.AddressViewModels
 {
-    public class AddressAddModel
+    public class AddressUpdateModel
     {
-        public int AddressId { get; set; }
-
-        public string? AccountId { get; set; }
-
         public string? AddressName { get; set; }
 
         public string? AddressDetail { get; set; }
