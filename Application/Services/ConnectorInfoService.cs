@@ -33,7 +33,8 @@ namespace Application.Services
             var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId);
             account.ConnectorInforId = connectorId;
             _unitOfWork.AccountRepo.Update(account);
-            
+            await _unitOfWork.SaveChangesAsync();
+
             return new SuccessResponseModel { 
                 Status = StatusCodes.Status201Created, 
                 Message = "Apply become connector success!", 

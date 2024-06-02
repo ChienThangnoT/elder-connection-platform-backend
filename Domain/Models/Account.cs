@@ -4,7 +4,7 @@ namespace Domain.Models;
 
 public partial class Account :IdentityUser
 {
-    public int ConnectorInforId { get; set; }
+    public int? ConnectorInforId { get; set; }
 
     public string? FirstName { get; set; }
 
