@@ -62,6 +62,15 @@ namespace ElderConnectionPlatform.API.Controllers
             var result = await _addressService.UpdateAccountAddressAsync(addressId, addressUpdateModel);
             return Ok(result);
         }
+        #endregion 
+
+        #region Delete Account Address By Id
+        [HttpDelete("delete-account-address/{addressId}")]
+        public async Task<IActionResult> DeleteAccountAddressAsync(int addressId)
+        {
+            var result = await _addressService.DeleteccountAddressAsync(addressId);
+            return Ok(result);
+        }
         #endregion
 
     }

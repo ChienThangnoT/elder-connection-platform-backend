@@ -72,6 +72,11 @@ namespace Infracstructures.Repositories
             _dbSet.UpdateRange(models);
         }
 
+        public void Remove(TModel model)
+        {
+             _dbSet.Remove(model);
+        }
+
         // Implement to pagination method
         public async Task<Pagination<TModel>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10)
         {
@@ -149,5 +154,7 @@ namespace Infracstructures.Repositories
 
             return result;
         }
+
+        
     }
 }
