@@ -71,5 +71,17 @@ namespace Application.Services
                 Result = address
             };
         }
+
+        public async Task<BaseResponseModel> DeleteccountAddressAsync(int addressId)
+        {
+            var address = await _unitOfWork.AddressRepo.GetByIdAsync(addressId) ?? throw new NotExistsException();
+            _unitOfWork.AddressRepo.Remove(address);
+            await _unitOfWork.SaveChangesAsync();
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Remove account address success",
+            };
+        }
     }
 }
