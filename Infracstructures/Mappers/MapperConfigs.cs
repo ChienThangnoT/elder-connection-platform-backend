@@ -30,12 +30,16 @@ namespace Infracstructures.Mappers
 
             //add transaction history mapper configs
             TransactionHistoryMapperConfigs();
+
+            //add connector info mapper configs
+            ConnectorInfoCongfigs();
         }
 
         partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
+        partial void ConnectorInfoCongfigs();
         partial void TransactionHistoryMapperConfigs();
     }
 }

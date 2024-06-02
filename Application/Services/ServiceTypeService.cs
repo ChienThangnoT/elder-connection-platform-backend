@@ -30,7 +30,7 @@ namespace Application.Services
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Get service type detail success",
-                Result = result
+                Result = result.ServiceTypeId
             };
         }
     }

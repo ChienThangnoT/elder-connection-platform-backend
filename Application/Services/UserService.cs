@@ -321,5 +321,55 @@ namespace Application.Services
         }
         #endregion
 
+        #region signup connector account
+        public async Task<BaseResponseModel> SignUpConnectorAsync(AccountSignUpModel model)
+        {
+            var exsistAccount = await _userManager.FindByNameAsync(model.AccountEmail);
+
+            if (exsistAccount != null)
+            {
+                throw new AccountAlreadyExistsException();
+            }
+
+            var user = new Account
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Status = (int)AccountStatus.Active,
+                UserName = model.AccountEmail,
+                Email = model.AccountEmail,
+                PhoneNumber = model.AccountPhone,
+                CreateAt = DateTime.Now,
+            };
+            var result = await _userManager.CreateAsync(user, model.AccountPassword);
+
+            string errorMessage = null;
+            if (result.Succeeded)
+            {
+                if (!await _roleManager.RoleExistsAsync(RoleAccountModel.Connector.ToString()))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(RoleAccountModel.Connector.ToString()));
+                }
+                if (await _roleManager.RoleExistsAsync(RoleAccountModel.Connector.ToString()))
+                {
+                    await _userManager.AddToRoleAsync(user, RoleAccountModel.Connector.ToString());
+                }
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                return new EmailTokenModel
+                {
+                    Status = StatusCodes.Status201Created,
+                    Message = "Create account successfull",
+                    ConfirmEmailToken = token
+                };
+            }
+            foreach (var ex in result.Errors)
+            {
+                errorMessage = ex.Description;
+            }
+            return new FailedResponseModel { Status = StatusCodes.Status400BadRequest, Message = errorMessage };
+        }
+
+        #endregion
+
     }
 }

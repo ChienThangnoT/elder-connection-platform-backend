@@ -49,11 +49,12 @@ namespace Application.Services
             var address = _mapper.Map<Address>(addressAddModel);
             await _unitOfWork.AddressRepo.AddAsync(address);
             await _unitOfWork.SaveChangesAsync();
+            var result = _mapper.Map<AddressAddModel>(address);
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status201Created,
                 Message = "Add address success.",
-                Result = addressAddModel
+                Result = result
             };
         }
     }
