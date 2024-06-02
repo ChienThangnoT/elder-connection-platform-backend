@@ -20,6 +20,7 @@ namespace Application.IRepositories
         void AddAttach(T model);
         void AddEntry(T model);
         void Update(T model);
+        void Remove(T model);
 
         void UpdateRange(List<T> models);
 
