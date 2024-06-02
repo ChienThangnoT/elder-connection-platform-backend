@@ -44,7 +44,7 @@ namespace Application.Services
 
         public async Task<BaseResponseModel> AddAccountAddressAsync(AddressAddModel addressAddModel)
         {
-            var isExistAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(addressAddModel.AccountId) ?? throw new NotExistsException();
+            _ = await _unitOfWork.AccountRepo.GetAccountByIdAsync(addressAddModel.AccountId) ?? throw new NotExistsException();
 
             var address = _mapper.Map<Address>(addressAddModel);
             await _unitOfWork.AddressRepo.AddAsync(address);
@@ -55,6 +55,20 @@ namespace Application.Services
                 Status = StatusCodes.Status201Created,
                 Message = "Add address success.",
                 Result = result
+            };
+        }
+
+        public async Task<BaseResponseModel> UpdateAccountAddressAsync(int addressId, AddressUpdateModel addressUpdateModel)
+        {
+            var address = await _unitOfWork.AddressRepo.GetByIdAsync(addressId) ?? throw new NotExistsException();
+            _mapper.Map(addressUpdateModel, address);
+            _unitOfWork.AddressRepo.Update(address);
+            await _unitOfWork.SaveChangesAsync();
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Update account address success",
+                Result = address
             };
         }
     }
