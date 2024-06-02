@@ -2,6 +2,8 @@
 using Application.ResponseModels;
 using Application.ViewModels.ConnectorInfoViewModels;
 using AutoMapper;
+using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +23,22 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public Task<BaseResponseModel> ApplyBecomConnectorAsync(string accountId, ApplyModel applyModel)
+        public async Task<BaseResponseModel> ApplyBecomConnectorAsync(string accountId, ApplyModel applyModel)
         {
-            throw new NotImplementedException();
+            var mapModel = _mapper.Map<ConnectorInfo>(applyModel);
+            await _unitOfWork.ConnectorInfoRepo.AddAsync(mapModel);
+            await _unitOfWork.SaveChangesAsync();
+            var result = _mapper.Map<ApplyModel>(mapModel);
+            var connectorId = result.ConnectorInforId;
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId);
+            account.ConnectorInforId = connectorId;
+            _unitOfWork.AccountRepo.Update(account);
+            
+            return new SuccessResponseModel { 
+                Status = StatusCodes.Status201Created, 
+                Message = "Apply become connector success!", 
+                Result = result 
+            };
         }
-        //public Task<BaseResponseModel> ApplyBecomConnectorAsync(string accountId, ApplyModel applyModel)
-        //{
-        //    _unitOfWork
-        //}
     }
 }

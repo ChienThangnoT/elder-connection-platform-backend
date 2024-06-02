@@ -11,6 +11,5 @@ namespace Application.IServices
     public interface IConnectorInfoService
     {
         public Task<BaseResponseModel> ApplyBecomConnectorAsync(string accountId, ApplyModel applyModel);
-
     }
 }

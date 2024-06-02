@@ -8,6 +8,8 @@ namespace Application.ViewModels.ConnectorInfoViewModels
 {
     public class ApplyModel
     {
+        public int ConnectorInforId { get; set; }
+
         public string? SocialNumber { get; set; }
 
         public DateTime SendDate { get; set; }
