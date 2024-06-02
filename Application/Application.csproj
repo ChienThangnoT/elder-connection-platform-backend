@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\ConnectorFeedbackViewModels\" />
-    <Folder Include="ViewModels\ConnectorInfoViewModels\" />
     <Folder Include="ViewModels\FavoriteListViewModels\" />
     <Folder Include="ViewModels\JobScheduleViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
