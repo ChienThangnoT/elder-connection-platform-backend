@@ -19,7 +19,6 @@
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\TaskEDViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
-    <Folder Include="ViewModels\SaleViewModels\" />
     <Folder Include="ViewModels\RegistrationProgramViewModels\" />
     <Folder Include="ViewModels\PostViewModels\" />
     <Folder Include="ViewModels\NotificationViewModels\" />
