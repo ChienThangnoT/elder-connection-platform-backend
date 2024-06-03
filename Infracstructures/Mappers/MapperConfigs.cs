@@ -33,13 +33,17 @@ namespace Infracstructures.Mappers
 
             //add connector info mapper configs
             ConnectorInfoCongfigs();
-        }
 
-        partial void AccountMapperCongfigs();
+			//add sale mapper configs
+			SaleMapperConfigs();
+		}
+
+		partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
         partial void ConnectorInfoCongfigs();
         partial void TransactionHistoryMapperConfigs();
-    }
+		partial void SaleMapperConfigs();
+	}
 }
