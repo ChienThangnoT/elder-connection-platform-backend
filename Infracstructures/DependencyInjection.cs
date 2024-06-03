@@ -52,6 +52,10 @@ namespace Infracstructures
 			services.AddTransient<ISaleRepository, SaleRepository>();
 			services.AddTransient<ISaleService, SaleService>();
 
+			// Configure ConnectorFeedback services and repositories
+			services.AddTransient<IConnectorFeedbackRepository, ConnectorFeedbackRepository>();
+			services.AddTransient<IConnectorFeedbackService, ConnectorFeedbackService>();
+
 			// Configure the local database connection
 			services.AddDbContext<ElderConnectionContext>(options =>
             {

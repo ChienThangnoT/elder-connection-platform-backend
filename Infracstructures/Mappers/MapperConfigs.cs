@@ -36,6 +36,9 @@ namespace Infracstructures.Mappers
 
 			//add sale mapper configs
 			SaleMapperConfigs();
+
+			//add connector feedback mapper configs
+            ConnectorFeedbackMapperConfigs();
 		}
 
 		partial void AccountMapperCongfigs();
@@ -45,5 +48,7 @@ namespace Infracstructures.Mappers
         partial void ConnectorInfoCongfigs();
         partial void TransactionHistoryMapperConfigs();
 		partial void SaleMapperConfigs();
+
+		partial void ConnectorFeedbackMapperConfigs();
 	}
 }

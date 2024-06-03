@@ -17,6 +17,7 @@ namespace Application
         public ITransactionHistoryRepository TransactionHistoryRepo { get; }    
         public IConnectorInfoRepository ConnectorInfoRepo { get; }
 		public ISaleRepository SaleRepo { get; }
+		public IConnectorFeedbackRepository ConnectorFeedbackRepo { get; }
 
 		public Task<int> SaveChangesAsync();
     }
