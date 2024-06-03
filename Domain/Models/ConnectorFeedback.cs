@@ -15,7 +15,7 @@ public partial class ConnectorFeedback
 
     public bool IsRatingStatus { get; set; }
 
-    public DateTime RatingDate { get; set; }
+    public DateTime? RatingDate { get; set; }
 
     public int RatingStars { get; set; }
 

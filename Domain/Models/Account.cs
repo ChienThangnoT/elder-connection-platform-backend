@@ -14,7 +14,7 @@ public partial class Account :IdentityUser
 
     public string? ProfilePicture { get; set; }
 
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
 
     public int Sex { get; set; }
 
