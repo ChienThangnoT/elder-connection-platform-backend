@@ -31,8 +31,7 @@ namespace Infracstructures
             IAddressRepository addressRepository,
             ITransactionHistoryRepository transactionHistoryRepository,
             IPostRepostiory postRepostiory,
-            IJobScheduleRepository jobScheduleRepository)
-            ITransactionHistoryRepository transactionHistoryRepository,
+            IJobScheduleRepository jobScheduleRepository,
             IConnectorInfoRepository connectorInfoRepository, 
             ISaleRepository saleRepository)
         {
@@ -45,8 +44,7 @@ namespace Infracstructures
             _addressRepository = addressRepository;
             _transactionHistoryRepository = transactionHistoryRepository;
             _connectorInfoRepository = connectorInfoRepository;
-			_saleRepository = saleRepository;
-		}
+			_saleRepository = saleRepository;		
             _postRepostiory = postRepostiory;
             _jobScheduleRepository = jobScheduleRepository;
         }

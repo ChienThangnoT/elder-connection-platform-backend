@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.ViewModels.TaskEDViewModels
 {
     public class TaskEDCreateViewModel
     {
-        public int TaskId { get; set; }
-
         public int JobScheduleId { get; set; }
-
+ 
         public string? ConnectorId { get; set; }
 
         public DateTime WorkDateAt { get; set; }

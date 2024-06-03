@@ -51,8 +51,7 @@ namespace Infracstructures
             // Configure JobSchedule services and repositories
             services.AddTransient<IJobScheduleRepository, JobScheduleRepository>();
             services.AddTransient<IJobScheduleService, JobScheduleService>();
-            // Configure the local database connection
-            services.AddDbContext<ElderConnectionContext>(options =>
+
             // Configure ConnectorInfo services and repositories
             services.AddTransient<IConnectorInfoRepository, ConnectorInfoRepository>();
             services.AddTransient<IConnectorInfoService, ConnectorInfoService>();

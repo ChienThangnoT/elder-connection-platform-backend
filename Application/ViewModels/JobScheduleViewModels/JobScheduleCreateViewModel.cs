@@ -14,6 +14,7 @@ namespace Application.ViewModels.JobScheduleViewModels
         public string? Description { get; set; }
         [JsonIgnore]
         public string? LocationWork { get; set; }
+        public string? ListDayWork { get; set; }
         [JsonIgnore]
         public float TaskProcess { get; set; } = 0;
         [JsonIgnore]

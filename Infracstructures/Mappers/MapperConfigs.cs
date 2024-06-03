@@ -40,7 +40,6 @@ namespace Infracstructures.Mappers
             //add task ed mapper configs
             TaskEDMapperConfigs();
         
-
             //add connector info mapper configs
             ConnectorInfoCongfigs();
 
