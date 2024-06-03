@@ -169,6 +169,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(450);
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.LocationWork).HasColumnName("location_work").HasMaxLength(450);
+            entity.Property(e => e.ListDayWork).HasColumnName("list_day_work").HasMaxLength(450);
             entity.Property(e => e.OnTask).HasColumnName("on_task");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.TaskProcess).HasColumnName("task_process");
@@ -289,6 +290,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
                 .HasColumnName("sale_id");
             entity.Property(e => e.SaleDescription).HasColumnName("sale_description").HasMaxLength(450);
             entity.Property(e => e.SaleName).HasColumnName("sale_name").HasMaxLength(450);
+            entity.Property(e => e.ImageURL).HasColumnName("image_url").HasMaxLength(450);
             entity.Property(e => e.SalePercent).HasColumnName("sale_percent");
         });
 
