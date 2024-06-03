@@ -11,7 +11,7 @@ public partial class RegistrationProgram
 
     public string? ConnectorId { get; set; }
 
-    public DateTime EnrollmentDate { get; set; }
+    public DateTime? EnrollmentDate { get; set; }
 
     public bool IsCompleted { get; set; }
 

@@ -15,7 +15,7 @@ public partial class ServiceFeedback
 
     public int RatingStars { get; set; }
 
-    public DateTime CreateAt { get; set; }
+    public DateTime? CreateAt { get; set; }
 
     public virtual Account? Customer { get; set; }
 

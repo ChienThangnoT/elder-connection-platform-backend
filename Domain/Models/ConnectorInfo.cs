@@ -9,7 +9,7 @@ public partial class ConnectorInfo
 
     public string? SocialNumber { get; set; }
 
-    public DateTime SendDate { get; set; }
+    public DateTime? SendDate { get; set; }
 
     public bool IsApproved { get; set; }
 
