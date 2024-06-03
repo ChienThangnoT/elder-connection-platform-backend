@@ -138,7 +138,10 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.CccdFrontImg).HasColumnName("cccd_front_img");
             entity.Property(e => e.GxnhkImg).HasColumnName("gxnhk_img");
             entity.Property(e => e.IsApproved).HasColumnName("is_approved");
-            entity.Property(e => e.SendDate).HasColumnName("send_date");
+            entity.Property(e => e.SendDate).HasColumnName("send_date"); 
+            entity.Property(e => e.SyllFrontImg).HasColumnName("syll_front_img");
+            entity.Property(e => e.SyllBehindImg).HasColumnName("syll_behind_img");
+            entity.Property(e => e.LocationWork).HasColumnName("location_work");
             entity.Property(e => e.SocialNumber).HasColumnName("social_number").HasMaxLength(50);
         });
 

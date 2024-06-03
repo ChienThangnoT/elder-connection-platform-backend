@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums.TaskEnums
 {
-    public enum TaskStatus
+    public enum TaskEDStatus
     {          
         NotStarted = 1,
         Openning = 2,
