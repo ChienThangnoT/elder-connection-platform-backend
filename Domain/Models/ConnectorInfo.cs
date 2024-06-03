@@ -9,13 +9,18 @@ public partial class ConnectorInfo
 
     public string? SocialNumber { get; set; }
 
-    public DateTime SendDate { get; set; }
+    public DateTime? SendDate { get; set; }
 
     public bool IsApproved { get; set; }
 
     public string? CccdFrontImg { get; set; }
 
     public string? CccdBehindImg { get; set; }
+
+    public string? SyllFrontImg { get; set; }
+
+    public string? SyllBehindImg { get; set; }
+    public string? LocationWork { get; set; }
 
     public string? GxnhkImg { get; set; }
 

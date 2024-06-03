@@ -4,6 +4,7 @@ using Infracstructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(ElderConnectionContext))]
-    partial class ElderConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20240603141331_UpdateModelField")]
+    partial class UpdateModelField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,10 +270,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_approved");
 
-                    b.Property<string>("LocationWork")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("location_work");
-
                     b.Property<DateTime?>("SendDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("send_date");
@@ -279,14 +278,6 @@ namespace Infracstructures.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("social_number");
-
-                    b.Property<string>("SyllBehindImg")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("syll_behind_img");
-
-                    b.Property<string>("SyllFrontImg")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("syll_front_img");
 
                     b.HasKey("ConnectorInforId");
 
