@@ -148,5 +148,50 @@ namespace ElderConnectionPlatform.API.Controllers
             return Ok(result);
         }
         #endregion
+
+        #region Sign Up Connector Account
+        [HttpPost("sign-up-connector")]
+        public async Task<IActionResult> SignUpConnector(AccountSignUpModel accountSignUpModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return ValidationProblem(ModelState);
+                }
+
+                var result = await _userService.SignUpConnectorAsync(accountSignUpModel);
+                if (result.Status == 400)
+                {
+                    return BadRequest(result);
+                }
+
+                var token = (result as EmailTokenModel)?.ConfirmEmailToken;
+                var url = Url.Action("ConfirmEmail", "user", new { memberEmail = accountSignUpModel.AccountEmail, tokenReset = token }, Request.Scheme);
+
+                var messageRequest = new EmailRequest
+                {
+                    To = accountSignUpModel.AccountEmail,
+                    Subject = "Xác nhận email cho việc đăng kí vào ứng dụng",
+                    Content = MailTemplate.ConfirmTemplate(accountSignUpModel.AccountEmail, url)
+                };
+
+                await _mailService.SendConFirmEmailAsync(messageRequest);
+
+                return Ok(new SuccessResponseModel()
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Create account successfull, Please confirm your email to login into eHubSystem",
+                    Result = new { User = accountSignUpModel }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        #endregion
+
     }
 }

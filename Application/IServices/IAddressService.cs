@@ -12,6 +12,8 @@ namespace Application.IServices
     {
         Task<BaseResponseModel> AddAccountAddressAsync(AddressAddModel addressAddModel);
         Task<BaseResponseModel> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex);
+        Task<BaseResponseModel> UpdateAccountAddressAsync(int addressId, AddressUpdateModel addressUpdateModel);
+        Task<BaseResponseModel> DeleteccountAddressAsync(int addressId);
 
     }
 }

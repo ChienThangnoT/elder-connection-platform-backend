@@ -53,6 +53,16 @@ namespace Infracstructures
             services.AddTransient<IJobScheduleService, JobScheduleService>();
             // Configure the local database connection
             services.AddDbContext<ElderConnectionContext>(options =>
+            // Configure ConnectorInfo services and repositories
+            services.AddTransient<IConnectorInfoRepository, ConnectorInfoRepository>();
+            services.AddTransient<IConnectorInfoService, ConnectorInfoService>();
+
+			// Configure Sale services and repositories
+			services.AddTransient<ISaleRepository, SaleRepository>();
+			services.AddTransient<ISaleService, SaleService>();
+
+			// Configure the local database connection
+			services.AddDbContext<ElderConnectionContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
             });

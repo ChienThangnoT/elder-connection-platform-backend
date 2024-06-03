@@ -14,6 +14,7 @@ public partial class JobSchedule
     public string? Description { get; set; }
 
     public string? LocationWork { get; set; }
+    public string? ListDayWork { get; set; }
 
     public float TaskProcess { get; set; }
 

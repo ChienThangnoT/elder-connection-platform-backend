@@ -39,15 +39,24 @@ namespace Infracstructures.Mappers
 
             //add task ed mapper configs
             TaskEDMapperConfigs();
-        }
+        
 
-        partial void AccountMapperCongfigs();
+            //add connector info mapper configs
+            ConnectorInfoCongfigs();
+
+			//add sale mapper configs
+			SaleMapperConfigs();
+		}
+
+		partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
+        partial void ConnectorInfoCongfigs();
         partial void TransactionHistoryMapperConfigs();
         partial void PostMapperConfigs();
         partial void JobScheduleMapperConfigs();
         partial void TaskEDMapperConfigs();
-    }
+		partial void SaleMapperConfigs();
+	}
 }

@@ -14,11 +14,9 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\ConnectorFeedbackViewModels\" />
-    <Folder Include="ViewModels\ConnectorInfoViewModels\" />
     <Folder Include="ViewModels\FavoriteListViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
-    <Folder Include="ViewModels\SaleViewModels\" />
     <Folder Include="ViewModels\RegistrationProgramViewModels\" />
     <Folder Include="ViewModels\NotificationViewModels\" />
   </ItemGroup>

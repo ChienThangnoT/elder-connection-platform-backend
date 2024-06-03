@@ -20,8 +20,10 @@ namespace Infracstructures
         private readonly ITransactionHistoryRepository _transactionHistoryRepository;
         private readonly IPostRepostiory _postRepostiory;
         private readonly IJobScheduleRepository _jobScheduleRepository;
+        private readonly IConnectorInfoRepository _connectorInfoRepository;
+        private readonly ISaleRepository _saleRepository;
 
-        public UnitOfWork(ElderConnectionContext context,
+		public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
             IUserRepository userRepository,
             IServiceRepository serviceRepository,
@@ -30,6 +32,9 @@ namespace Infracstructures
             ITransactionHistoryRepository transactionHistoryRepository,
             IPostRepostiory postRepostiory,
             IJobScheduleRepository jobScheduleRepository)
+            ITransactionHistoryRepository transactionHistoryRepository,
+            IConnectorInfoRepository connectorInfoRepository, 
+            ISaleRepository saleRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -39,6 +44,9 @@ namespace Infracstructures
             _serviceTypeRepository = serviceTypeRepository;
             _addressRepository = addressRepository;
             _transactionHistoryRepository = transactionHistoryRepository;
+            _connectorInfoRepository = connectorInfoRepository;
+			_saleRepository = saleRepository;
+		}
             _postRepostiory = postRepostiory;
             _jobScheduleRepository = jobScheduleRepository;
         }
@@ -51,7 +59,10 @@ namespace Infracstructures
         public ITransactionHistoryRepository TransactionHistoryRepo => _transactionHistoryRepository;
         public IPostRepostiory PostRepo => _postRepostiory;
         public IJobScheduleRepository JobScheduleRepo => _jobScheduleRepository;
-        public async Task<int> SaveChangesAsync()
+
+        public IConnectorInfoRepository ConnectorInfoRepo => _connectorInfoRepository;
+		public ISaleRepository SaleRepo => _saleRepository;
+		public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
