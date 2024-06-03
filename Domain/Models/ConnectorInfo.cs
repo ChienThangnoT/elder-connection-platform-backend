@@ -17,6 +17,11 @@ public partial class ConnectorInfo
 
     public string? CccdBehindImg { get; set; }
 
+    public string? SyllFrontImg { get; set; }
+
+    public string? SyllBehindImg { get; set; }
+    public string? LocationWork { get; set; }
+
     public string? GxnhkImg { get; set; }
 
     public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
