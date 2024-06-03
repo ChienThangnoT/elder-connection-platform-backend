@@ -13,7 +13,9 @@ namespace Infracstructures.Mappers
     {
         partial void PostMapperConfigs()
         {
-            CreateMap<Post, PostViewModel>().ReverseMap();
+            CreateMap<Post, PostViewModel>()
+                .ReverseMap();
+
             CreateMap<Post, PostCreateViewModel>().ReverseMap();
         }
     }

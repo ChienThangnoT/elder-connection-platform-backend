@@ -1,4 +1,5 @@
-﻿using Application.IServices;
+﻿using Application.Exceptions;
+using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.JobScheduleViewModels;
 using Application.ViewModels.PostViewModels;
@@ -29,16 +30,35 @@ namespace Application.Services
             PostCreateViewModel postCreateViewModel, 
             JobScheduleCreateViewModel jobScheduleCreateViewModel)
         {
+            // Check if service, account, address exist
+            var isExistService = await _unitOfWork.ServiceRepo.GetByIdAsync(postCreateViewModel.ServiceId) 
+                ?? throw new NotExistsException();
+            var isExistAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(postCreateViewModel.CustomerId) 
+                ?? throw new NotExistsException();
+            var isExistAddress = await _unitOfWork.AddressRepo.GetByIdAsync(postCreateViewModel.AddressId)
+                ?? throw new NotExistsException();
+
+            // Create job schedule
+            jobScheduleCreateViewModel.LocationWork = isExistAddress.AddressDetail ?? string.Empty;
+            
             var jobSchedule = _mapper.Map<JobSchedule>(jobScheduleCreateViewModel);
+            await _unitOfWork.JobScheduleRepo.AddAsync(jobSchedule);
+            await _unitOfWork.SaveChangesAsync();
+            var jobScheduleResult = _mapper.Map<JobScheduleViewModel>(jobSchedule);
+            // Create post
+            postCreateViewModel.JobScheduleId = jobScheduleResult.JobScheduleId;
+            postCreateViewModel.SalaryAfterWork = postCreateViewModel.Price - (postCreateViewModel.Price * 0.1f);
+            var post = _mapper.Map<Post>(postCreateViewModel);
+            await _unitOfWork.PostRepo.AddAsync(post);
+            await _unitOfWork.SaveChangesAsync();
 
-
-
+            var result = _mapper.Map<PostViewModel>(post);
 
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Create post success",
-                Result = null
+                Result = result
             };
         }
         #endregion
