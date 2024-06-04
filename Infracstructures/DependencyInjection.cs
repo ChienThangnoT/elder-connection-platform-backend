@@ -44,15 +44,43 @@ namespace Infracstructures
             services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddTransient<ITransactionHistoryService, TransactionHistoryService>();
 
+            // Configure Post services and repositories
+            services.AddTransient<IPostRepostiory, PostRepository>();
+            services.AddTransient<IPostService, PostService>();
+
+            // Configure JobSchedule services and repositories
+            services.AddTransient<IJobScheduleRepository, JobScheduleRepository>();
+            services.AddTransient<IJobScheduleService, JobScheduleService>();
+
             // Configure ConnectorInfo services and repositories
             services.AddTransient<IConnectorInfoRepository, ConnectorInfoRepository>();
             services.AddTransient<IConnectorInfoService, ConnectorInfoService>();
 
-            // Configure the local database connection
-            //services.AddDbContext<ElderConnectionContext>(options =>
-            //{
-            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
-            //});
+			// Configure Sale services and repositories
+			services.AddTransient<ISaleRepository, SaleRepository>();
+			services.AddTransient<ISaleService, SaleService>();
+
+            // Configure TaskED services and repositories
+            services.AddTransient<ITaskEDRepository, TaskEDRepository>();
+            services.AddTransient<ITaskEDService, TaskEDService>();
+
+			// Configure ConnectorFeedback services and repositories
+			services.AddTransient<IConnectorFeedbackRepository, ConnectorFeedbackRepository>();
+			services.AddTransient<IConnectorFeedbackService, ConnectorFeedbackService>();
+
+			// Configure ServiceFeedback services and repositories
+			services.AddTransient<IServiceFeedbackRepository, ServiceFeedbackRepository>();
+			services.AddTransient<IServiceFeedbackService, ServiceFeedbackService>();
+
+			// Configure TrainingProgram services and repositories
+			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
+			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
+
+			// Configure the local database connection
+			services.AddDbContext<ElderConnectionContext>(options =>
+            {
+                options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
+            });
 
             return services;
         }
