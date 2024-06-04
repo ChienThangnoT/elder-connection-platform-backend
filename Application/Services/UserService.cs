@@ -322,7 +322,7 @@ namespace Application.Services
         #endregion
 
         #region signup connector account
-        public async Task<BaseResponseModel> SignUpConnectorAsync(AccountSignUpModel model)
+        public async Task<BaseResponseModel> SignUpConnectorAsync(ConnectorSignUpModel model)
         {
             var exsistAccount = await _userManager.FindByNameAsync(model.AccountEmail);
 
@@ -337,6 +337,7 @@ namespace Application.Services
                 LastName = model.LastName,
                 Status = (int)AccountStatus.Active,
                 UserName = model.AccountEmail,
+                CccdNumber = model.CccdNumber,
                 Email = model.AccountEmail,
                 PhoneNumber = model.AccountPhone,
                 CreateAt = DateTime.Now,

@@ -20,6 +20,10 @@ namespace Application
         public IPostRepostiory PostRepo { get; }
         public IJobScheduleRepository JobScheduleRepo { get; }
         public ITaskEDRepository TaskEDRepo { get; }
-        public Task<int> SaveChangesAsync();
+		public IConnectorFeedbackRepository ConnectorFeedbackRepo { get; }
+		public IServiceFeedbackRepository ServiceFeedbackRepo { get; }
+		public ITrainingProgramRepository TrainingProgramRepo { get; }
+
+		public Task<int> SaveChangesAsync();
     }
 }

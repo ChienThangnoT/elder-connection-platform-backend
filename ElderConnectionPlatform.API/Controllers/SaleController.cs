@@ -3,7 +3,6 @@ using Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.ResponseModels;
-using Application.ViewModels.AddressViewModels;
 using Application.ViewModels.SaleViewModels;
 using Application.Services;
 using Infracstructures.Mappers;
@@ -46,9 +45,9 @@ namespace ElderConnectionPlatform.API.Controllers
 
 		#region Get All Sale
 		[HttpGet("get-all-sale")]
-		public async Task<IActionResult> GetAllSaleAsync(int pageSize = 0, int pageIndex = 10)
+		public async Task<IActionResult> GetAllSaleAsync(int pageIndex = 0, int pageSize = 10)
 		{
-			var result = await _saleService.GetAllSaleAsync(pageSize, pageIndex);
+			var result = await _saleService.GetAllSaleAsync(pageIndex, pageSize);
 			return Ok(result);
 		}
 		#endregion

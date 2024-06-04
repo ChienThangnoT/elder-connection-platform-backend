@@ -23,6 +23,9 @@ namespace Infracstructures
         private readonly IConnectorInfoRepository _connectorInfoRepository;
         private readonly ISaleRepository _saleRepository;
         private readonly ITaskEDRepository _taskEDRepository;
+        private readonly IConnectorFeedbackRepository _connectorFeedbackRepository;
+        private readonly IServiceFeedbackRepository _serviceFeedbackRepository;
+        private readonly ITrainingProgramRepository _trainingProgramRepository;
 
 		public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
@@ -34,7 +37,10 @@ namespace Infracstructures
             IPostRepostiory postRepostiory,
             IJobScheduleRepository jobScheduleRepository,
             IConnectorInfoRepository connectorInfoRepository, 
-            ISaleRepository saleRepository,
+            ISaleRepository saleRepository, 
+            IConnectorFeedbackRepository connectorFeedbackRepository,
+            IServiceFeedbackRepository serviceFeedbackRepository,
+            ITrainingProgramRepository trainingProgramRepository,
             ITaskEDRepository taskEDRepository)
         {
             _context = context;
@@ -45,12 +51,15 @@ namespace Infracstructures
             _serviceTypeRepository = serviceTypeRepository;
             _addressRepository = addressRepository;
             _transactionHistoryRepository = transactionHistoryRepository;
-            _connectorInfoRepository = connectorInfoRepository;
-			_saleRepository = saleRepository;		
+            _connectorInfoRepository = connectorInfoRepository;	
             _postRepostiory = postRepostiory;
             _jobScheduleRepository = jobScheduleRepository;
             _taskEDRepository = taskEDRepository;
-        }
+			_saleRepository = saleRepository;
+			_connectorFeedbackRepository = connectorFeedbackRepository;
+            _serviceFeedbackRepository = serviceFeedbackRepository;
+			_trainingProgramRepository = trainingProgramRepository;
+		}
 
         public IUserRepository UserRepo => _userRepository;
         public IAccountRepository AccountRepo => _accountRepository;
@@ -63,8 +72,11 @@ namespace Infracstructures
         public IConnectorInfoRepository ConnectorInfoRepo => _connectorInfoRepository;
 		public ISaleRepository SaleRepo => _saleRepository;
         public ITaskEDRepository TaskEDRepo => _taskEDRepository;
+		public IConnectorFeedbackRepository ConnectorFeedbackRepo => _connectorFeedbackRepository;
+        public IServiceFeedbackRepository ServiceFeedbackRepo => _serviceFeedbackRepository;
+		public ITrainingProgramRepository TrainingProgramRepo => _trainingProgramRepository;
 
-        public async Task<int> SaveChangesAsync()
+		public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }

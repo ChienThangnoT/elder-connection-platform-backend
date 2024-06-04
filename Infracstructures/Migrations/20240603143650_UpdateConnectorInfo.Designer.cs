@@ -4,6 +4,7 @@ using Infracstructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(ElderConnectionContext))]
-    partial class ElderConnectionContextModelSnapshot : ModelSnapshot
+    [Migration("20240603143650_UpdateConnectorInfo")]
+    partial class UpdateConnectorInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,11 +45,6 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime2")
                         .HasColumnName("birthday");
-
-                    b.Property<string>("CccdNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("cccd_number");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

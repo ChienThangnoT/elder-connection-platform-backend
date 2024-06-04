@@ -2,7 +2,6 @@
 using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
-using Application.ViewModels.AddressViewModels;
 using Application.ViewModels.SaleViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -43,9 +42,9 @@ namespace Application.Services
 			return response;
 		}
 
-		public async Task<BaseResponseModel> GetAllSaleAsync(int pageSize, int pageIndex)
+		public async Task<BaseResponseModel> GetAllSaleAsync(int pageIndex, int pageSize)
 		{
-			var sales = await _unitOfWork.SaleRepo.GetAllSaleAsync(pageSize, pageIndex);
+			var sales = await _unitOfWork.SaleRepo.GetAllSaleAsync(pageIndex, pageSize);
 			var saleViewModels = _mapper.Map<Pagination<SaleViewModel>>(sales); 
 			var response = new SuccessResponseModel
 			{
@@ -57,28 +56,12 @@ namespace Application.Services
 			return response;
 		}
 
-		public async Task<BaseResponseModel> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex)
-		{
-			var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId) ?? throw new AccountAlreadyExistsException();
-			var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageSize, pageIndex);
-
-			var result = _mapper.Map<Pagination<AddressViewModel>>(addressList);
-
-			return new SuccessResponseModel
-			{
-				Status = StatusCodes.Status200OK,
-				Message = "Get all account address success",
-				Result = result
-			};
-		}
-
 		public async Task<BaseResponseModel> GetSaleByIdAsync(int saleId)
 		{
 			var sale = await _unitOfWork.SaleRepo.GetByIdAsync(saleId);
 
 			if (sale == null)
 			{
-				// If the sale with the specified ID doesn't exist, return an error response
 				var errorResponse = new FailedResponseModel
 				{
 					Status = StatusCodes.Status404NotFound,

@@ -63,6 +63,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.AvgRating).HasColumnName("avg_rating");
             entity.Property(e => e.Biography).HasColumnName("biography").HasMaxLength(450);
             entity.Property(e => e.Birthday).HasColumnName("birthday");
+            entity.Property(e => e.CccdNumber).HasColumnName("cccd_number").HasMaxLength(50);
             entity.Property(e => e.ConnectorInforId).HasColumnName("connector_infor_id");
             entity.Property(e => e.CreateAt).HasColumnName("create_at");
             entity.Property(e => e.DeviceToken).HasColumnName("device_token");
@@ -139,7 +140,10 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.CccdFrontImg).HasColumnName("cccd_front_img");
             entity.Property(e => e.GxnhkImg).HasColumnName("gxnhk_img");
             entity.Property(e => e.IsApproved).HasColumnName("is_approved");
-            entity.Property(e => e.SendDate).HasColumnName("send_date");
+            entity.Property(e => e.SendDate).HasColumnName("send_date"); 
+            entity.Property(e => e.SyllFrontImg).HasColumnName("syll_front_img");
+            entity.Property(e => e.SyllBehindImg).HasColumnName("syll_behind_img");
+            entity.Property(e => e.LocationWork).HasColumnName("location_work");
             entity.Property(e => e.SocialNumber).HasColumnName("social_number").HasMaxLength(50);
         });
 

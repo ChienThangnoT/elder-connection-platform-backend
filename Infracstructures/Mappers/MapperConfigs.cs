@@ -45,6 +45,15 @@ namespace Infracstructures.Mappers
 
 			//add sale mapper configs
 			SaleMapperConfigs();
+
+			//add connector feedback mapper configs
+            ConnectorFeedbackMapperConfigs();
+
+			//add service feedback mapper configs
+			ServiceFeedbackMapperConfigs();
+
+			//add training program mapper configs
+            TrainingProgramMapperConfigs();
 		}
 
 		partial void AccountMapperCongfigs();
@@ -57,5 +66,9 @@ namespace Infracstructures.Mappers
         partial void JobScheduleMapperConfigs();
         partial void TaskEDMapperConfigs();
 		partial void SaleMapperConfigs();
+		partial void ServiceFeedbackMapperConfigs();
+		partial void TrainingProgramMapperConfigs();
+
+		partial void ConnectorFeedbackMapperConfigs();
 	}
 }
