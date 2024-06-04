@@ -42,6 +42,9 @@ namespace Infracstructures.Mappers
 
 			//add service feedback mapper configs
 			ServiceFeedbackMapperConfigs();
+
+			//add training program mapper configs
+            TrainingProgramMapperConfigs();
 		}
 
 		partial void AccountMapperCongfigs();
@@ -52,6 +55,7 @@ namespace Infracstructures.Mappers
         partial void TransactionHistoryMapperConfigs();
 		partial void SaleMapperConfigs();
 		partial void ServiceFeedbackMapperConfigs();
+		partial void TrainingProgramMapperConfigs();
 
 		partial void ConnectorFeedbackMapperConfigs();
 	}

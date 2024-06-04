@@ -19,6 +19,7 @@ namespace Application
 		public ISaleRepository SaleRepo { get; }
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo { get; }
 		public IServiceFeedbackRepository ServiceFeedbackRepo { get; }
+		public ITrainingProgramRepository TrainingProgramRepo { get; }
 
 		public Task<int> SaveChangesAsync();
     }
