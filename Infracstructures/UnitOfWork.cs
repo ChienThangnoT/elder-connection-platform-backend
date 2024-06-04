@@ -18,8 +18,11 @@ namespace Infracstructures
         private readonly IServiceTypeRepository _serviceTypeRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ITransactionHistoryRepository _transactionHistoryRepository;
+        private readonly IPostRepostiory _postRepostiory;
+        private readonly IJobScheduleRepository _jobScheduleRepository;
         private readonly IConnectorInfoRepository _connectorInfoRepository;
         private readonly ISaleRepository _saleRepository;
+        private readonly ITaskEDRepository _taskEDRepository;
         private readonly IConnectorFeedbackRepository _connectorFeedbackRepository;
         private readonly IServiceFeedbackRepository _serviceFeedbackRepository;
         private readonly ITrainingProgramRepository _trainingProgramRepository;
@@ -31,11 +34,14 @@ namespace Infracstructures
             IServiceTypeRepository serviceTypeRepository,
             IAddressRepository addressRepository,
             ITransactionHistoryRepository transactionHistoryRepository,
+            IPostRepostiory postRepostiory,
+            IJobScheduleRepository jobScheduleRepository,
             IConnectorInfoRepository connectorInfoRepository, 
             ISaleRepository saleRepository, 
             IConnectorFeedbackRepository connectorFeedbackRepository,
             IServiceFeedbackRepository serviceFeedbackRepository,
-            ITrainingProgramRepository trainingProgramRepository)
+            ITrainingProgramRepository trainingProgramRepository,
+            ITaskEDRepository taskEDRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -45,7 +51,10 @@ namespace Infracstructures
             _serviceTypeRepository = serviceTypeRepository;
             _addressRepository = addressRepository;
             _transactionHistoryRepository = transactionHistoryRepository;
-            _connectorInfoRepository = connectorInfoRepository;
+            _connectorInfoRepository = connectorInfoRepository;	
+            _postRepostiory = postRepostiory;
+            _jobScheduleRepository = jobScheduleRepository;
+            _taskEDRepository = taskEDRepository;
 			_saleRepository = saleRepository;
 			_connectorFeedbackRepository = connectorFeedbackRepository;
             _serviceFeedbackRepository = serviceFeedbackRepository;
@@ -58,8 +67,11 @@ namespace Infracstructures
         public IServiceTypeRepository ServiceTypeRepo => _serviceTypeRepository;
         public IAddressRepository AddressRepo => _addressRepository;
         public ITransactionHistoryRepository TransactionHistoryRepo => _transactionHistoryRepository;
+        public IPostRepostiory PostRepo => _postRepostiory;
+        public IJobScheduleRepository JobScheduleRepo => _jobScheduleRepository;
         public IConnectorInfoRepository ConnectorInfoRepo => _connectorInfoRepository;
 		public ISaleRepository SaleRepo => _saleRepository;
+        public ITaskEDRepository TaskEDRepo => _taskEDRepository;
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo => _connectorFeedbackRepository;
         public IServiceFeedbackRepository ServiceFeedbackRepo => _serviceFeedbackRepository;
 		public ITrainingProgramRepository TrainingProgramRepo => _trainingProgramRepository;

@@ -12,7 +12,6 @@ public partial class JobSchedule
     public DateTime? EndDate { get; set; }
 
     public string? Description { get; set; }
-
     public string? LocationWork { get; set; }
     public string? ListDayWork { get; set; }
 
