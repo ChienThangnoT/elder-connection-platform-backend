@@ -2,7 +2,6 @@
 using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
-using Application.ViewModels.ConnectorFeedbackViewModels;
 using Application.ViewModels.ServiceFeedbackViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

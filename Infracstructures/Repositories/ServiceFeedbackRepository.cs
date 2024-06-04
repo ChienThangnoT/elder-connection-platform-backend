@@ -17,10 +17,10 @@ namespace Infracstructures.Repositories
 			_context = context;
 		}
 
-		public async Task<Pagination<ServiceFeedback>> GetFeedbackByServiceIdAsync(int serviceFeedbackId, int pageSize, int pageIndex)
+		public async Task<Pagination<ServiceFeedback>> GetFeedbackByServiceIdAsync(int serviceFeedbackId, int pageIndex, int pageSize)
 		{
 			var query = _context.ServiceFeedbacks.Where(r => r.ServiceFeedbackId == serviceFeedbackId);
-			return await ToListPaginationAsync(query, pageSize, pageIndex);
+			return await ToListPaginationAsync(query, pageIndex, pageSize);
 		}
 	}
 }
