@@ -5,6 +5,7 @@
 		public int SaleId { get; set; }
 
 		public string? SaleName { get; set; }
+		public string? ImageURL { get; set; }
 
 		public string? SaleDescription { get; set; }
 

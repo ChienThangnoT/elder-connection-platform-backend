@@ -1,5 +1,4 @@
-﻿using Application.ViewModels.AddressViewModels;
-using Application.ViewModels.SaleViewModels;
+﻿using Application.ViewModels.SaleViewModels;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -18,6 +17,7 @@ namespace Infracstructures.Mappers
 			CreateMap<Sale, SaleUpdateModel>().ReverseMap();
 			CreateMap<Sale, SaleViewModel>()
 				.ForMember(dest => dest.SaleName, otp => otp.MapFrom(src => src.SaleName))
+				.ForMember(dest => dest.ImageURL, otp => otp.MapFrom(src => src.ImageURL))
 				.ForMember(dest => dest.SaleDescription, otp => otp.MapFrom(src => src.SaleDescription))
 				.ForMember(dest => dest.SalePercent, otp => otp.MapFrom(src => src.SalePercent))
 				.ReverseMap();
