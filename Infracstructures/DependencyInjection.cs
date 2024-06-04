@@ -60,6 +60,10 @@ namespace Infracstructures
 			services.AddTransient<IServiceFeedbackRepository, ServiceFeedbackRepository>();
 			services.AddTransient<IServiceFeedbackService, ServiceFeedbackService>();
 
+			// Configure TrainingProgram services and repositories
+			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
+			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
+
 			// Configure the local database connection
 			services.AddDbContext<ElderConnectionContext>(options =>
             {
