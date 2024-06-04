@@ -13,6 +13,7 @@ public partial class Account :IdentityUser
     public string? Biography { get; set; }
 
     public string? ProfilePicture { get; set; }
+    public string? CccdNumber { get; set; }
 
     public DateTime? Birthday { get; set; }
 

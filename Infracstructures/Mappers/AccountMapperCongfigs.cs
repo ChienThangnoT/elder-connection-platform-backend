@@ -15,6 +15,7 @@ namespace Infracstructures.Mappers
         {
              CreateMap<Account, AccountDetailViewModel>().ReverseMap();
              CreateMap<AccountUpdateModel, Account>().ReverseMap();
+             CreateMap<ConnectorSignUpModel, Account>().ReverseMap();
         }
     }
 }
