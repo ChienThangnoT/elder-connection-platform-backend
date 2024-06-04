@@ -8,8 +8,9 @@ namespace Infracstructures.Mappers
     {
         partial void JobScheduleMapperConfigs()
         {
-           CreateMap<JobSchedule, JobScheduleViewModel>().ReverseMap();
-           CreateMap<JobSchedule, JobScheduleCreateViewModel>().ReverseMap();
+            CreateMap<JobSchedule, JobScheduleViewModel>().ReverseMap();
+            CreateMap<JobSchedule, JobScheduleCreateViewModel>().ReverseMap();
+            CreateMap<JobSchedule, JobScheduleUpdateViewModel>().ReverseMap();
         }
     }
 }

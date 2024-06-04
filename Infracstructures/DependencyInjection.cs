@@ -60,6 +60,10 @@ namespace Infracstructures
 			services.AddTransient<ISaleRepository, SaleRepository>();
 			services.AddTransient<ISaleService, SaleService>();
 
+            // Configure TaskED services and repositories
+            services.AddTransient<ITaskEDRepository, TaskEDRepository>();
+            services.AddTransient<ITaskEDService, TaskEDService>();
+
 			// Configure the local database connection
 			services.AddDbContext<ElderConnectionContext>(options =>
             {

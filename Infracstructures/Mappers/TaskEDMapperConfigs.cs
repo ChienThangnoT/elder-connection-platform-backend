@@ -13,7 +13,10 @@ namespace Infracstructures.Mappers
     {
         partial void TaskEDMapperConfigs()
         {
-            CreateMap<TaskED, TaskEDViewModel>().ReverseMap();
+            CreateMap<TaskED, TaskEDViewModel>()
+                .ForMember(dest => dest.customerFirstName, otp => otp.MapFrom(src => src.Connector != null ? src.Connector.FirstName : string.Empty))
+                .ForMember(dest => dest.customerLastName, otp => otp.MapFrom(src => src.Connector != null ? src.Connector.LastName : string.Empty))
+                .ReverseMap();
             CreateMap<TaskED, TaskEDCreateViewModel>().ReverseMap();
         }
     }

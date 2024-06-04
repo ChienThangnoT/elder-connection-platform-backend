@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.ViewModels.JobScheduleViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,10 @@ namespace Application.ViewModels.TaskEDViewModels
         public int JobScheduleId { get; set; }
 
         public string? ConnectorId { get; set; }
+
+        public string? customerFirstName { get; set; }
+
+        public string? customerLastName { get; set; }
 
         public DateTime WorkDateAt { get; set; }
 

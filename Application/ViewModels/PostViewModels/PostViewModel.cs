@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.ViewModels.AddressViewModels;
+using Application.ViewModels.JobScheduleViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +14,17 @@ namespace Application.ViewModels.PostViewModels
 
         public int ServiceId { get; set; }
 
-        public int JobScheduleId { get; set; }
+        public string? serviceName { get; set; }
+
+        public JobScheduleViewModel JobSchedule { get; set; }
 
         public string? CustomerId { get; set; }
 
-        public int AddressId { get; set; }
+        public string? customerFirstName { get; set; }
+
+        public string? customerLastName { get; set; }
+
+        public AddressViewModel Address { get; set; }
 
         public bool? IsPriorityFavoriteConnector { get; set; }
 
@@ -26,11 +34,11 @@ namespace Application.ViewModels.PostViewModels
 
         public int PostStatus { get; set; }
 
-        public TimeOnly StartTime { get; set; }
+        public TimeOnly? StartTime { get; set; }
 
-        public DateTime CreateAt { get; set; }
+        public DateTime? CreateAt { get; set; }
 
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public float Price { get; set; }
 

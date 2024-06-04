@@ -1,4 +1,6 @@
-﻿using Domain.Models;
+﻿using Application.Common;
+using Application.ViewModels.PostViewModels;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ namespace Application.IRepositories
 {
     public interface IPostRepostiory: IGenericRepository<Post>
     {
+        Task<Pagination<Post>> GetAllPostByCustomerIdAsync
+            (string accountId, int pageIndex=0, int pageSize = 10);
 
+        Task<Post> GetPostByIdWithInclude(int id);
     }
 }

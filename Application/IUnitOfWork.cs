@@ -19,6 +19,7 @@ namespace Application
 		public ISaleRepository SaleRepo { get; }
         public IPostRepostiory PostRepo { get; }
         public IJobScheduleRepository JobScheduleRepo { get; }
+        public ITaskEDRepository TaskEDRepo { get; }
         public Task<int> SaveChangesAsync();
     }
 }
