@@ -18,6 +18,10 @@ namespace Application.ViewModels.ConnectorInfoViewModels
 
         public string? CccdBehindImg { get; set; }
 
+        public string? SyllFrontImg { get; set; }
+
+        public string? SyllBehindImg { get; set; }
+
         public string? GxnhkImg { get; set; }
     }
 }

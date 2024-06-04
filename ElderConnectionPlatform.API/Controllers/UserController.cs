@@ -151,7 +151,7 @@ namespace ElderConnectionPlatform.API.Controllers
 
         #region Sign Up Connector Account
         [HttpPost("sign-up-connector")]
-        public async Task<IActionResult> SignUpConnector(AccountSignUpModel accountSignUpModel)
+        public async Task<IActionResult> SignUpConnector(ConnectorSignUpModel connectorSignUpModel)
         {
             try
             {
@@ -160,20 +160,20 @@ namespace ElderConnectionPlatform.API.Controllers
                     return ValidationProblem(ModelState);
                 }
 
-                var result = await _userService.SignUpConnectorAsync(accountSignUpModel);
+                var result = await _userService.SignUpConnectorAsync(connectorSignUpModel);
                 if (result.Status == 400)
                 {
                     return BadRequest(result);
                 }
 
                 var token = (result as EmailTokenModel)?.ConfirmEmailToken;
-                var url = Url.Action("ConfirmEmail", "user", new { memberEmail = accountSignUpModel.AccountEmail, tokenReset = token }, Request.Scheme);
+                var url = Url.Action("ConfirmEmail", "user", new { memberEmail = connectorSignUpModel.AccountEmail, tokenReset = token }, Request.Scheme);
 
                 var messageRequest = new EmailRequest
                 {
-                    To = accountSignUpModel.AccountEmail,
+                    To = connectorSignUpModel.AccountEmail,
                     Subject = "Xác nhận email cho việc đăng kí vào ứng dụng",
-                    Content = MailTemplate.ConfirmTemplate(accountSignUpModel.AccountEmail, url)
+                    Content = MailTemplate.ConfirmTemplate(connectorSignUpModel.AccountEmail, url)
                 };
 
                 await _mailService.SendConFirmEmailAsync(messageRequest);
@@ -182,7 +182,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 {
                     Status = StatusCodes.Status200OK,
                     Message = "Create account successfull, Please confirm your email to login into eHubSystem",
-                    Result = new { User = accountSignUpModel }
+                    Result = new { User = connectorSignUpModel }
                 });
             }
             catch (Exception ex)
