@@ -22,6 +22,7 @@ namespace Infracstructures
         private readonly ISaleRepository _saleRepository;
         private readonly IConnectorFeedbackRepository _connectorFeedbackRepository;
         private readonly IServiceFeedbackRepository _serviceFeedbackRepository;
+        private readonly ITrainingProgramRepository _trainingProgramRepository;
 
 		public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
@@ -33,7 +34,8 @@ namespace Infracstructures
             IConnectorInfoRepository connectorInfoRepository, 
             ISaleRepository saleRepository, 
             IConnectorFeedbackRepository connectorFeedbackRepository,
-            IServiceFeedbackRepository serviceFeedbackRepository)
+            IServiceFeedbackRepository serviceFeedbackRepository,
+            ITrainingProgramRepository trainingProgramRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -47,6 +49,7 @@ namespace Infracstructures
 			_saleRepository = saleRepository;
 			_connectorFeedbackRepository = connectorFeedbackRepository;
             _serviceFeedbackRepository = serviceFeedbackRepository;
+			_trainingProgramRepository = trainingProgramRepository;
 		}
 
         public IUserRepository UserRepo => _userRepository;
@@ -59,6 +62,7 @@ namespace Infracstructures
 		public ISaleRepository SaleRepo => _saleRepository;
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo => _connectorFeedbackRepository;
         public IServiceFeedbackRepository ServiceFeedbackRepo => _serviceFeedbackRepository;
+		public ITrainingProgramRepository TrainingProgramRepo => _trainingProgramRepository;
 
 		public async Task<int> SaveChangesAsync()
         {
