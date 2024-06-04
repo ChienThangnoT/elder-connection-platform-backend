@@ -84,7 +84,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 var account = await _accountService.GetAccountByEmailAsync(memberEmail);
                 if (account != null)
                 {
-                    return Redirect("google.com");
+                    return Redirect("https://www.google.com/");
                 }
                 return Ok(result);
             }
