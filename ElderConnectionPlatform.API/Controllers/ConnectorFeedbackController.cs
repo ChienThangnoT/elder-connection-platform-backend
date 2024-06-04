@@ -16,7 +16,7 @@ namespace ElderConnectionPlatform.API.Controllers
 		}
 
 		[HttpGet("{connectorId}")]
-		public async Task<IActionResult> GetFeedbackViewModelAsync(string connectorId, int pageIndex, int pageSize)
+		public async Task<IActionResult> GetFeedbackViewModelAsync(string connectorId, int pageIndex = 0, int pageSize = 10)
 		{
 			var response = await _connectorFeedbackService.GetFeedbackViewModelAsync(connectorId, pageIndex, pageSize);
 			return StatusCode(response.Status, response);
