@@ -44,6 +44,14 @@ namespace Infracstructures
             services.AddTransient<ITransactionHistoryRepository, TransactionHistoryRepository>();
             services.AddTransient<ITransactionHistoryService, TransactionHistoryService>();
 
+            // Configure Post services and repositories
+            services.AddTransient<IPostRepostiory, PostRepository>();
+            services.AddTransient<IPostService, PostService>();
+
+            // Configure JobSchedule services and repositories
+            services.AddTransient<IJobScheduleRepository, JobScheduleRepository>();
+            services.AddTransient<IJobScheduleService, JobScheduleService>();
+
             // Configure ConnectorInfo services and repositories
             services.AddTransient<IConnectorInfoRepository, ConnectorInfoRepository>();
             services.AddTransient<IConnectorInfoService, ConnectorInfoService>();
@@ -51,6 +59,10 @@ namespace Infracstructures
 			// Configure Sale services and repositories
 			services.AddTransient<ISaleRepository, SaleRepository>();
 			services.AddTransient<ISaleService, SaleService>();
+
+            // Configure TaskED services and repositories
+            services.AddTransient<ITaskEDRepository, TaskEDRepository>();
+            services.AddTransient<ITaskEDService, TaskEDService>();
 
 			// Configure ConnectorFeedback services and repositories
 			services.AddTransient<IConnectorFeedbackRepository, ConnectorFeedbackRepository>();

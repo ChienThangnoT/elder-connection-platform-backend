@@ -17,6 +17,9 @@ namespace Application
         public ITransactionHistoryRepository TransactionHistoryRepo { get; }    
         public IConnectorInfoRepository ConnectorInfoRepo { get; }
 		public ISaleRepository SaleRepo { get; }
+        public IPostRepostiory PostRepo { get; }
+        public IJobScheduleRepository JobScheduleRepo { get; }
+        public ITaskEDRepository TaskEDRepo { get; }
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo { get; }
 		public IServiceFeedbackRepository ServiceFeedbackRepo { get; }
 		public ITrainingProgramRepository TrainingProgramRepo { get; }

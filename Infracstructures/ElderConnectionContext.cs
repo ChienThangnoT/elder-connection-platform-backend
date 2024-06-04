@@ -48,6 +48,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
     public virtual DbSet<TrainingProgram> TrainingPrograms { get; set; }
 
     public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
+
     public virtual DbSet<ElderInformation> ElderInformations { get; set; }
 
 
