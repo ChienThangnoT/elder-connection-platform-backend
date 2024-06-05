@@ -41,5 +41,6 @@ namespace Application.ResponseModels
         public Task<String>? VerifyEmailToken { get; set; }
         public DateTime? Expired { get; set; }
         public string JwtRefreshToken { get; set; }
+        public object? AccountId { get; set; }
     }
 }
