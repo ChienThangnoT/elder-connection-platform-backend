@@ -10,5 +10,6 @@ namespace Application.IRepositories
 {
     public interface IJobScheduleRepository : IGenericRepository<JobSchedule>
     {
+        Task<JobSchedule?> GetJobScheduleByIdAsync(int id);
     }
 }

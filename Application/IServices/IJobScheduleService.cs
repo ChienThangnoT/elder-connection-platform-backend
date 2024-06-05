@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.JobScheduleViewModels;
+﻿using Application.ResponseModels;
+using Application.ViewModels.JobScheduleViewModels;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,8 @@ namespace Application.IServices
             JobScheduleUpdateViewModel jobScheduleUpdateViewModel);
 
         Task DeleteJobSchedule(JobSchedule jobSchedule);
+
+        Task<IEnumerable<BaseResponseModel>> GetAllJobSchedulesAsync();
+        Task<BaseResponseModel> GetJobScheduleByIdAsync(int id);
     }
 }
