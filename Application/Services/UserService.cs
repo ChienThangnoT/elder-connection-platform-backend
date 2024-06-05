@@ -202,7 +202,8 @@ namespace Application.Services
                 Message = "Login successfully!",
                 JwtToken = new JwtSecurityTokenHandler().WriteToken(token),
                 Expired = TimeZoneInfo.ConvertTimeFromUtc(token.ValidTo, TimeZoneInfo.Local),
-                JwtRefreshToken = refreshToken
+                JwtRefreshToken = refreshToken,
+                AccountId = account.Id
             };
         }
 
