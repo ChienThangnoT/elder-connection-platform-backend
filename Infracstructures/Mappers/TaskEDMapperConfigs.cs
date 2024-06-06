@@ -15,6 +15,7 @@ namespace Infracstructures.Mappers
         {
             CreateMap<TaskED, TaskEDViewModel>().ReverseMap();
             CreateMap<TaskED, TaskEDCreateViewModel>().ReverseMap();
+            CreateMap<TaskED, TaskEDUpdateViewModel>().ReverseMap();
         }
     }
 }

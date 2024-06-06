@@ -14,5 +14,7 @@ namespace Application.IRepositories
         Task<Pagination<TaskED>> GetTaskEDListByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10);
         Task<TaskED> GetTaskEDByIdWithInclude(int id);
+        Task<Pagination<TaskED>> GetTaskEDListByJobScheduleIdAsync(
+            int jobScheduleId, int pageIndex = 0, int pageSize = 10) ;
     }
 }

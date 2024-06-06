@@ -5,6 +5,7 @@ using Application.ResponseModels;
 using Application.ViewModels.PostViewModels;
 using Application.ViewModels.TaskEDViewModels;
 using AutoMapper;
+using Domain.Enums.TaskEnums;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -75,6 +76,48 @@ namespace Application.Services
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Get taskED detail success",
+                Result = result
+            };
+        }
+        #endregion
+
+        #region GetTaskEDListByJobScheduleIdAsync
+        public async Task<BaseResponseModel> GetTaskEDListByJobScheduleIdAsync(
+            int jobScheduleId, int pageIndex = 0, int pageSize = 10)
+        {
+            // Check if job schedule is exist
+            var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId) 
+                ?? throw new NotExistsException();
+            // Get all task of job schedule
+            var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByJobScheduleIdAsync(
+                                              jobScheduleId, pageIndex, pageSize);
+            // Map to TaskEDViewModel
+            var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get all post by customer id success",
+                Result = result
+            };
+        }
+        #endregion
+
+        #region Update TaskED Status
+        public async Task<BaseResponseModel> UpdateTaskEDStatus(int id, TaskEDUpdateViewModel taskUpdateViewModel)
+        {
+            var taskED = await _unitOfWork.TaskEDRepo.GetByIdAsync(id) 
+                ?? throw new NotExistsException();
+
+            taskUpdateViewModel.TaskStatus = (int)TaskEDStatus.Completed;
+            _mapper.Map(taskUpdateViewModel, taskED);
+            await _unitOfWork.SaveChangesAsync();
+
+            var result = _mapper.Map<TaskEDViewModel>(taskED);
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Update taskED status success",
                 Result = result
             };
         }
