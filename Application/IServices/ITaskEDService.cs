@@ -17,5 +17,9 @@ namespace Application.IServices
         Task<BaseResponseModel> GetTaskEDListByConnectorIdAsync(
             string connector, int pageIndex = 0, int pageSize = 10);
         Task<BaseResponseModel> GetTaskEDByIdAsync(int taskEDId);
+        Task<BaseResponseModel> GetTaskEDListByJobScheduleIdAsync(
+            int jobScheduleId, int pageIndex = 0, int pageSize = 10);
+
+        Task<BaseResponseModel> UpdateTaskEDStatus(int id, TaskEDUpdateViewModel taskUpdateViewModel);
     }
 }
