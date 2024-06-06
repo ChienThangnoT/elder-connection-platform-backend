@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.TaskEDViewModels
 {
-    public class TaskEDCreateViewModel
+    public class TaskEDUpdateViewModel
     {
-        public int JobScheduleId { get; set; }
-
-        public DateTime? WorkDateAt { get; set; }
-
+        [JsonIgnore]
         public int TaskStatus { get; set; }
-
-        public DateTime? CreateAt { get; set; }
-
-        public DateTime? CompleteDate { get; set; }
-
-        public DateTime? TaskUpdateAt { get; set; }
+        [JsonIgnore]
+        public DateTime? CompleteDate { get; set; } = DateTime.Now;
+        [JsonIgnore]
+        public DateTime? TaskUpdateAt { get; set; } = DateTime.Now;
 
         public string? TaskUpdateDescription { get; set; }
     }
