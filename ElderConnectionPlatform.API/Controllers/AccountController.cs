@@ -92,6 +92,15 @@ namespace ElderConnectionPlatform.API.Controllers
             var result = await _accountService.ActiveOrInactiveAccount(id);
             return Ok(result);
         }
-        #endregion
-    }
+		#endregion
+
+		#region Get wallet balance
+		[HttpGet("get-wallet-balance/{accountId}")]
+		public async Task<IActionResult> GetWalletBalance(string accountId)
+		{
+			var result = await _accountService.GetUserWalletBalance(accountId);
+			return Ok(result);
+		}
+		#endregion
+	}
 }

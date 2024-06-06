@@ -11,5 +11,6 @@ namespace Application.IRepositories
     {
         Task<Account> GetAccountByIdAsync(string id);
         Task<Account> GetAccountByEmailAsync(string email);
-    }
+        //Task<Account> GetWalletBalance(string accountId);
+	}
 }
