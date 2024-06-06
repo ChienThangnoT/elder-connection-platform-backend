@@ -37,6 +37,15 @@ namespace Infracstructures.Repositories
                 .Where(task => task.JobScheduleId == jobScheduleId)
                 .ToListAsync();
         }
+
+        public async Task<Pagination<TaskED>> GetTaskEDListByJobScheduleIdAsync(
+            int jobScheduleId, int pageIndex = 0, int pageSize = 10)
+        {
+            var query = _dbSet.Where(r => r.JobScheduleId == jobScheduleId)
+                .Include(t => t.Connector)
+                .OrderByDescending(r => r.CreateAt);
+            return await ToListPaginationAsync(query, pageIndex, pageSize);
+        }
     }
 
 }

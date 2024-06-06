@@ -37,6 +37,13 @@ namespace Application.Services
 
             var result = _mapper.Map<Pagination<TransactionHistoryViewModel>>(transactionHistoryList);
 
+            var item = result.Items;
+
+            if (item.Count == 0)
+            {
+                throw new NotExistsException();
+            }
+
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
