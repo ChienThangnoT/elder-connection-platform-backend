@@ -11,8 +11,6 @@ namespace Application.ViewModels.TaskEDViewModels
     {
         public int JobScheduleId { get; set; }
 
-        public string? ConnectorId { get; set; }
-
         public DateTime? WorkDateAt { get; set; }
 
         public int TaskStatus { get; set; }

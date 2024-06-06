@@ -48,7 +48,7 @@ public partial class Account :IdentityUser
 
     public virtual ICollection<ServiceFeedback> ServiceFeedbacks { get; set; } = new List<ServiceFeedback>();
 
-    public virtual ICollection<TaskED> Tasks { get; set; } = new List<TaskED>();
+    public virtual ICollection<JobSchedule> JobSchedules { get; set; } = new List<JobSchedule>();
 
     public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
 }
