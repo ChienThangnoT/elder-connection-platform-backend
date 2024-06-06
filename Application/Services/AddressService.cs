@@ -29,7 +29,7 @@ namespace Application.Services
         public async Task<BaseResponseModel> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex)
         {
             var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId) ?? throw new AccountAlreadyExistsException();
-            var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageSize, pageIndex);
+            var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageIndex, pageSize);
 
             var result = _mapper.Map<Pagination<AddressViewModel>>(addressList);
             
@@ -37,7 +37,7 @@ namespace Application.Services
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Get all account address success",
-                Result = result
+                Result = addressList
             };
         }
         #endregion

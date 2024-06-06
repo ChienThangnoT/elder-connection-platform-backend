@@ -111,19 +111,20 @@ namespace Infracstructures.Repositories
         public async Task<Pagination<TModel>> ToListPaginationAsync(IQueryable<TModel> query, int pageIndex = 0, int pageSize = 10)
         {
             var itemCount = await query.CountAsync();
-
-            var items = await query.Skip(pageIndex * pageSize)
-                                   .Take(pageSize)
-                                   .AsNoTracking()
-                                   .ToListAsync();
-
-            return new Pagination<TModel>
+            var result = new Pagination<TModel>()
             {
-                PageIndex = pageIndex,
                 PageSize = pageSize,
                 TotalItemCount = itemCount,
-                Items = items
+                PageIndex = pageIndex,
             };
+            var items = await query.Skip(result.PageIndex * result.PageSize)
+                                   .Take(result.PageSize)
+                                   .AsNoTracking()
+                                   .ToListAsync();
+            
+            result.Items = items;
+
+            return result;
         }
 
         public async Task<Pagination<TModel>> ToPaginationIncludeAsync(int pageIndex = 0, int pageSize = 10, Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null)
