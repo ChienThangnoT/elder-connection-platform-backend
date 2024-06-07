@@ -140,7 +140,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.CccdFrontImg).HasColumnName("cccd_front_img");
             entity.Property(e => e.GxnhkImg).HasColumnName("gxnhk_img");
             entity.Property(e => e.IsApproved).HasColumnName("is_approved");
-            entity.Property(e => e.SendDate).HasColumnName("send_date"); 
+            entity.Property(e => e.SendDate).HasColumnName("send_date");
             entity.Property(e => e.SyllFrontImg).HasColumnName("syll_front_img");
             entity.Property(e => e.SyllBehindImg).HasColumnName("syll_behind_img");
             entity.Property(e => e.LocationWork).HasColumnName("location_work");
@@ -171,6 +171,9 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
 
             entity.Property(e => e.JobScheduleId)
                 .HasColumnName("job_schedule_id");
+            entity.Property(e => e.ConnectorId)
+                .HasMaxLength(450)
+                .HasColumnName("connector_id");
             entity.Property(e => e.Description).HasColumnName("description").HasMaxLength(450);
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.LocationWork).HasColumnName("location_work").HasMaxLength(450);
@@ -178,6 +181,10 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.OnTask).HasColumnName("on_task");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.TaskProcess).HasColumnName("task_process");
+
+            entity.HasOne(d => d.Connector).WithMany(p => p.JobSchedules)
+            .HasForeignKey(d => d.ConnectorId)
+            .HasConstraintName("FK_JobSchedule_Account");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -199,8 +206,8 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.HasOne(d => d.Account).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.AccountId)
                 .HasConstraintName("FK_Notification_Account");
-        }); 
-        
+        });
+
         modelBuilder.Entity<ElderInformation>(entity =>
         {
             entity.ToTable("ElderInformation");
@@ -364,9 +371,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.TaskId)
                 .HasColumnName("task_id");
             entity.Property(e => e.CompleteDate).HasColumnName("complete_date");
-            entity.Property(e => e.ConnectorId)
-                .HasMaxLength(450)
-                .HasColumnName("connector_id");
+
             entity.Property(e => e.CreateAt).HasColumnName("create_at");
             entity.Property(e => e.JobScheduleId).HasColumnName("job_schedule_id");
             entity.Property(e => e.TaskStatus).HasColumnName("task_status");
@@ -374,9 +379,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.TaskUpdateDescription).HasColumnName("task_update_description").HasMaxLength(450);
             entity.Property(e => e.WorkDateAt).HasColumnName("work_date_at");
 
-            entity.HasOne(d => d.Connector).WithMany(p => p.Tasks)
-                .HasForeignKey(d => d.ConnectorId)
-                .HasConstraintName("FK_Task_Account");
+
 
             entity.HasOne(d => d.JobSchedule).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.JobScheduleId)

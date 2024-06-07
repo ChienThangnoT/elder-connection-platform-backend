@@ -51,7 +51,7 @@ namespace Application.Common
             }
             set
             {
-                _pageIndex = (value >= TotalPagesCount) ? TotalPagesCount - 1 : value;
+                _pageIndex = (value < 0) ? 0 : (value >= TotalPagesCount) ? TotalPagesCount - 1 : value;
             }
         }
 

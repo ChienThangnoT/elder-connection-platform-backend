@@ -76,8 +76,9 @@ namespace Infracstructures
 			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
 			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
 
-			// Configure the local database connection
-			services.AddDbContext<ElderConnectionContext>(options =>
+            //Configure the local database connection
+
+            services.AddDbContext<ElderConnectionContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
             });

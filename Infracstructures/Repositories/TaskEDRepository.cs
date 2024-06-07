@@ -18,15 +18,13 @@ namespace Infracstructures.Repositories
         public async Task<TaskED> GetTaskEDByIdWithInclude(int id)
         {
             return await _dbSet.Where(p => p.TaskId == id)
-                .Include(p => p.Connector)
                 .FirstOrDefaultAsync();
         }
 
         public async Task<Pagination<TaskED>> GetTaskEDListByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10)
         {
-            var query = _dbSet.Where(r => r.ConnectorId == connectorId)
-                .Include(t => t.Connector)
+            var query = _dbSet
                 .OrderByDescending(r => r.CreateAt);
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
@@ -36,6 +34,15 @@ namespace Infracstructures.Repositories
             return await _dbSet
                 .Where(task => task.JobScheduleId == jobScheduleId)
                 .ToListAsync();
+        }
+
+        public async Task<Pagination<TaskED>> GetTaskEDListByJobScheduleIdAsync(
+            int jobScheduleId, int pageIndex = 0, int pageSize = 10)
+        {
+            var query = _dbSet.Where(r => r.JobScheduleId == jobScheduleId)
+                .Include(t => t.Connector)
+                .OrderByDescending(r => r.CreateAt);
+            return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
     }
 
