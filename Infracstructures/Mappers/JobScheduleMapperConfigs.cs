@@ -8,7 +8,11 @@ namespace Infracstructures.Mappers
     {
         partial void JobScheduleMapperConfigs()
         {
-            CreateMap<JobSchedule, JobScheduleViewModel>().ReverseMap();
+            CreateMap<JobSchedule, JobScheduleViewModel>()
+                .ForMember(dest => dest.connectorFirstName, opt => opt.MapFrom(src => src.Connector.FirstName))
+                .ForMember(dest => dest.connectorLastName, opt => opt.MapFrom(src => src.Connector.LastName))
+                .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks))
+                .ReverseMap();
             CreateMap<JobSchedule, JobScheduleCreateViewModel>().ReverseMap();
             CreateMap<JobSchedule, JobScheduleUpdateViewModel>().ReverseMap();
         }

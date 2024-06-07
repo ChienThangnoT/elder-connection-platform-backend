@@ -238,10 +238,11 @@ namespace Application.Services
                 throw new ArgumentException(msg);
             }
 
-            var posts =  await _unitOfWork.PostRepo.ToPaginationIncludeAsync(
-                pageIndex, 
+            var posts = await _unitOfWork.PostRepo.ToPaginationIncludeAsync(
+                pageIndex,
                 pageSize,
-                query => query.Include(p => p.JobSchedule)
+                query => query.Where(p => p.PostStatus == (int)PostStatus.Public)
+                            .Include(p => p.JobSchedule)                         
                             .Include(p => p.Address).Include(p => p.Service));
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
 
@@ -254,10 +255,49 @@ namespace Application.Services
         {
             var post = await _unitOfWork.PostRepo.GetPostByIdWithInclude(postId) ?? throw new NotExistsException();
             var result = _mapper.Map<PostViewModel>(post);
-            return new SuccessResponseModel {
+            return new SuccessResponseModel
+            {
                 Status = StatusCodes.Status200OK,
                 Message = "Get post detail success",
-                Result = result};
+                Result = result
+            };
+        }
+        #endregion
+
+        #region Apply Post
+        public async Task<BaseResponseModel> ApplyPost(int postId, string connectorId)
+        {
+            // Check if post exist
+            var post =  await _unitOfWork.PostRepo.GetByIdAsync(postId)
+                ?? throw new NotExistsException();
+            // Check if account exist
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId.ToString())
+                ?? throw new NotExistsException();
+            // Check if job schedule exist
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
+                ?? throw new NotExistsException();
+            // Check if the post has been claimed or not
+            if(post.PostStatus != (int)PostStatus.Posted)
+                throw new AlreadyClaimedException();
+
+            post.PostStatus = (int)PostStatus.Accepted;
+            _unitOfWork.PostRepo.Update(post);
+            
+            jobSchedule.ConnectorId = connectorId;
+            jobSchedule.OnTask = true;
+            _unitOfWork.JobScheduleRepo.Update(jobSchedule);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            var result = _mapper.Map<PostViewModel>(post);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Apply post success",
+                Result = result
+            };
+
         }
         #endregion
     }

@@ -29,10 +29,13 @@ namespace Infracstructures.Repositories
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
 
-        public async Task<Post> GetPostByIdWithInclude(int id)
+        public async Task<Post?> GetPostByIdWithInclude(int id)
         {
             return await _dbSet.Where(p => p.PostId == id)
                 .Include(p => p.JobSchedule)
+                .ThenInclude(js => js.Connector)
+                .Include(p => p.JobSchedule)
+                .ThenInclude(js => js.Tasks)
                 .Include(p => p.Address)
                 .FirstOrDefaultAsync(); ;
         }
