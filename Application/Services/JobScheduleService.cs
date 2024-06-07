@@ -1,8 +1,10 @@
 ﻿using Application.Exceptions;
 using Application.IServices;
+using Application.ResponseModels;
 using Application.ViewModels.JobScheduleViewModels;
 using AutoMapper;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +55,37 @@ namespace Application.Services
         {
             _unitOfWork.JobScheduleRepo.Remove(jobSchedule);
             await _unitOfWork.SaveChangesAsync();
+        }
+        #endregion
+
+        #region GetAllJobSchedules
+        public async Task<IEnumerable<BaseResponseModel>> GetAllJobSchedulesAsync()
+        {
+            var jobSchedules = await _unitOfWork.JobScheduleRepo.GetAllAsync();
+            var result = _mapper.Map<IEnumerable<JobScheduleViewModel>>(jobSchedules);
+            return new List<BaseResponseModel>
+            {
+                new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Get job schedules successfully",
+                    Result = result
+                }
+            };
+        }
+        #endregion
+
+        #region GetJobScheduleById
+        public async Task<BaseResponseModel> GetJobScheduleByIdAsync(int id)
+        {
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetJobScheduleByIdAsync(id);
+            var result = _mapper.Map<JobScheduleViewModel>(jobSchedule);
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get job schedule successfully",
+                Result = result
+            };
         }
         #endregion
     }
