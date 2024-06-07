@@ -54,9 +54,12 @@ namespace Infracstructures.Mappers
 
 			//add training program mapper configs
             TrainingProgramMapperConfigs();
-		}
 
-		partial void AccountMapperCongfigs();
+            //add favorite list mapper configs
+            FavoriteMapperCongfigs();
+        }
+
+        partial void AccountMapperCongfigs();
         partial void ServiceMapperCongfigs();
         partial void ServiceTypeMapperCongfigs();
         partial void AddressMapperCongfigs();
@@ -70,5 +73,6 @@ namespace Infracstructures.Mappers
 		partial void TrainingProgramMapperConfigs();
 
 		partial void ConnectorFeedbackMapperConfigs();
-	}
+        partial void FavoriteMapperCongfigs();
+    }
 }

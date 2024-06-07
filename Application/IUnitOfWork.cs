@@ -23,7 +23,7 @@ namespace Application
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo { get; }
 		public IServiceFeedbackRepository ServiceFeedbackRepo { get; }
 		public ITrainingProgramRepository TrainingProgramRepo { get; }
-
-		public Task<int> SaveChangesAsync();
+        public IFavoriteRepository FavoriteRepo { get; }
+        public Task<int> SaveChangesAsync();
     }
 }

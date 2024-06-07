@@ -26,8 +26,8 @@ namespace Infracstructures
         private readonly IConnectorFeedbackRepository _connectorFeedbackRepository;
         private readonly IServiceFeedbackRepository _serviceFeedbackRepository;
         private readonly ITrainingProgramRepository _trainingProgramRepository;
-
-		public UnitOfWork(ElderConnectionContext context,
+        private readonly IFavoriteRepository _favoriteRepository;
+        public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
             IUserRepository userRepository,
             IServiceRepository serviceRepository,
@@ -41,7 +41,8 @@ namespace Infracstructures
             IConnectorFeedbackRepository connectorFeedbackRepository,
             IServiceFeedbackRepository serviceFeedbackRepository,
             ITrainingProgramRepository trainingProgramRepository,
-            ITaskEDRepository taskEDRepository)
+            ITaskEDRepository taskEDRepository,
+            IFavoriteRepository favoriteRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -59,7 +60,8 @@ namespace Infracstructures
 			_connectorFeedbackRepository = connectorFeedbackRepository;
             _serviceFeedbackRepository = serviceFeedbackRepository;
 			_trainingProgramRepository = trainingProgramRepository;
-		}
+            _favoriteRepository = favoriteRepository;
+        }
 
         public IUserRepository UserRepo => _userRepository;
         public IAccountRepository AccountRepo => _accountRepository;
@@ -76,7 +78,9 @@ namespace Infracstructures
         public IServiceFeedbackRepository ServiceFeedbackRepo => _serviceFeedbackRepository;
 		public ITrainingProgramRepository TrainingProgramRepo => _trainingProgramRepository;
 
-		public async Task<int> SaveChangesAsync()
+        public IFavoriteRepository FavoriteRepo => _favoriteRepository;
+
+        public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }

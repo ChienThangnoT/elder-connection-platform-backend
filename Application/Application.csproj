@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\FavoriteListViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
     <Folder Include="ViewModels\RegistrationProgramViewModels\" />
