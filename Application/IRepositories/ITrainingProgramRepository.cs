@@ -11,5 +11,7 @@ namespace Application.IRepositories
 	public interface ITrainingProgramRepository : IGenericRepository<TrainingProgram>
 	{
 		Task<Pagination<TrainingProgram>> GetAllTrainingProgramAsync(int pageIndex, int pageSize);
-	}
+
+        Task<TrainingProgram> GetTrainingProgramByIdAsync(int trainingProgramId);
+    }
 }
