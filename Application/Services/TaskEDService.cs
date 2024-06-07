@@ -44,33 +44,32 @@ namespace Application.Services
         }
         #endregion
 
-        #region GetTaskEDListByConnectorIdAsync
-        public async Task<BaseResponseModel> GetTaskEDListByConnectorIdAsync(
-            string connector, int pageIndex = 0, int pageSize = 10)
-        {
-            // Check if connector is exist
-            var isExistConnector = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connector) 
-                ?? throw new NotExistsException();
-            // Get all task claimed by connector 
-            var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByConnectorIdAsync(
-                               connector, pageIndex, pageSize);
-            // Map to TaskEDViewModel
-            var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs);
-
-            return new SuccessResponseModel
-            {
-                Status = StatusCodes.Status200OK,
-                Message = "Get all post by customer id success",
-                Result = result
-            };
-
-        }
-        #endregion
+        // Delete this method
+        //#region GetTaskEDListByConnectorIdAsync
+        //public async Task<BaseResponseModel> GetTaskEDListByConnectorIdAsync(
+        //    string connector, int pageIndex = 0, int pageSize = 10)
+        //{
+        //    // Check if connector is exist
+        //    var isExistConnector = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connector) 
+        //        ?? throw new NotExistsException();
+        //    // Get all task claimed by connector 
+        //    var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByConnectorIdAsync(
+        //                       connector, pageIndex, pageSize);
+        //    // Map to TaskEDViewModel
+        //    var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs);
+        //    return new SuccessResponseModel
+        //    {
+        //        Status = StatusCodes.Status200OK,
+        //        Message = "Get all post by customer id success",
+        //        Result = result
+        //    };
+        //}
+        //#endregion
 
         #region GetTaskEDByIdAsync
         public async Task<BaseResponseModel> GetTaskEDByIdAsync(int taskEDId)
         {
-            var taskED = await _unitOfWork.TaskEDRepo.GetTaskEDByIdWithInclude(taskEDId) ?? throw new NotExistsException();
+            var taskED = await _unitOfWork.TaskEDRepo.GetByIdAsync(taskEDId) ?? throw new NotExistsException();
             var result = _mapper.Map<TaskEDViewModel>(taskED);
             return new SuccessResponseModel
             {
@@ -97,7 +96,7 @@ namespace Application.Services
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
-                Message = "Get all post by customer id success",
+                Message = "Get all task by job schedule id success",
                 Result = result
             };
         }
@@ -108,8 +107,6 @@ namespace Application.Services
         {
             var taskED = await _unitOfWork.TaskEDRepo.GetByIdAsync(id) 
                 ?? throw new NotExistsException();
-
-            taskUpdateViewModel.TaskStatus = (int)TaskEDStatus.Completed;
             _mapper.Map(taskUpdateViewModel, taskED);
             await _unitOfWork.SaveChangesAsync();
 
