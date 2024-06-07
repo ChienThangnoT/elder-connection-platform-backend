@@ -137,5 +137,28 @@ namespace ElderConnectionPlatform.API.Controllers
             }
         }
         #endregion
+
+        #region Apply post
+        [HttpPost("apply-post/{postId}")]
+        public async Task<IActionResult> ApplyPost(int postId, string connectorId)
+        {
+            try
+            {
+                var result = await _postService.ApplyPost(postId, connectorId);
+                return (result == null)
+                    ?NotFound()
+                    :Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Bad request.",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

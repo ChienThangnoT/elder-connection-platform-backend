@@ -1,6 +1,8 @@
-﻿using Application.IServices;
+﻿using Application.Exceptions;
+using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.JobScheduleViewModels;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +35,30 @@ namespace ElderConnectionPlatform.API.Controllers
                 return NotFound();
             }
             return Ok(jobSchedule);
+        }
+
+        [HttpGet("get-job-schedule-by-connector-id/{connectorId}")]
+        public async Task<IActionResult> GetAllJobScheduleByConnectorId
+            (string connectorId, int pageIndex = 0, int pageSize = 10)
+        {
+            try
+            {
+                var jobSchedule = await _jobScheduleService.GetJobScheduleByConnectorIdAsync
+                    (connectorId, pageIndex, pageSize);
+
+                return jobSchedule == null
+                   ? NotFound()
+                   : (IActionResult)Ok(jobSchedule);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Bad request.",
+                    Errors = e.Message
+                });
+            }
         }
     }
 }

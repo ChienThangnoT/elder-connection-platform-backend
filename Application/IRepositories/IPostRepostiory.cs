@@ -14,6 +14,6 @@ namespace Application.IRepositories
         Task<Pagination<Post>> GetAllPostByCustomerIdAsync
             (string accountId, int pageIndex=0, int pageSize = 10);
 
-        Task<Post> GetPostByIdWithInclude(int id);
+        Task<Post?> GetPostByIdWithInclude(int id);
     }
 }
