@@ -76,6 +76,10 @@ namespace Infracstructures
 			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
 			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
 
+            // Configure Favorite services and repositories
+            services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+            services.AddTransient<IFavoriteService, FavoriteService>();
+
             //Configure the local database connection
 
             services.AddDbContext<ElderConnectionContext>(options =>
