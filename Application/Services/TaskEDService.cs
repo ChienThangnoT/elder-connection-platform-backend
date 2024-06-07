@@ -96,7 +96,7 @@ namespace Application.Services
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
-                Message = "Get all post by customer id success",
+                Message = "Get all task by job schedule id success",
                 Result = result
             };
         }
