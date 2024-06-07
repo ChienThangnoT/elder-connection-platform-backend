@@ -40,7 +40,6 @@ namespace Infracstructures.Repositories
             int jobScheduleId, int pageIndex = 0, int pageSize = 10)
         {
             var query = _dbSet.Where(r => r.JobScheduleId == jobScheduleId)
-                .Include(t => t.Connector)
                 .OrderByDescending(r => r.CreateAt);
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
