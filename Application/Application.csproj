@@ -16,7 +16,6 @@
     <Folder Include="ViewModels\FavoriteListViewModels\" />
     <Folder Include="ViewModels\TrainingProgramViewModels\" />
     <Folder Include="ViewModels\ServiceFeedbackViewModels\" />
-    <Folder Include="ViewModels\TaskEDViewModels\" />
     <Folder Include="ViewModels\RegistrationProgramViewModels\" />
     <Folder Include="ViewModels\NotificationViewModels\" />
   </ItemGroup>

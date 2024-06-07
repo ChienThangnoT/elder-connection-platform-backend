@@ -48,7 +48,7 @@ namespace ElderConnectionPlatform.API.Controllers
 
         #region Get Account Address By Account Id
         [HttpGet("get-all-address-by-account/{accountId}")]
-        public async Task<IActionResult> GetServiceTypeById(string accountId, int pageSize = 0, int pageIndex = 10)
+        public async Task<IActionResult> GetServiceTypeById(string accountId, int pageSize = 10, int pageIndex = 0)
         {
             var result = await _addressService.GetAccountAddressByAccountIdAsync(accountId, pageSize, pageIndex);
             return Ok(result);

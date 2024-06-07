@@ -16,10 +16,7 @@ namespace Infracstructures.Mappers
         {
             CreateMap<Address, AddressAddModel>().ReverseMap();
             CreateMap<Address, AddressUpdateModel>().ReverseMap();
-            CreateMap<Address, AddressViewModel>()
-                .ForMember(dest => dest.FirstName, otp => otp.MapFrom(src => src.Account != null ? src.Account.FirstName : string.Empty))
-                .ForMember(dest => dest.LastName, otp => otp.MapFrom(src => src.Account != null ? src.Account.LastName : string.Empty))
-                .ReverseMap();
+            CreateMap<Address, AddressViewModel>().ReverseMap();
         }
     }
 }

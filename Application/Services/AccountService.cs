@@ -118,6 +118,21 @@ namespace Application.Services
             var result = _mapper.Map<AccountDetailViewModel>(exisedUser);
             return result;
         }
-        #endregion
-    }
+		#endregion
+
+		#region Get User Wallet Balance
+		public async Task<BaseResponseModel> GetUserWalletBalance(string accountId)
+		{
+			var walletBalance = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId);
+            var result = _mapper.Map<WalletBalanceViewModel>(walletBalance);
+			
+            return new SuccessResponseModel
+            {
+				Status = StatusCodes.Status200OK,
+				Message = "Get user wallet balance success",
+				Result = result
+			};
+		}
+		#endregion
+	}
 }

@@ -37,7 +37,7 @@ namespace Application.Services
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Get all account address success",
-                Result = addressList
+                Result = result
             };
         }
         #endregion

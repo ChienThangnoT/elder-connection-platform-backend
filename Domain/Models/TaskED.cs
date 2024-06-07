@@ -9,8 +9,6 @@ public partial class TaskED
 
     public int JobScheduleId { get; set; }
 
-    public string? ConnectorId { get; set; }
-
     public DateTime? WorkDateAt { get; set; }
 
     public int TaskStatus { get; set; }
@@ -23,7 +21,6 @@ public partial class TaskED
 
     public string? TaskUpdateDescription { get; set; }
 
-    public virtual Account? Connector { get; set; }
 
     public virtual ICollection<ConnectorFeedback> ConnectorFeedbacks { get; set; } = new List<ConnectorFeedback>();
 

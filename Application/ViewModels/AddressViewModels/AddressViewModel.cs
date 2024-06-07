@@ -10,8 +10,6 @@ namespace Application.ViewModels.AddressViewModels
     {
         public int AddressId { get; set; }
 
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
         public string? AddressName { get; set; }
 
         public string? AddressDetail { get; set; }
