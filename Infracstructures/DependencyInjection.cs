@@ -78,10 +78,10 @@ namespace Infracstructures
 
             //Configure the local database connection
 
-            services.AddDbContext<ElderConnectionContext>(options =>
-            {
-                options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
-            });
+            //services.AddDbContext<ElderConnectionContext>(options =>
+            //{
+            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
+            //});
 
             return services;
         }
