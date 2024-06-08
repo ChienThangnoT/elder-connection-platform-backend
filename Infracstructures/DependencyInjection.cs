@@ -80,9 +80,13 @@ namespace Infracstructures
             services.AddTransient<IFavoriteRepository, FavoriteRepository>();
             services.AddTransient<IFavoriteService, FavoriteService>();
 
-            //Configure the local database connection
+            // Configure ElderInformation services and repositories
+            services.AddTransient<IElderInformationRepository, ElderInformationRepository>();
+            services.AddTransient<IElderInformationService, ElderInformationService>();
 
-            services.AddDbContext<ElderConnectionContext>(options =>
+			//Configure the local database connection
+
+			services.AddDbContext<ElderConnectionContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
             });

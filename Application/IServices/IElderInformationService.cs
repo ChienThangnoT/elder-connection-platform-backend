@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.ResponseModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Application.IServices
 {
 	public interface IElderInformationService
 	{
+		Task<BaseResponseModel> GetElderInformationByChildIdAsync(string childId);
 	}
 }

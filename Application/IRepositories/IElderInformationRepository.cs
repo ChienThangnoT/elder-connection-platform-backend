@@ -9,5 +9,6 @@ namespace Application.IRepositories
 {
 	public interface IElderInformationRepository : IGenericRepository<ElderInformation>
 	{
+		Task<ElderInformation> GetElderInformationByChildIdAsync(string childId);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Application.IRepositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace Infracstructures.Repositories
 		public ElderInformationRepository(ElderConnectionContext context) : base(context)
 		{
 			_context = context;
+		}
+
+		public async Task<ElderInformation> GetElderInformationByChildIdAsync(string childId)
+		{
+			return await _context.ElderInformations.FirstOrDefaultAsync(x => x.ChildId == childId);
 		}
 	}
 }
