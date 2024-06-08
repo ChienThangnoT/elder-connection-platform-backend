@@ -64,11 +64,16 @@ namespace Application.Services
 
             // Create post
             postCreateViewModel.JobScheduleId = jobScheduleResult.JobScheduleId;
-            postCreateViewModel.PostStatus = (int)PostStatus.Posted;
+            postCreateViewModel.PostStatus = (int)PostStatus.Public;
             postCreateViewModel.Price = isExistService.FinalPrice;
             postCreateViewModel.SalaryAfterWork = postCreateViewModel.Price - (postCreateViewModel.Price * 0.1f);
             var post = _mapper.Map<Post>(postCreateViewModel);
             await _unitOfWork.PostRepo.AddAsync(post);
+
+            var updateWallet = isExistAccount.WalletBalance - postCreateViewModel.Price;
+            isExistAccount.WalletBalance = updateWallet;
+            _unitOfWork.AccountRepo.Update(isExistAccount);
+
             await _unitOfWork.SaveChangesAsync();
 
             // Create task
@@ -149,6 +154,8 @@ namespace Application.Services
                 .GetByIdAsync(postUpdateViewModel.AddressId)
                 ?? throw new NotExistsException();
 
+            var getAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(post.CustomerId);
+
             //check if job schedule listDayWork format is valid
             DateTime[] dates = jobScheduleUpdateViewModel.ListDayWork
                 .Split('|')
@@ -170,6 +177,12 @@ namespace Application.Services
             postUpdateViewModel.SalaryAfterWork = postUpdateViewModel.Price - (postUpdateViewModel.Price * 0.1f);
             _mapper.Map(postUpdateViewModel, post);
             _unitOfWork.PostRepo.Update(post);
+
+
+            var updateWallet = getAccount.WalletBalance - postUpdateViewModel.Price;
+            getAccount.WalletBalance = updateWallet;
+            _unitOfWork.AccountRepo.Update(getAccount);
+
             await _unitOfWork.SaveChangesAsync();
 
             // Update task (drop old things and then add new)

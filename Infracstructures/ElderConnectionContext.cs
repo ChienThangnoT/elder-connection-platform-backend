@@ -421,6 +421,7 @@ public partial class ElderConnectionContext : IdentityDbContext<Account>
             entity.Property(e => e.TransactionNo).HasColumnName("transaction_no").HasMaxLength(450);
             entity.Property(e => e.TransactionType).HasColumnName("transaction_type").HasMaxLength(450);
             entity.Property(e => e.WalletBalanceChange).HasColumnName("wallet_balance_change");
+            entity.Property(e => e.CurrentWallet).HasColumnName("current_wallet");
 
             entity.HasOne(d => d.Account).WithMany(p => p.TransactionHistories)
                 .HasForeignKey(d => d.AccountId)

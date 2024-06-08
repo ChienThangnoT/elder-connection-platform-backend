@@ -16,7 +16,7 @@ else
     connection = Environment.GetEnvironmentVariable("azure_sql_connectionstring");
 }
 //config sqlazure
-//builder.Services.AddDbContext<ElderConnectionContext >(options =>
+//builder.Services.AddDbContext<ElderConnectionContext>(options =>
 //        options.UseSqlServer(connection));
 
 
