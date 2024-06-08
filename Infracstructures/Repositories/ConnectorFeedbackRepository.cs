@@ -18,11 +18,20 @@ namespace Infracstructures.Repositories
 			_context = context;
 		}
 
-
 		public async Task<List<ConnectorFeedback>> GetFeedbackByConnectorIdAsync(string connectorId)
 		{
 			var query = _context.ConnectorFeedbacks.Where(r => r.ConnectorId == connectorId);
 			return await query.ToListAsync();
+		}
+
+		public async Task<Pagination<ConnectorFeedback>> GetFeedbackByConnectorIdPaginationAsync(string connectorId, int pageIndex, int pageSize)
+		{
+			var query = _context.ConnectorFeedbacks.Where(r => r.ConnectorId == connectorId);
+			if (!query.Any())
+			{
+				return null;
+			}
+			return await ToListPaginationAsync(query, pageIndex, pageSize);
 		}
 	}
 }

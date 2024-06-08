@@ -11,5 +11,6 @@ namespace Application.IRepositories
 	public interface IConnectorFeedbackRepository : IGenericRepository<ConnectorFeedback>
 	{
 		Task<List<ConnectorFeedback>> GetFeedbackByConnectorIdAsync(string connectorId);
+		Task<Pagination<ConnectorFeedback>> GetFeedbackByConnectorIdPaginationAsync(string connectorId, int pageIndex, int pageSize);
 	}
 }
