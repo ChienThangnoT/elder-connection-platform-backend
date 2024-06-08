@@ -9,7 +9,7 @@ public partial class RegistrationProgram
 
     public int TraningProgramId { get; set; }
 
-    public string? ConnectorId { get; set; }
+    public string ConnectorId { get; set; }
 
     public DateTime? EnrollmentDate { get; set; }
 

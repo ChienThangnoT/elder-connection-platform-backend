@@ -84,9 +84,13 @@ namespace Infracstructures
             services.AddTransient<IElderInformationRepository, ElderInformationRepository>();
             services.AddTransient<IElderInformationService, ElderInformationService>();
 
-			//Configure the local database connection
+            // Configure RegistrationProgram services and repositories
+            services.AddTransient<IRegistrationProgramRepository, RegistrationProgramRepository>();
+            services.AddTransient<IRegistrationProgramService, RegistrationProgramService>();
 
-			services.AddDbContext<ElderConnectionContext>(options =>
+            //Configure the local database connection
+
+            services.AddDbContext<ElderConnectionContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
             });
