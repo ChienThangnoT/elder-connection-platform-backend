@@ -68,18 +68,16 @@ namespace ElderConnectionPlatform.API.Controllers
         #endregion
 
         #region Get all posts
-        [HttpGet("get-all-posts")]
-        public async Task<IActionResult> GetAllPosts(int pageIndex = 0, int pageSize = 10)
+        [HttpGet("get-all-posts-by-status")]
+        public async Task<IActionResult> GetAllPostsByStatus(int status,int pageIndex = 0, int pageSize = 10)
         {
             try
             {
-                var posts = await _postService.GetPostListPaginationAsync(pageIndex, pageSize);
+                var posts = await _postService.GetAllPostListByStatusPaginationAsync(status,pageIndex,pageSize);
 
-                if (posts == null)
-                    throw new NotExistsException();
-                return (posts.Items.Count == 0) ?
-                    NoContent():
-                    Ok(posts);
+                return (posts == null) 
+                    ?NoContent()
+                    :Ok(posts);
             }
             catch (Exception ex)
             {

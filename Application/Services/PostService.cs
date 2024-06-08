@@ -237,29 +237,19 @@ namespace Application.Services
         #endregion
 
         #region Get Post List Pagination Async
-        public async Task<Pagination<PostViewModel>> GetPostListPaginationAsync(int pageIndex = 0, int pageSize = 10)
+        public async Task<BaseResponseModel> GetAllPostListByStatusPaginationAsync
+            (int status,int pageIndex = 0, int pageSize = 10)
         {
-            if (pageIndex < 0)
-            {
-                string msg = "Page index cannot be less than 0. Input page index: " + pageIndex;
-                throw new ArgumentException(msg);
-            }
-
-            if (pageSize <= 0)
-            {
-                string msg = "Page size cannot be less than 1. Input page size: " + pageSize;
-                throw new ArgumentException(msg);
-            }
-
-            var posts = await _unitOfWork.PostRepo.ToPaginationIncludeAsync(
-                pageIndex,
-                pageSize,
-                query => query.Where(p => p.PostStatus == (int)PostStatus.Public)
-                            .Include(p => p.JobSchedule)                         
-                            .Include(p => p.Address).Include(p => p.Service));
+            // Get all post by status
+            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize);
+            // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
-
-            return result;
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get all post success",
+                Result = result
+            };
         }
         #endregion
 
