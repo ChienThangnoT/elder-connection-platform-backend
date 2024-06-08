@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace Infracstructures
         private readonly IConnectorFeedbackRepository _connectorFeedbackRepository;
         private readonly IServiceFeedbackRepository _serviceFeedbackRepository;
         private readonly ITrainingProgramRepository _trainingProgramRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IElderInformationRepository _elderInformationRepository;
 
 		public UnitOfWork(ElderConnectionContext context,
             IAccountRepository accountRepository, 
@@ -41,7 +44,9 @@ namespace Infracstructures
             IConnectorFeedbackRepository connectorFeedbackRepository,
             IServiceFeedbackRepository serviceFeedbackRepository,
             ITrainingProgramRepository trainingProgramRepository,
-            ITaskEDRepository taskEDRepository)
+            ITaskEDRepository taskEDRepository,
+            IFavoriteRepository favoriteRepository, 
+            IElderInformationRepository elderInformationRepository)
         {
             _context = context;
             _accountRepository = accountRepository;
@@ -59,6 +64,8 @@ namespace Infracstructures
 			_connectorFeedbackRepository = connectorFeedbackRepository;
             _serviceFeedbackRepository = serviceFeedbackRepository;
 			_trainingProgramRepository = trainingProgramRepository;
+            _favoriteRepository = favoriteRepository;
+			_elderInformationRepository = elderInformationRepository;
 		}
 
         public IUserRepository UserRepo => _userRepository;
@@ -75,8 +82,16 @@ namespace Infracstructures
 		public IConnectorFeedbackRepository ConnectorFeedbackRepo => _connectorFeedbackRepository;
         public IServiceFeedbackRepository ServiceFeedbackRepo => _serviceFeedbackRepository;
 		public ITrainingProgramRepository TrainingProgramRepo => _trainingProgramRepository;
+		public IElderInformationRepository ElderInformationRepo => _elderInformationRepository;
 
-		public async Task<int> SaveChangesAsync()
+		public IFavoriteRepository FavoriteRepo => _favoriteRepository;
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
+
+        public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }

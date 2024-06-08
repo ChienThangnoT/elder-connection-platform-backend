@@ -834,6 +834,10 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("currency_code");
 
+                    b.Property<float>("CurrentWallet")
+                        .HasColumnType("real")
+                        .HasColumnName("current_wallet");
+
                     b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("payment_date");

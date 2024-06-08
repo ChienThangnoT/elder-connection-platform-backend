@@ -123,7 +123,7 @@ namespace Application.Services
 		#region Get User Wallet Balance
 		public async Task<BaseResponseModel> GetUserWalletBalance(string accountId)
 		{
-			var walletBalance = await _unitOfWork.AccountRepo.GetAccountByIdAsynca(accountId);
+			var walletBalance = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId);
             var result = _mapper.Map<WalletBalanceViewModel>(walletBalance);
 			
             return new SuccessResponseModel

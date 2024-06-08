@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.IRepositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,10 @@ namespace Infracstructures.Repositories
 			var query = _context.TrainingPrograms.AsQueryable();
 			return await ToListPaginationAsync(query, pageIndex, pageSize);
 		}
-	}
+
+        public async Task<TrainingProgram> GetTrainingProgramByIdAsync(int trainingProgramId)
+        {
+			return await _dbSet.FirstOrDefaultAsync(tp => tp.TraningProgramId == trainingProgramId);
+        }
+    }
 }

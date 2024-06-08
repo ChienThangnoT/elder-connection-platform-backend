@@ -15,19 +15,34 @@ namespace Infracstructures.Repositories
     {
         public TaskEDRepository(ElderConnectionContext context) : base(context) { }
 
-        public async Task<TaskED> GetTaskEDByIdWithInclude(int id)
+        public async Task<int> CountTaskEDByJobScheduleIdAndStatusAsync(int jobScheduleId, int status)
         {
-            return await _dbSet.Where(p => p.TaskId == id)
-                .FirstOrDefaultAsync();
+            return await _dbSet
+                .Where(task => task.JobScheduleId == jobScheduleId && task.TaskStatus == status)
+                .CountAsync();
         }
 
-        public async Task<Pagination<TaskED>> GetTaskEDListByConnectorIdAsync(
-            string connectorId, int pageIndex = 0, int pageSize = 10)
+        public async Task<int> CountTotalTaskEDByJobScheduleIdAsync(int jobScheduleId)
         {
-            var query = _dbSet
-                .OrderByDescending(r => r.CreateAt);
-            return await ToListPaginationAsync(query, pageIndex, pageSize);
+            return await _dbSet
+                .Where(task => task.JobScheduleId == jobScheduleId)
+                .CountAsync();
         }
+
+
+        //Delete this method
+        //public async Task<TaskED> GetTaskEDByIdAsync(int id)
+        //{
+        //    return await _dbSet.Where(p => p.TaskId == id)
+        //        .FirstOrDefaultAsync();
+        //}
+        //public async Task<Pagination<TaskED>> GetTaskEDListByConnectorIdAsync(
+        //    string connectorId, int pageIndex = 0, int pageSize = 10)
+        //{
+        //    var query = _dbSet
+        //        .OrderByDescending(r => r.CreateAt);
+        //    return await ToListPaginationAsync(query, pageIndex, pageSize);
+        //}
 
         public async Task<List<TaskED>> GetTaskEDListByJobScheduleIdAsync(int jobScheduleId)
         {
@@ -40,7 +55,6 @@ namespace Infracstructures.Repositories
             int jobScheduleId, int pageIndex = 0, int pageSize = 10)
         {
             var query = _dbSet.Where(r => r.JobScheduleId == jobScheduleId)
-                .Include(t => t.Connector)
                 .OrderByDescending(r => r.CreateAt);
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }

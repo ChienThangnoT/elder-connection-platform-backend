@@ -43,4 +43,10 @@ namespace Application.ResponseModels
         public string JwtRefreshToken { get; set; }
         public object? AccountId { get; set; }
     }
+
+    public class PaymentSuccessResponseModel : BaseResponseModel
+    {
+        public object? Result { get; set; }
+        public int transId { get; set; }
+    }
 }

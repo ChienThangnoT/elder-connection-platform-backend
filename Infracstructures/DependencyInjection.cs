@@ -76,12 +76,20 @@ namespace Infracstructures
 			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
 			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
 
+            // Configure Favorite services and repositories
+            services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+            services.AddTransient<IFavoriteService, FavoriteService>();
+
+            // Configure ElderInformation services and repositories
+            services.AddTransient<IElderInformationRepository, ElderInformationRepository>();
+            services.AddTransient<IElderInformationService, ElderInformationService>();
+
             //Configure the local database connection
 
-            services.AddDbContext<ElderConnectionContext>(options =>
-            {
-                options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
-            });
+            //services.AddDbContext<ElderConnectionContext>(options =>
+            //{
+            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
+            //});
 
             return services;
         }

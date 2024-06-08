@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.ConnectorFeedbackViewModels;
+﻿using Application.Common;
+using Application.ViewModels.ConnectorFeedbackViewModels;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -14,6 +15,8 @@ namespace Infracstructures.Mappers
 		partial void ConnectorFeedbackMapperConfigs()
 		{
 			CreateMap<ConnectorFeedback, ConnectorFeedbackViewModel>().ReverseMap();
+			CreateMap<List<ConnectorFeedback>, Pagination<ConnectorFeedbackViewModel>>()
+			.ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
 		}
 	}
 }

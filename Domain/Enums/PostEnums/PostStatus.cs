@@ -9,7 +9,9 @@ namespace Domain.Enums.PostEnums
     public enum PostStatus
     {
         Posted = 1,
-        Accepted = 2,
-        Completed = 3
+        Public = 2,
+        Accepted = 3,
+        Completed = 4,
+        Cancelled = 5
     }
 }

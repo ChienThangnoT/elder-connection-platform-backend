@@ -64,11 +64,16 @@ namespace Application.Services
 
             // Create post
             postCreateViewModel.JobScheduleId = jobScheduleResult.JobScheduleId;
-            postCreateViewModel.PostStatus = (int)PostStatus.Posted;
+            postCreateViewModel.PostStatus = (int)PostStatus.Public;
             postCreateViewModel.Price = isExistService.FinalPrice;
             postCreateViewModel.SalaryAfterWork = postCreateViewModel.Price - (postCreateViewModel.Price * 0.1f);
             var post = _mapper.Map<Post>(postCreateViewModel);
             await _unitOfWork.PostRepo.AddAsync(post);
+
+            var updateWallet = isExistAccount.WalletBalance - postCreateViewModel.Price;
+            isExistAccount.WalletBalance = updateWallet;
+            _unitOfWork.AccountRepo.Update(isExistAccount);
+
             await _unitOfWork.SaveChangesAsync();
 
             // Create task
@@ -149,6 +154,8 @@ namespace Application.Services
                 .GetByIdAsync(postUpdateViewModel.AddressId)
                 ?? throw new NotExistsException();
 
+            var getAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(post.CustomerId);
+
             //check if job schedule listDayWork format is valid
             DateTime[] dates = jobScheduleUpdateViewModel.ListDayWork
                 .Split('|')
@@ -170,6 +177,12 @@ namespace Application.Services
             postUpdateViewModel.SalaryAfterWork = postUpdateViewModel.Price - (postUpdateViewModel.Price * 0.1f);
             _mapper.Map(postUpdateViewModel, post);
             _unitOfWork.PostRepo.Update(post);
+
+
+            var updateWallet = getAccount.WalletBalance - postUpdateViewModel.Price;
+            getAccount.WalletBalance = updateWallet;
+            _unitOfWork.AccountRepo.Update(getAccount);
+
             await _unitOfWork.SaveChangesAsync();
 
             // Update task (drop old things and then add new)
@@ -224,28 +237,19 @@ namespace Application.Services
         #endregion
 
         #region Get Post List Pagination Async
-        public async Task<Pagination<PostViewModel>> GetPostListPaginationAsync(int pageIndex = 0, int pageSize = 10)
+        public async Task<BaseResponseModel> GetAllPostListByStatusPaginationAsync
+            (int status,int pageIndex = 0, int pageSize = 10)
         {
-            if (pageIndex < 0)
-            {
-                string msg = "Page index cannot be less than 0. Input page index: " + pageIndex;
-                throw new ArgumentException(msg);
-            }
-
-            if (pageSize <= 0)
-            {
-                string msg = "Page size cannot be less than 1. Input page size: " + pageSize;
-                throw new ArgumentException(msg);
-            }
-
-            var posts =  await _unitOfWork.PostRepo.ToPaginationIncludeAsync(
-                pageIndex, 
-                pageSize,
-                query => query.Include(p => p.JobSchedule)
-                            .Include(p => p.Address).Include(p => p.Service));
+            // Get all post by status
+            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize);
+            // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
-
-            return result;
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get all post success",
+                Result = result
+            };
         }
         #endregion
 
@@ -254,10 +258,49 @@ namespace Application.Services
         {
             var post = await _unitOfWork.PostRepo.GetPostByIdWithInclude(postId) ?? throw new NotExistsException();
             var result = _mapper.Map<PostViewModel>(post);
-            return new SuccessResponseModel {
+            return new SuccessResponseModel
+            {
                 Status = StatusCodes.Status200OK,
                 Message = "Get post detail success",
-                Result = result};
+                Result = result
+            };
+        }
+        #endregion
+
+        #region Apply Post
+        public async Task<BaseResponseModel> ApplyPost(int postId, string connectorId)
+        {
+            // Check if post exist
+            var post =  await _unitOfWork.PostRepo.GetByIdAsync(postId)
+                ?? throw new NotExistsException();
+            // Check if account exist
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId.ToString())
+                ?? throw new NotExistsException();
+            // Check if job schedule exist
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
+                ?? throw new NotExistsException();
+            // Check if the post has been claimed or not
+            if(post.PostStatus != (int)PostStatus.Posted)
+                throw new AlreadyClaimedException();
+
+            post.PostStatus = (int)PostStatus.Accepted;
+            _unitOfWork.PostRepo.Update(post);
+            
+            jobSchedule.ConnectorId = connectorId;
+            jobSchedule.OnTask = true;
+            _unitOfWork.JobScheduleRepo.Update(jobSchedule);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            var result = _mapper.Map<PostViewModel>(post);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Apply post success",
+                Result = result
+            };
+
         }
         #endregion
     }

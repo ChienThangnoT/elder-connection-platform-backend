@@ -68,18 +68,16 @@ namespace ElderConnectionPlatform.API.Controllers
         #endregion
 
         #region Get all posts
-        [HttpGet("get-all-posts")]
-        public async Task<IActionResult> GetAllPosts(int pageIndex = 0, int pageSize = 10)
+        [HttpGet("get-all-posts-by-status")]
+        public async Task<IActionResult> GetAllPostsByStatus(int status,int pageIndex = 0, int pageSize = 10)
         {
             try
             {
-                var posts = await _postService.GetPostListPaginationAsync(pageIndex, pageSize);
+                var posts = await _postService.GetAllPostListByStatusPaginationAsync(status,pageIndex,pageSize);
 
-                if (posts == null)
-                    throw new NotExistsException();
-                return (posts.Items.Count == 0) ?
-                    NoContent():
-                    Ok(posts);
+                return (posts == null) 
+                    ?NoContent()
+                    :Ok(posts);
             }
             catch (Exception ex)
             {
@@ -125,6 +123,29 @@ namespace ElderConnectionPlatform.API.Controllers
             {
                 var post = await _postService.GetPostByIdAsync(postId);
                 return Ok(post);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Bad request.",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Apply post
+        [HttpPost("apply-post/{postId}")]
+        public async Task<IActionResult> ApplyPost(int postId, string connectorId)
+        {
+            try
+            {
+                var result = await _postService.ApplyPost(postId, connectorId);
+                return (result == null)
+                    ?NotFound()
+                    :Ok(result);
             }
             catch (Exception ex)
             {

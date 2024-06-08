@@ -5,6 +5,7 @@ using Application.Exceptions;
 using Application.ResponseModels;
 using Application.Services;
 using Application.ViewModels.TaskEDViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ElderConnectionPlatform.API.Controllers
 {
@@ -20,31 +21,31 @@ namespace ElderConnectionPlatform.API.Controllers
             _unitOfWork = unitOfWork;
             _taskEDService = taskEDService;
         }
+        //Delete this api
+        //#region Get all task by connector id
+        //[HttpGet("get-all-task-by-connector-id/{connectorId}")]
+        //public async Task<IActionResult> GetAllTaskByConnectorId
+        //    (string connectorId, int pageIndex = 0, int pageSize = 10)
+        //{
+        //    try
+        //    {
+        //        var taskEDs = await _taskEDService.GetTaskEDListByConnectorIdAsync(connectorId, pageIndex, pageSize);
 
-        #region Get all task by connector id
-        [HttpGet("get-all-task-by-connector-id/{connectorId}")]
-        public async Task<IActionResult> GetAllTaskByConnectorId
-            (string connectorId, int pageIndex = 0, int pageSize = 10)
-        {
-            try
-            {
-                var taskEDs = await _taskEDService.GetTaskEDListByConnectorIdAsync(connectorId, pageIndex, pageSize);
-
-                return taskEDs == null
-                    ? throw new NotExistsException()
-                    : (IActionResult)Ok(taskEDs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
+        //        return taskEDs == null
+        //            ? throw new NotExistsException()
+        //            : (IActionResult)Ok(taskEDs);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new FailedResponseModel
+        //        {
+        //            Status = StatusCodes.Status400BadRequest,
+        //            Message = "Bad request.",
+        //            Errors = ex.Message
+        //        });
+        //    }
+        //}
+        //#endregion
 
         #region Get task by id
         [HttpGet("get-task-by-id/{taskId}")]
@@ -77,7 +78,7 @@ namespace ElderConnectionPlatform.API.Controllers
                 var taskEDs = await _taskEDService.GetTaskEDListByJobScheduleIdAsync(jobScheduleId, pageIndex, pageSize);
 
                 return taskEDs == null
-                    ? throw new NotExistsException()
+                    ? NotFound()
                     : (IActionResult)Ok(taskEDs);
             }
             catch (Exception ex)
@@ -99,9 +100,9 @@ namespace ElderConnectionPlatform.API.Controllers
             try
             {
                 var taskED = await _taskEDService.UpdateTaskEDStatus(taskId, taskEDUpdateViewModel);
-                return (taskED == null) ?
-                    NoContent():
-                    Ok(taskED);
+                return (taskED == null)
+                    ? NotFound()
+                    : Ok(taskED);
             }
             catch (Exception ex)
             {

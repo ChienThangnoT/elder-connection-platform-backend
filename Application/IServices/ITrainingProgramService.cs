@@ -14,5 +14,7 @@ namespace Application.IServices
 		Task<BaseResponseModel> GetAllTrainingProgramAsync(int pageIndex, int pageSize);
 		Task<BaseResponseModel> UpdateTrainingProgramAsync(int trainingProgramId, TrainingProgramUpdateModel trainingProgramUpdateModel);
 		Task<BaseResponseModel> RemoveTrainingProgramAsync(int trainingProgramId);
+
+		Task<BaseResponseModel> GetTrainingProgramDetailAsync(int trainingProgramId);
 	}
 }

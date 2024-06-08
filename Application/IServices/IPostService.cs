@@ -24,7 +24,8 @@ namespace Application.IServices
 
         Task<BaseResponseModel> GetAllPostByCustomerIdAsync(
             string id, int pageIndex = 0, int pageSize = 10);
-        Task<Pagination<PostViewModel>> GetPostListPaginationAsync(int pageIndex = 0, int pageSize = 10);
+        Task<BaseResponseModel> GetAllPostListByStatusPaginationAsync(int staus, int pageIndex = 0, int pageSize = 10);
         Task<BaseResponseModel> GetPostByIdAsync(int postId);
+        Task<BaseResponseModel> ApplyPost(int postId, string connectorId);
     }
 }

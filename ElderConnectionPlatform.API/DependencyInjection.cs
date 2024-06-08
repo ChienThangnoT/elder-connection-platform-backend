@@ -106,6 +106,8 @@ namespace ElderConnectionPlatform.API
             //Add config mail setting
             services.Configure<EmailConfig>(builder.Configuration.GetSection("MailSettings"));
 
+            services.AddSingleton<IVnpayService, VnpayService>();
+
             //Add Email Confirm
             services.Configure<IdentityOptions>(
                 opt => opt.SignIn.RequireConfirmedEmail = true
