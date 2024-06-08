@@ -80,7 +80,7 @@ namespace Application.Services
         #region GetJobScheduleById
         public async Task<BaseResponseModel> GetJobScheduleByIdAsync(int id)
         {
-            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetJobScheduleByIdWithInclude(id);
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetJobScheduleByIdWithInclude(id) ?? throw new NotExistsException();
             var result = _mapper.Map<JobScheduleViewModel>(jobSchedule);
             return new SuccessResponseModel
             {

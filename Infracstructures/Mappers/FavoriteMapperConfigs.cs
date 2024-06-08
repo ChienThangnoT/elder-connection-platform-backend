@@ -24,6 +24,7 @@ namespace Infracstructures.Mappers
                 .ForMember(dest => dest.connectorIdentityNumber, opt => opt.MapFrom(src => src.Customer.CccdNumber))
                 .ReverseMap();
 
+            CreateMap<FavoriteList, FavoriteListCreateViewModel>().ReverseMap();
         }
     }
 }

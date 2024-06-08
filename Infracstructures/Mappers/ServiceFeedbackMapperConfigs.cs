@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.ServiceFeedbackViewModels;
+﻿using Application.Common;
+using Application.ViewModels.ServiceFeedbackViewModels;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -14,6 +15,8 @@ namespace Infracstructures.Mappers
 		partial void ServiceFeedbackMapperConfigs()
 		{
 			CreateMap<ServiceFeedback, ServiceFeedbackViewModel>().ReverseMap();
+			CreateMap<List<ServiceFeedback>, Pagination<ServiceFeedbackViewModel>>()
+				.ForMember(dest => dest.Items, opt => opt.MapFrom(src => src));
 		}
 	}
 }
