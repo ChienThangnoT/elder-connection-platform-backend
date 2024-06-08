@@ -93,7 +93,7 @@ namespace Application.Services
 
         public async Task<BaseResponseModel> GetFavoriteListByIdAsync(int favoriteId)
         {
-            var favorites = await _unitOfWork.FavoriteRepo.GetFavoriteListByIdWithInclude(favoriteId);
+            var favorites = await _unitOfWork.FavoriteRepo.GetFavoriteListByIdWithInclude(favoriteId) ?? throw new NotExistsException();
             var result = _mapper.Map<FavoriteDetailViewModel>(favorites);
             return new SuccessResponseModel
             {
