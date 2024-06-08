@@ -60,7 +60,10 @@ namespace Infracstructures.Mappers
 
 			//add elder information mapper configs
 			ElderInformationMapperConfigs();
-		}
+
+            //add registration program mapper configs
+            RegistrationProgramMapperConfigs();
+        }
 
 		partial void AccountMapperCongfigs();
 		partial void ServiceMapperCongfigs();
@@ -76,7 +79,7 @@ namespace Infracstructures.Mappers
 		partial void TrainingProgramMapperConfigs();
 		partial void ConnectorFeedbackMapperConfigs();
 		partial void ElderInformationMapperConfigs();
-
-		partial void FavoriteMapperCongfigs();
+        partial void RegistrationProgramMapperConfigs();
+        partial void FavoriteMapperCongfigs();
 	}
 }
