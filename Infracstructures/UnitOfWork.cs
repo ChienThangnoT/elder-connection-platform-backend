@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,11 @@ namespace Infracstructures
 		public IElderInformationRepository ElderInformationRepo => _elderInformationRepository;
 
 		public IFavoriteRepository FavoriteRepo => _favoriteRepository;
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
 
         public async Task<int> SaveChangesAsync()
         {

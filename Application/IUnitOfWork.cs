@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,6 @@ namespace Application
         public IFavoriteRepository FavoriteRepo { get; }
         public IElderInformationRepository ElderInformationRepo { get; }
 		public Task<int> SaveChangesAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }
