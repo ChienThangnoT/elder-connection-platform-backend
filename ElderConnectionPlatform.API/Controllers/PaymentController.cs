@@ -63,18 +63,19 @@ namespace ElderConnectionPlatform.API.Controllers
             {
                 var result = await _transactionHistoryService.RequestDepositToWallet_v2(vnpayResponse);
 
-                if (result.Status != 400)
+                if (result.Status == 400)
                 {
-                    return Ok(new SuccessResponseModel
+                    
+                    return BadRequest(new FailedResponseModel
                     {
-                        Status = StatusCodes.Status200OK,
-                        Message = "Payment success"
+                        Status = StatusCodes.Status400BadRequest,
+                        Message = "Payment faild"
                     });
                 }
-                return BadRequest(new FailedResponseModel
+                return Ok(new SuccessResponseModel
                 {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Payment faild"
+                    Status = StatusCodes.Status200OK,
+                    Message = "Payment success"
                 });
             }
             catch (Exception ex)

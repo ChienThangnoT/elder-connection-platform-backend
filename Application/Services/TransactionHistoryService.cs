@@ -76,7 +76,7 @@ namespace Application.Services
             {
                 AccountId = accountId,
                 AccountName = accountExits.UserName,
-                TransactionAmount = amount * 100,
+                TransactionAmount = amount ,
                 WalletBalanceChange = amount,
                 CurrentWallet = accountExits.WalletBalance,
                 PaymentMethod = "VNPAY",
@@ -92,7 +92,7 @@ namespace Application.Services
 
             VnPaymentRequestModel vnModel = new VnPaymentRequestModel
             {
-                Amount = amount * 100,
+                Amount = amount,
                 CreatedDate = DateTime.UtcNow,
                 Description = Transactiontype.NAP_TIEN.ToString(),
                 OrderId = transmodel.TransactionId,
@@ -161,34 +161,52 @@ namespace Application.Services
         public async Task<BaseResponseModel> RequestDepositToWallet_v2(VnPayModel vnPayModel)
         {
             var vnp_BankTranNo = vnPayModel.vnp_BankTranNo;
-
+            var transId = int.Parse(vnPayModel.vnp_OrderInfo);
+            var trans = await GetTransactionById(transId);
             var checkResult = _vnpayService.PaymentExcute_v2(vnPayModel);
+            var getAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(trans.AccountId);
+
             if (checkResult.Success != false)
             {
-                var transId = int.Parse(vnPayModel.vnp_OrderInfo);
-                var trans = await GetTransactionById(transId);
-                var getAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(trans.AccountId);
-                trans.TransactionNo = vnp_BankTranNo;
-                trans.Status = (int)TransactionStatus.Success;
-                trans.PaymentDate = DateTime.UtcNow;
-                _unitOfWork.TransactionHistoryRepo.Update(trans);
-                getAccount.WalletBalance += trans.TransactionAmount;
-                _unitOfWork.AccountRepo.Update(getAccount);
-                await _unitOfWork.SaveChangesAsync();
-                var result = _mapper.Map<TransactionHistoryViewModel>(trans);
-
-                return new SuccessResponseModel
+                if(checkResult.VnPayResponseCode.Equals("00"))
                 {
-                    Status = StatusCodes.Status200OK,
-                    Message = "Deposit To Wallet Success",
-                    Result = result
+                    trans.CurrentWallet += (float)vnPayModel.vnp_Amount;
+                    trans.TransactionNo = vnp_BankTranNo;
+                    trans.Status = (int)TransactionStatus.Success;
+                    trans.PaymentDate = DateTime.UtcNow;
+                    trans.TransactionNo = vnp_BankTranNo;
+                    _unitOfWork.TransactionHistoryRepo.Update(trans);
+                    getAccount.WalletBalance += trans.TransactionAmount;
+                    _unitOfWork.AccountRepo.Update(getAccount);
+                    await _unitOfWork.SaveChangesAsync();
+                    var result = _mapper.Map<TransactionHistoryViewModel>(trans);
+
+                    return new SuccessResponseModel
+                    {
+                        Status = StatusCodes.Status200OK,
+                        Message = "Deposit To Wallet Success",
+                        Result = result
+                    };
+                }
+                trans.PaymentDate = DateTime.UtcNow;
+                trans.Status = (int)TransactionStatus.Failed;
+                _unitOfWork.TransactionHistoryRepo.Update(trans);
+                await _unitOfWork.SaveChangesAsync();
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Payment faild"
                 };
             }
-            return new FailedResponseModel
+            else
             {
-                Status = StatusCodes.Status400BadRequest,
-                Message = "Payment faild"
-            };
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Payment faild"
+                };
+            }
+            
         }
         #endregion
     }
