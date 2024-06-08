@@ -15,8 +15,8 @@ namespace Infracstructures.Mappers
     {
         partial void TransactionHistoryMapperConfigs()
         {
-            CreateMap<TransactionHistory, TransactionHistoryViewModel>()
-                .ReverseMap();
+            CreateMap<TransactionHistory, TransactionHistoryViewModel>().ReverseMap();
+            CreateMap<TransactionHistory, TransactionModel>().ReverseMap();
         }
     }
 }

@@ -14,6 +14,7 @@ public partial class TransactionHistory
     public float TransactionAmount { get; set; }
 
     public float WalletBalanceChange { get; set; }
+    public float CurrentWallet { get; set; }
 
     public string? PaymentMethod { get; set; }
 

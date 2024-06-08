@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace Application.Library
 {
@@ -30,34 +31,30 @@ namespace Application.Library
             return hash.ToString();
         }
 
-
-        // có chế biến cho .NET Core MVC
         public static string GetIpAddress(HttpContext context)
         {
-            var ipAddress = string.Empty;
+            string ipAddress = string.Empty;
+
             try
             {
-                var remoteIpAddress = context.Connection.RemoteIpAddress;
+                ipAddress = context.Connection.RemoteIpAddress?.ToString();
 
-                if (remoteIpAddress != null)
+                if (string.IsNullOrEmpty(ipAddress) && context.Request.Headers.ContainsKey("X-Forwarded-For"))
                 {
-                    if (remoteIpAddress.AddressFamily == AddressFamily.InterNetworkV6)
-                    {
-                        remoteIpAddress = Dns.GetHostEntry(remoteIpAddress).AddressList
-                            .FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-                    }
+                    ipAddress = context.Request.Headers["X-Forwarded-For"].ToString().Split(',')[0];
+                }
 
-                    if (remoteIpAddress != null) ipAddress = remoteIpAddress.ToString();
-
-                    return ipAddress;
+                if (string.IsNullOrEmpty(ipAddress) && context.Request.Headers.ContainsKey("X-Real-IP"))
+                {
+                    ipAddress = context.Request.Headers["X-Real-IP"].ToString();
                 }
             }
             catch (Exception ex)
             {
-                return "Invalid IP:" + ex.Message;
+                ipAddress = "Unable to determine IP address";
             }
 
-            return "127.0.0.1";
+            return ipAddress;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Application.ResponseModels;
+﻿using Application.Library;
+using Application.ResponseModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace Application.IServices
     {
         string CreatePaymentURL(HttpContext context, VnPaymentRequestModel vnPaymentRequestModel);
 
-        VnPaymentResponseModel PaymentExcute(IQueryCollection collections);
+        //VnPaymentResponseModel PaymentExcute(Dictionary<string, StringValues> collections);
+        VnPaymentResponseModel PaymentExcute_v2(VnPayModel vnPayModel);
     }
 }
