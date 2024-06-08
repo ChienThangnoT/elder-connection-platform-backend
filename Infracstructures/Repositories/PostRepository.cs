@@ -3,6 +3,7 @@ using Application.IRepositories;
 using Application.ViewModels.PostViewModels;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,15 @@ namespace Infracstructures.Repositories
             string accountId, int pageIndex = 0, int pageSize = 10)
         {
             var query = _dbSet.Where(r => r.CustomerId == accountId)
+                .Include(p => p.JobSchedule)
+                .Include(p => p.Address)
+                .OrderByDescending(r => r.CreateAt);
+            return await ToListPaginationAsync(query, pageIndex, pageSize);
+        }
+
+        public async Task<Pagination<Post>> GetAllPostByStatusAsync(int status, int pageIndex = 0, int pageSize = 10)
+        {
+            var query = _dbSet.Where(r => r.PostStatus == status)
                 .Include(p => p.JobSchedule)
                 .Include(p => p.Address)
                 .OrderByDescending(r => r.CreateAt);
