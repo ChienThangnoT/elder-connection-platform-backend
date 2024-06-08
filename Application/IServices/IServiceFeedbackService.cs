@@ -10,5 +10,6 @@ namespace Application.IServices
 	public interface IServiceFeedbackService
 	{
 		Task<BaseResponseModel> GetServiceFeedbackViewModelAsync(int serviceFeedbackId);
+		Task<BaseResponseModel> GetServiceFeedbackViewModelPaginationAsync(int serviceFeedbackId, int pageIndex, int pageSize);
 	}
 }

@@ -43,5 +43,30 @@ namespace Application.Services
 
 			return response;
 		}
+
+		public async Task<BaseResponseModel> GetServiceFeedbackViewModelPaginationAsync(int serviceFeedbackId, int pageIndex, int pageSize)
+		{
+			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId);
+			if (check == null)
+			{
+				throw new NotExistsException();
+			}
+			var feedbacks = await _unitOfWork.ServiceFeedbackRepo
+				.GetFeedbackByServiceIdPaginationAsync(serviceFeedbackId, pageIndex, pageSize);
+
+			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks);
+			if (feedbackViewModel == null)
+			{
+				throw new NotExistsException();
+			}
+			var response = new SuccessResponseModel
+			{
+				Status = StatusCodes.Status200OK,
+				Message = "Service Feedbacks retrieved successfully",
+				Result = feedbackViewModel
+			};
+
+			return response;
+		}
 	}
 }

@@ -23,5 +23,15 @@ namespace Infracstructures.Repositories
 			var query = _context.ServiceFeedbacks.Where(r => r.ServiceFeedbackId == serviceFeedbackId);
 			return await query.ToListAsync();
 		}
+
+		public async Task<Pagination<ServiceFeedback>> GetFeedbackByServiceIdPaginationAsync(int serviceFeedbackId, int pageIndex, int pageSize)
+		{
+			var query = _context.ServiceFeedbacks.Where(r => r.ServiceFeedbackId == serviceFeedbackId);
+			if (!query.Any())
+			{
+				return null;
+			}
+			return await ToListPaginationAsync(query);
+		}
 	}
 }
