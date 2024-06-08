@@ -61,5 +61,24 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
         }
+
+        [HttpPost("create-favorite-list")]
+        public async Task<IActionResult> CreateFavoriteList(FavoriteListCreateViewModel favoriteListCreateViewModel)
+        {
+            try
+            {
+                var result = await _favoriteService.CreateConnectorToFavoriteListAsync(favoriteListCreateViewModel);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Invalid parameters.",
+                    Errors = e.Message
+                });
+            }
+        }
     }
 }

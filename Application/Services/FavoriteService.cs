@@ -5,6 +5,7 @@ using Application.ResponseModels;
 using Application.ViewModels.FavoriteListViewModels;
 using Application.ViewModels.JobScheduleViewModels;
 using AutoMapper;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,58 @@ namespace Application.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<BaseResponseModel> CreateConnectorToFavoriteListAsync(FavoriteListCreateViewModel favoriteListCreateViewModel)
+        {
+            var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            try
+            {
+                // Validate the customer and connector existence
+                var isExistCustomer = await _unitOfWork.AccountRepo.GetAccountByIdAsync(favoriteListCreateViewModel.CustomerId);
+                if (isExistCustomer == null)
+                {
+                    return new FailedResponseModel
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Message = "Customer not found."
+                    };
+                }
+
+                var isExistConnector = await _unitOfWork.AccountRepo.GetAccountByIdAsync(favoriteListCreateViewModel.ConnectorId);
+                if (isExistConnector == null)
+                {
+                    return new FailedResponseModel
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Message = "Connector not found."
+                    };
+                }
+
+                var favoriteEntity = _mapper.Map<FavoriteList>(favoriteListCreateViewModel);
+                await _unitOfWork.FavoriteRepo.AddAsync(favoriteEntity);
+                await _unitOfWork.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                var result = _mapper.Map<FavoriteListCreateViewModel>(favoriteEntity);
+
+                return new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status201Created,
+                    Message = "Connector added to favorite list successfully.",
+                    Result = result
+                };
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status500InternalServerError,
+                    Message = $"Error occurred: {ex.Message}"
+                };
+            }
         }
 
         public async Task<BaseResponseModel> GetFavoriteListByCustomerIdAsync(string customerId, int pageIndex, int pageSize)
