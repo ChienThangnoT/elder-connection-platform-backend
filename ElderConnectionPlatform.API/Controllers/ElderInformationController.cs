@@ -1,4 +1,5 @@
 ﻿using Application.IServices;
+using Application.ViewModels.ElderInformationViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,15 @@ namespace ElderConnectionPlatform.API.Controllers
 		{
 			var result = await _elderInformationService.GetElderInformationByChildIdAsync(childId);
 			return Ok(result);
+		}
+		#endregion
+
+		#region Update Elder Information
+		[HttpPut("update-elder-information/{id}")]
+		public async Task<IActionResult> UpdateElderInformationAsync(int id, ElderInformationUpdateModel elderInformationUpdateModel)
+		{
+			var result = await _elderInformationService.UpdateElderInformationAsync(id, elderInformationUpdateModel);
+			return Ok();
 		}
 		#endregion
 	}
