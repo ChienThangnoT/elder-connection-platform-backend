@@ -15,6 +15,20 @@ namespace Infracstructures.Repositories
     {
         public TaskEDRepository(ElderConnectionContext context) : base(context) { }
 
+        public async Task<int> CountTaskEDByJobScheduleIdAndStatusAsync(int jobScheduleId, int status)
+        {
+            return await _dbSet
+                .Where(task => task.JobScheduleId == jobScheduleId && task.TaskStatus == status)
+                .CountAsync();
+        }
+
+        public async Task<int> CountTotalTaskEDByJobScheduleIdAsync(int jobScheduleId)
+        {
+            return await _dbSet
+                .Where(task => task.JobScheduleId == jobScheduleId)
+                .CountAsync();
+        }
+
 
         //Delete this method
         //public async Task<TaskED> GetTaskEDByIdAsync(int id)

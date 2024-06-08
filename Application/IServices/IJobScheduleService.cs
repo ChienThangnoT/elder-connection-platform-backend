@@ -25,5 +25,9 @@ namespace Application.IServices
 
         Task<BaseResponseModel> GetJobScheduleByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10);
+
+        Task CalculateJobScheduleProgress(int jobScheduleId);
+
+        Task<BaseResponseModel> GetJobScheduleProcessAsync(int jobScheduleId);
     }
 }

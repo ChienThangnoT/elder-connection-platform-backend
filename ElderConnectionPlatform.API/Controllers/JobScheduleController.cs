@@ -60,5 +60,27 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
         }
+
+        [HttpGet("get-job-schedule-task-progress/{id}")]
+        public async Task<IActionResult> GetJobScheduleTaskProgress(int id)
+        {
+            try
+            {
+                var jobSchedule = await _jobScheduleService.GetJobScheduleProcessAsync(id);
+
+                return jobSchedule == null
+                   ? NotFound()
+                   : (IActionResult)Ok(jobSchedule);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Bad request.",
+                    Errors = e.Message
+                });
+            }
+        }
     }
 }

@@ -17,5 +17,9 @@ namespace Application.IRepositories
         //Task<TaskED> GetTaskEDByIdAsync(int id);
         Task<Pagination<TaskED>> GetTaskEDListByJobScheduleIdAsync(
             int jobScheduleId, int pageIndex = 0, int pageSize = 10) ;
+
+        Task<int> CountTotalTaskEDByJobScheduleIdAsync(int jobScheduleId);
+
+        Task<int> CountTaskEDByJobScheduleIdAndStatusAsync(int jobScheduleId, int status);
     }
 }

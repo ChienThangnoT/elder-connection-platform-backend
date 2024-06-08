@@ -20,11 +20,13 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IJobScheduleService _jobScheduleService;
 
-        public TaskEDService(IUnitOfWork unitOfWork, IMapper mapper)
+        public TaskEDService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _jobScheduleService = jobScheduleService;
         }
 
         #region CreateTaskED
@@ -85,7 +87,7 @@ namespace Application.Services
             int jobScheduleId, int pageIndex = 0, int pageSize = 10)
         {
             // Check if job schedule is exist
-            var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId) 
+            var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId)
                 ?? throw new NotExistsException();
             // Get all task of job schedule
             var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByJobScheduleIdAsync(
@@ -105,11 +107,22 @@ namespace Application.Services
         #region Update TaskED Status
         public async Task<BaseResponseModel> UpdateTaskEDStatus(int id, TaskEDUpdateViewModel taskUpdateViewModel)
         {
-            var taskED = await _unitOfWork.TaskEDRepo.GetByIdAsync(id) 
+            var taskED = await _unitOfWork.TaskEDRepo.GetByIdAsync(id)
                 ?? throw new NotExistsException();
+            // Check if task status is Completed
+            if (taskUpdateViewModel.TaskStatus == (int)TaskEDStatus.Completed)
+                taskUpdateViewModel.CompleteDate = DateTime.Now;
+
             _mapper.Map(taskUpdateViewModel, taskED);
             await _unitOfWork.SaveChangesAsync();
-
+            // Check if task status is Completed
+            if (taskUpdateViewModel.TaskStatus == (int)TaskEDStatus.Completed)
+            {
+                // Update job schedule progress
+                var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(taskED.JobScheduleId)
+                    ?? throw new NotExistsException();
+                await _jobScheduleService.CalculateJobScheduleProgress(jobSchedule.JobScheduleId);
+            }
             var result = _mapper.Map<TaskEDViewModel>(taskED);
             return new SuccessResponseModel
             {
