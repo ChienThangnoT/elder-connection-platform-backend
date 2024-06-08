@@ -17,9 +17,9 @@ namespace ElderConnectionPlatform.API.Controllers
 		}
 
 		[HttpGet("{serviceFeedbackId}")]
-		public async Task<IActionResult> GetFeedbackByServiceIdAsync(int serviceFeedbackId, int pageIndex = 0, int pageSize = 10)
+		public async Task<IActionResult> GetFeedbackByServiceIdAsync(int serviceFeedbackId)
 		{
-			var response = await _serviceFeedbackRepository.GetFeedbackByServiceIdAsync(serviceFeedbackId, pageIndex, pageSize);
+			var response = await _serviceFeedbackRepository.GetFeedbackByServiceIdAsync(serviceFeedbackId);
 			return Ok(response);
 		}
 
