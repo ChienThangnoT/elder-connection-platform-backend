@@ -25,14 +25,14 @@ namespace Application.Services
 			_mapper = mapper;
 		}
 
-		public async Task<BaseResponseModel> GetFeedbackViewModelAsync(string connectorId, int pageIndex, int pageSize)
+		public async Task<BaseResponseModel> GetFeedbackViewModelAsync(string connectorId)
 		{
 			var check = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId);
 			if (check == null)
 			{
 				throw new NotExistsException();
 			}
-			var feedbacks = await _unitOfWork.ConnectorFeedbackRepo.GetFeedbackByConnectorIdAsync(connectorId, pageIndex, pageSize);
+			var feedbacks = await _unitOfWork.ConnectorFeedbackRepo.GetFeedbackByConnectorIdAsync(connectorId);
 
 			var feedbackViewModel = _mapper.Map<Pagination<ConnectorFeedbackViewModel>>(feedbacks);
 			var response = new SuccessResponseModel
