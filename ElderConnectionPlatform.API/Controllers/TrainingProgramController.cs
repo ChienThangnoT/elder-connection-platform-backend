@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElderConnectionPlatform.API.Controllers
 {
-	[Route("api/training-programs")]
+	[Route("api/trainning-programs")]
 	[ApiController]
 	public class TrainingProgramController : ControllerBase
 	{

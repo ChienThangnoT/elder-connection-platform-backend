@@ -64,11 +64,12 @@ namespace Application.Services
             _mapper.Map(addressUpdateModel, address);
             _unitOfWork.AddressRepo.Update(address);
             await _unitOfWork.SaveChangesAsync();
+            var result = _mapper.Map(address, addressUpdateModel);
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
                 Message = "Update account address success",
-                Result = address
+                Result = result
             };
         }
 
