@@ -12,5 +12,6 @@ namespace Application.IRepositories
 	{
 		Task<List<ConnectorFeedback>> GetFeedbackByConnectorIdAsync(string connectorId);
 		Task<Pagination<ConnectorFeedback>> GetFeedbackByConnectorIdPaginationAsync(string connectorId, int pageIndex, int pageSize);
-	}
+        Task<bool> ExistsFeedbackAsync(int taskId, string customerId, string connectorId);
+    }
 }
