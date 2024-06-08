@@ -10,6 +10,6 @@ namespace Application.IRepositories
 {
 	public interface IServiceFeedbackRepository : IGenericRepository<ServiceFeedback>
 	{
-		Task<Pagination<ServiceFeedback>> GetFeedbackByServiceIdAsync(int serviceFeedbackId, int pageSize, int pageIndex);
+		Task<List<ServiceFeedback>> GetFeedbackByServiceIdAsync(int serviceFeedbackId);
 	}
 }

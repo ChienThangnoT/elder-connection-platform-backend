@@ -24,14 +24,14 @@ namespace Application.Services
 			_mapper = mapper;
 		}
 
-		public async Task<BaseResponseModel> GetServiceFeedbackViewModelAsync(int serviceFeedbackId, int pageIndex, int pageSize)
+		public async Task<BaseResponseModel> GetServiceFeedbackViewModelAsync(int serviceFeedbackId)
 		{
 			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId);
 			if (check == null)
 			{
 				throw new NotExistsException();
 			}
-			var feedbacks = await _unitOfWork.ServiceFeedbackRepo.GetFeedbackByServiceIdAsync(serviceFeedbackId, pageIndex, pageSize);
+			var feedbacks = await _unitOfWork.ServiceFeedbackRepo.GetFeedbackByServiceIdAsync(serviceFeedbackId);
 
 			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks);
 			var response = new SuccessResponseModel
