@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.IRepositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,11 @@ namespace Infracstructures.Repositories
 			_context = context;
 		}
 
-		public async Task<Pagination<ConnectorFeedback>> GetFeedbackByConnectorIdAsync(string connectorId, int pageIndex, int pageSize)
+
+		public async Task<List<ConnectorFeedback>> GetFeedbackByConnectorIdAsync(string connectorId)
 		{
 			var query = _context.ConnectorFeedbacks.Where(r => r.ConnectorId == connectorId);
-			return await ToListPaginationAsync(query, pageIndex, pageSize);
+			return await query.ToListAsync();
 		}
 	}
 }
