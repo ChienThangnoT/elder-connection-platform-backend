@@ -14,8 +14,9 @@ namespace Application.IServices
     {
         Task CreateTaskED(TaskEDCreateViewModel taskEDCreateViewModel);
         Task DeleteTaskED(TaskED taskED);
-        Task<BaseResponseModel> GetTaskEDListByConnectorIdAsync(
-            string connector, int pageIndex = 0, int pageSize = 10);
+        //Delete this method
+        //Task<BaseResponseModel> GetTaskEDListByConnectorIdAsync(
+        //    string connector, int pageIndex = 0, int pageSize = 10);
         Task<BaseResponseModel> GetTaskEDByIdAsync(int taskEDId);
         Task<BaseResponseModel> GetTaskEDListByJobScheduleIdAsync(
             int jobScheduleId, int pageIndex = 0, int pageSize = 10);

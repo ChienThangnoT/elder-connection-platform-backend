@@ -13,8 +13,10 @@ namespace Infracstructures.Mappers
 	{
 		partial void AccountMapperCongfigs()
 		{
-			CreateMap<Account, AccountDetailViewModel>().ReverseMap();
-			CreateMap<AccountUpdateModel, Account>().ReverseMap();
+			CreateMap<Account, AccountDetailViewModel>()
+				.ReverseMap();
+			CreateMap<AccountUpdateModel, Account>()
+                .ReverseMap();
 			CreateMap<ConnectorSignUpModel, Account>().ReverseMap();
 			CreateMap<Account, WalletBalanceViewModel>()
 				.ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))

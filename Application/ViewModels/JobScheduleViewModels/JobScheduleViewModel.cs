@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.ViewModels.TaskEDViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,9 @@ namespace Application.ViewModels.JobScheduleViewModels
     public class JobScheduleViewModel
     {
         public int JobScheduleId { get; set; }
-
+        public string? ConnectorId { get; set; }
+        public string? connectorFirstName { get; set; }
+        public string? connectorLastName { get; set; }
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
@@ -21,5 +24,6 @@ namespace Application.ViewModels.JobScheduleViewModels
         public float TaskProcess { get; set; }
 
         public bool OnTask { get; set; }
+        public List<TaskEDViewModel> Tasks { get; set; }
     }
 }

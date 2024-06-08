@@ -1,8 +1,10 @@
-﻿using Application.Exceptions;
+﻿using Application.Common;
+using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.JobScheduleViewModels;
 using AutoMapper;
+using Domain.Enums.TaskEnums;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -40,9 +42,9 @@ namespace Application.Services
             int jobScheduleId,
             JobScheduleUpdateViewModel jobScheduleUpdateViewModel)
         {
-            var jobSchedule =  await _unitOfWork.JobScheduleRepo
+            var jobSchedule = await _unitOfWork.JobScheduleRepo
                 .GetByIdAsync(jobScheduleId)
-                ?? throw new NotExistsException(); 
+                ?? throw new NotExistsException();
 
             _mapper.Map(jobScheduleUpdateViewModel, jobSchedule);
             _unitOfWork.JobScheduleRepo.Update(jobSchedule);
@@ -78,7 +80,7 @@ namespace Application.Services
         #region GetJobScheduleById
         public async Task<BaseResponseModel> GetJobScheduleByIdAsync(int id)
         {
-            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetJobScheduleByIdAsync(id);
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetJobScheduleByIdWithInclude(id);
             var result = _mapper.Map<JobScheduleViewModel>(jobSchedule);
             return new SuccessResponseModel
             {
@@ -86,6 +88,83 @@ namespace Application.Services
                 Message = "Get job schedule successfully",
                 Result = result
             };
+        }
+        #endregion
+
+        #region GetJobScheduleByConnectorId
+        public async Task<BaseResponseModel> GetJobScheduleByConnectorIdAsync(
+            string connectorId, int pageIndex = 0, int pageSize = 10)
+        {
+            // Check if connector is exist
+            var isExistConnector = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId)
+                ?? throw new NotExistsException();
+            // Get all job schedule claimed by connector
+            var jobSchedules = await _unitOfWork.JobScheduleRepo.GetJobScheduleListByConnectorIdAsync(
+                               connectorId, pageIndex, pageSize);
+            // Map to JobScheduleViewModel
+            var result = _mapper.Map<Pagination<JobScheduleViewModel>>(jobSchedules);
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get all job schedule by connector id success",
+                Result = result
+            };
+        }
+        #endregion
+
+        #region GetJobScheduleProcessAsync
+        public async Task<BaseResponseModel> GetJobScheduleProcessAsync(int jobScheduleId)
+        {
+            var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId)
+                ?? throw new NotExistsException();
+
+            int totalTask = await _unitOfWork.TaskEDRepo.CountTotalTaskEDByJobScheduleIdAsync(jobScheduleId);
+
+            int totalTaskDone = await _unitOfWork.TaskEDRepo.CountTaskEDByJobScheduleIdAndStatusAsync(
+                               jobScheduleId, (int)TaskEDStatus.Completed);
+
+            double progress = ((double)totalTaskDone / totalTask) * 100;
+         
+            // Update progress
+            isExistJobSchedule.TaskProcess = (int)progress;
+            _unitOfWork.JobScheduleRepo.Update(isExistJobSchedule);
+            await _unitOfWork.SaveChangesAsync();
+            // Map to JobScheduleProcessViewModel
+            var result = new JobScheduleProcessViewModel
+            {
+                jobScheduleId = jobScheduleId,
+                totalTasks = totalTask,
+                totalTasksDone = totalTaskDone,
+                processPercentage = (int)progress
+            };
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Get job schedule progress successfully",
+                Result = result
+            };
+        }
+        #endregion
+
+        #region CalculateJobScheduleProgress
+        public async Task CalculateJobScheduleProgress(int jobScheduleId)
+        {
+            var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId)
+                ?? throw new NotExistsException();
+
+            int totalTask = await _unitOfWork.TaskEDRepo.CountTotalTaskEDByJobScheduleIdAsync(jobScheduleId);
+
+            int totalTaskDone = await _unitOfWork.TaskEDRepo.CountTaskEDByJobScheduleIdAndStatusAsync(
+                               jobScheduleId, (int)TaskEDStatus.Completed);
+
+            double progress = ((double)totalTaskDone / totalTask) * 100;
+
+            // Update progress
+            isExistJobSchedule.TaskProcess = (int)progress;
+            _unitOfWork.JobScheduleRepo.Update(isExistJobSchedule);
+            await _unitOfWork.SaveChangesAsync();
         }
         #endregion
     }

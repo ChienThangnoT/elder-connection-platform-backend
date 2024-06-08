@@ -9,10 +9,9 @@ namespace Application.ViewModels.TaskEDViewModels
 {
     public class TaskEDUpdateViewModel
     {
-        [JsonIgnore]
         public int TaskStatus { get; set; }
         [JsonIgnore]
-        public DateTime? CompleteDate { get; set; } = DateTime.Now;
+        public DateTime? CompleteDate { get; set; } = null;
         [JsonIgnore]
         public DateTime? TaskUpdateAt { get; set; } = DateTime.Now;
 

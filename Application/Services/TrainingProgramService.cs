@@ -108,7 +108,16 @@ namespace Application.Services
 			return response;
 		}
 
-
-
-	}
+        public async Task<BaseResponseModel> GetTrainingProgramDetailAsync(int trainingProgramId)
+        {
+            var trainingProgram = await _unitOfWork.TrainingProgramRepo.GetByIdAsync(trainingProgramId) ?? throw new NotExistsException();
+			var result = _mapper.Map<TrainingProgramViewModel>(trainingProgram);
+			return new SuccessResponseModel
+			{
+				Status = StatusCodes.Status200OK,
+				Message = "Get training program detail success",
+				Result = result
+			};
+        }
+    }
 }

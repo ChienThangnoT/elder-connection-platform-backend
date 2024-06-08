@@ -69,6 +69,15 @@ namespace ElderConnectionPlatform.API.Controllers
 			var result = await _trainingProgramService.RemoveTrainingProgramAsync(trainingProgramId);
 			return Ok(result);
 		}
-		#endregion
-	}
+        #endregion
+
+        #region Get Training Program Detail By Id
+        [HttpGet("get-training-program-detail/{trainingProgramId}")]
+        public async Task<IActionResult> GetTrainingProgramDetailByIdAsync(int trainingProgramId)
+        {
+            var result = await _trainingProgramService.GetTrainingProgramDetailAsync(trainingProgramId);
+            return Ok(result);
+        }
+        #endregion
+    }
 }
