@@ -1,4 +1,5 @@
 ﻿using Application.ResponseModels;
+using Application.ViewModels.ConnectorFeedbackViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Application.IServices
 	{
 		Task<BaseResponseModel> GetFeedbackViewModelAsync(string connectorId);
 		Task<BaseResponseModel> GetFeedbackViewModelPaginationAsync(string connectorId, int pageIndex, int pageSize);
-	}
+        Task<BaseResponseModel> RateConnectorAsync(RateConnectorViewModel rateConnectorViewModel);
+    }
 }

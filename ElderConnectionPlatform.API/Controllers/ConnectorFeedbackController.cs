@@ -1,10 +1,11 @@
 ﻿using Application.IServices;
+using Application.ViewModels.ConnectorFeedbackViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElderConnectionPlatform.API.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/connector-feedbacks")]
 	[ApiController]
 	public class ConnectorFeedbackController : ControllerBase
 	{
@@ -28,5 +29,12 @@ namespace ElderConnectionPlatform.API.Controllers
 			var response = await _connectorFeedbackService.GetFeedbackViewModelPaginationAsync(connectorId, pageIndex, pageSize);
 			return StatusCode(response.Status, response);
 		}
-	}
+
+        [HttpPost("rate")]
+        public async Task<IActionResult> RateConnectorAsync(RateConnectorViewModel rateConnectorViewModel)
+        {
+            var response = await _connectorFeedbackService.RateConnectorAsync(rateConnectorViewModel);
+            return StatusCode(response.Status, response);
+        }
+    }
 }

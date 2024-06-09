@@ -36,6 +36,10 @@ namespace Infracstructures.Repositories
                 .Include(p => p.JobSchedule)
                 .Include(p => p.Address)
                 .OrderByDescending(r => r.CreateAt);
+            if (!query.Any())
+            {
+                return null;
+            }
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
 

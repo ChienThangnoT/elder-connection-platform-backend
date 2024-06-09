@@ -26,7 +26,8 @@ namespace Application
 		public ITrainingProgramRepository TrainingProgramRepo { get; }
         public IFavoriteRepository FavoriteRepo { get; }
         public IElderInformationRepository ElderInformationRepo { get; }
-		public Task<int> SaveChangesAsync();
+        public IRegistrationProgramRepository RegistrationProgramRepo { get; }
+        public Task<int> SaveChangesAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

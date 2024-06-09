@@ -69,25 +69,12 @@ namespace ElderConnectionPlatform.API.Controllers
 
         #region Get all posts
         [HttpGet("get-all-posts-by-status")]
-        public async Task<IActionResult> GetAllPostsByStatus(int status,int pageIndex = 0, int pageSize = 10)
+        public async Task<IActionResult> GetAllPostsByStatus(int status, int pageIndex = 0, int pageSize = 10)
         {
-            try
-            {
-                var posts = await _postService.GetAllPostListByStatusPaginationAsync(status,pageIndex,pageSize);
+            var posts = await _postService.GetAllPostListByStatusPaginationAsync(status, pageIndex, pageSize);
 
-                return (posts == null) 
-                    ?NoContent()
-                    :Ok(posts);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = ex.Message
-                });
-            }
+            return (posts == null)? NotFound(): Ok(posts);
+
         }
         #endregion
 
@@ -144,8 +131,8 @@ namespace ElderConnectionPlatform.API.Controllers
             {
                 var result = await _postService.ApplyPost(postId, connectorId);
                 return (result == null)
-                    ?NotFound()
-                    :Ok(result);
+                    ? NotFound()
+                    : Ok(result);
             }
             catch (Exception ex)
             {
