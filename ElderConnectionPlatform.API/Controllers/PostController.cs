@@ -7,6 +7,7 @@ using Application.ViewModels.MultiRequestViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using Application.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace ElderConnectionPlatform.API.Controllers
 {
@@ -73,7 +74,7 @@ namespace ElderConnectionPlatform.API.Controllers
         {
             var posts = await _postService.GetAllPostListByStatusPaginationAsync(status, pageIndex, pageSize);
 
-            return (posts == null)? NotFound(): Ok(posts);
+            return (posts == null) ? NotFound() : Ok(posts);
 
         }
         #endregion
@@ -125,7 +126,7 @@ namespace ElderConnectionPlatform.API.Controllers
 
         #region Apply post
         [HttpPost("apply-post/{postId}")]
-        public async Task<IActionResult> ApplyPost(int postId, string connectorId)
+        public async Task<IActionResult> ApplyPost(int postId, [Required]string connectorId)
         {
             try
             {
@@ -143,6 +144,17 @@ namespace ElderConnectionPlatform.API.Controllers
                     Errors = ex.Message
                 });
             }
+        }
+        #endregion
+
+        #region Check if post is expired
+        [HttpGet("check-post-expired/{postId}")]
+        public async Task<IActionResult> CheckPostExpired(int postId)
+        {
+            var result = await _postService.CheckIfPostIsexpired(postId);
+            return  (result == null) 
+                ? NotFound() 
+                : Ok(result);
         }
         #endregion
     }

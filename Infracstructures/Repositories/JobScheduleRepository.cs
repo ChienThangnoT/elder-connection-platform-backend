@@ -29,6 +29,13 @@ namespace Infracstructures.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<JobSchedule>> GetJobScheduleListByConnectorId(string connectorId)
+        {
+            return await _dbSet
+            .Where(task => task.ConnectorId == connectorId )
+            .ToListAsync();
+        }
+
         public async Task<Pagination<JobSchedule>> GetJobScheduleListByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10)
         {
@@ -37,6 +44,22 @@ namespace Infracstructures.Repositories
                 .Include(js => js.Tasks)
                 .OrderByDescending(js => js.JobScheduleId);
             return await ToListPaginationAsync(query, pageIndex, pageSize);
+        }
+
+        public async Task<List<DateTime?>> GetWorkDateListByConnectorIdAndStatusAsync(string connectorId, int status)
+        {
+            var jobSchedules = await _dbSet
+            .Where(js => js.ConnectorId == connectorId && js.TaskProcess < 100)
+            .Include(js => js.Tasks)
+            .ToListAsync();
+
+            var workDates = jobSchedules
+                .SelectMany(js => js.Tasks)
+                .Where(task => task.TaskStatus < status)
+                .Select(task => task.WorkDateAt)
+                .ToList();
+
+            return workDates;
         }
     }
 }
