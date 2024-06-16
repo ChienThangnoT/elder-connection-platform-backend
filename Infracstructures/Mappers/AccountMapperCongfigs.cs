@@ -14,6 +14,8 @@ namespace Infracstructures.Mappers
 		partial void AccountMapperCongfigs()
 		{
 			CreateMap<Account, AccountDetailViewModel>()
+				.ForMember(dest => dest.AccountEmail, opt => opt.MapFrom(src => src.Email))
+				.ForMember(dest => dest.AccountPhone, opt => opt.MapFrom(src => src.PhoneNumber))
 				.ReverseMap();
 			CreateMap<AccountUpdateModel, Account>()
                 .ReverseMap();
