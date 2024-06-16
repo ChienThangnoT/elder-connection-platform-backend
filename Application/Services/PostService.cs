@@ -11,6 +11,8 @@ using Domain.Enums.TaskEnums;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using Org.BouncyCastle.Asn1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -238,7 +240,7 @@ namespace Application.Services
 
         #region Get Post List Pagination Async
         public async Task<BaseResponseModel> GetAllPostListByStatusPaginationAsync
-            (int status,int pageIndex = 0, int pageSize = 10)
+            (int status, int pageIndex = 0, int pageSize = 10)
         {
             // Get all post by status
             var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize) ?? throw new NotExistsException();
@@ -271,21 +273,51 @@ namespace Application.Services
         public async Task<BaseResponseModel> ApplyPost(int postId, string connectorId)
         {
             // Check if post exist
-            var post =  await _unitOfWork.PostRepo.GetByIdAsync(postId)
+            var post = await _unitOfWork.PostRepo.GetByIdAsync(postId)
                 ?? throw new NotExistsException();
             // Check if account exist
-            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId.ToString())
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(connectorId)
                 ?? throw new NotExistsException();
             // Check if job schedule exist
             var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
                 ?? throw new NotExistsException();
             // Check if the post has been claimed or not
-            if(post.PostStatus != (int)PostStatus.Posted)
+            if (post.PostStatus != (int)PostStatus.Posted)
                 throw new AlreadyClaimedException();
 
+            // Get ListDayWork of the post the account applied for
+            List<DateTime> dates = jobSchedule.ListDayWork
+                .Split('|')
+                .Where(part => !string.IsNullOrWhiteSpace(part))
+                .Select(part => DateTime.TryParse(part, out var date) ? date : (DateTime?)null)
+                .Where(date => date.HasValue)
+                .Select(date => date.Value)
+                .ToList();
+
+            // Get ListWorkDate of the account
+            List<DateTime?> workDates = await _unitOfWork.JobScheduleRepo
+                .GetWorkDateListByConnectorIdAndStatusAsync(connectorId, (int)TaskEDStatus.Completed);
+            
+            List<DateTime> nonNullableWorkDates = workDates
+                .Where(date => date.HasValue)
+                .Select(date => date.Value)
+                .ToList();
+
+            // Get common dates
+            List<DateTime> commonDates = dates.Intersect(nonNullableWorkDates).ToList();
+            // Check if the account has already worked on the same day
+            if (commonDates.Any())
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "You have already worked on this day",
+                    Errors = commonDates
+                };
+
+            //Apply post
             post.PostStatus = (int)PostStatus.Accepted;
             _unitOfWork.PostRepo.Update(post);
-            
+
             jobSchedule.ConnectorId = connectorId;
             jobSchedule.OnTask = true;
             _unitOfWork.JobScheduleRepo.Update(jobSchedule);
@@ -301,6 +333,53 @@ namespace Application.Services
                 Result = result
             };
 
+        }
+        #endregion
+
+        #region Check If Post Is Expired
+        public async Task<BaseResponseModel> CheckIfPostIsexpired(int postId)
+        {
+            // Check if post exist
+            var post = await _unitOfWork.PostRepo.GetByIdAsync(postId)
+                ?? throw new NotExistsException();
+            // Check if job schedule exist
+            var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
+                ?? throw new NotExistsException();
+            // Check if the post has been claimed or not
+            if (post.PostStatus != (int)PostStatus.Public)
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Post has been claimed ow cancelled"
+                };
+            // Check if the post is expired
+
+            DateTime[] dates = jobSchedule.ListDayWork
+                .Split('|')
+                .Where(part => !string.IsNullOrWhiteSpace(part))
+                .Select(part => DateTime.TryParse(part, out var date) ? date : (DateTime?)null)
+                .Where(date => date.HasValue)
+                .Select(date => date.Value)
+                .ToArray();
+
+            if (dates.First() > DateTime.Today)
+                return new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Post is not expired"
+                };
+
+            post.PostStatus = (int)PostStatus.Cancelled;
+            _unitOfWork.PostRepo.Update(post);
+            await _unitOfWork.SaveChangesAsync();
+
+            var result = _mapper.Map<PostViewModel>(post);
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Post is expired",
+                Result = result
+            };
         }
         #endregion
     }

@@ -29,6 +29,14 @@ namespace Infracstructures.Repositories
                 .CountAsync();
         }
 
+        public async Task<List<DateTime?>> GetWorkDateListByJobScheduleIdAndStatusAsync(int jobScheduleId, int status)
+        {
+            return await _dbSet
+            .Where(task => task.JobScheduleId == jobScheduleId && task.TaskStatus == status)
+            .Select(task => task.WorkDateAt)
+            .ToListAsync();
+        }
+
 
         //Delete this method
         //public async Task<TaskED> GetTaskEDByIdAsync(int id)

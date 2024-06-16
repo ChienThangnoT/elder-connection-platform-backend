@@ -15,5 +15,8 @@ namespace Application.IRepositories
         Task<JobSchedule?> GetJobScheduleByIdWithInclude(int id);
         Task<Pagination<JobSchedule>> GetJobScheduleListByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10);
+        Task<List<JobSchedule>> GetJobScheduleListByConnectorId(string connectorId);
+
+        Task<List<DateTime?>> GetWorkDateListByConnectorIdAndStatusAsync(string connectorId, int status);
     }
 }

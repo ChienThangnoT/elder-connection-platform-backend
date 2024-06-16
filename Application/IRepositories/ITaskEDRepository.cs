@@ -21,5 +21,7 @@ namespace Application.IRepositories
         Task<int> CountTotalTaskEDByJobScheduleIdAsync(int jobScheduleId);
 
         Task<int> CountTaskEDByJobScheduleIdAndStatusAsync(int jobScheduleId, int status);
+
+        Task<List<DateTime?>> GetWorkDateListByJobScheduleIdAndStatusAsync(int jobScheduleId, int status);
     }
 }
