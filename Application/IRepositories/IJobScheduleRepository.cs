@@ -12,6 +12,7 @@ namespace Application.IRepositories
     public interface IJobScheduleRepository : IGenericRepository<JobSchedule>
     {
         Task<JobSchedule?> GetJobScheduleByIdAsync(int id);
+        Task<Pagination<JobSchedule>> GetAllJobScheduleAsync(int pageIndex, int pageSize);
         Task<JobSchedule?> GetJobScheduleByIdWithInclude(int id);
         Task<Pagination<JobSchedule>> GetJobScheduleListByConnectorIdAsync(
             string connectorId, int pageIndex = 0, int pageSize = 10);

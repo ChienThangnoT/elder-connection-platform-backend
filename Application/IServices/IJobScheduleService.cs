@@ -21,6 +21,8 @@ namespace Application.IServices
         Task DeleteJobSchedule(JobSchedule jobSchedule);
 
         Task<IEnumerable<BaseResponseModel>> GetAllJobSchedulesAsync();
+        Task<BaseResponseModel> GetAllJobScheduleAsync(int pageIndex, int pageSize);
+
         Task<BaseResponseModel> GetJobScheduleByIdAsync(int id);
 
         Task<BaseResponseModel> GetJobScheduleByConnectorIdAsync(
