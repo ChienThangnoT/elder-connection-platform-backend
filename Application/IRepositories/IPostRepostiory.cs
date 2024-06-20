@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Application.IRepositories
 {
-    public interface IPostRepostiory: IGenericRepository<Post>
+    public interface IPostRepostiory : IGenericRepository<Post>
     {
         Task<Pagination<Post>> GetAllPostByCustomerIdAsync
-            (string accountId, int pageIndex=0, int pageSize = 10);
+            (string accountId, int pageIndex = 0, int pageSize = 10);
 
-        Task <Pagination<Post>> GetAllPostByStatusAsync 
+        Task<Pagination<Post>> GetAllPostByStatusAsync
             (int status, int pageIndex = 0, int pageSize = 10);
 
         Task<Post?> GetPostByIdWithInclude(int id);
