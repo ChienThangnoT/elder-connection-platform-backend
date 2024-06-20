@@ -91,7 +91,8 @@ namespace Application.Services
                 ?? throw new NotExistsException();
             // Get all task of job schedule
             var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByJobScheduleIdAsync(
-                                              jobScheduleId, pageIndex, pageSize);
+                                              jobScheduleId, pageIndex, pageSize)
+                ?? throw new NotExistsException(); 
             // Map to TaskEDViewModel
             var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs);
 
