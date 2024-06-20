@@ -225,7 +225,8 @@ namespace Application.Services
             var isExistAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id)
                 ?? throw new NotExistsException();
             // Get all post by customer id
-            var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize);
+            var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize)
+                ?? throw new NotExistsException();
             // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
 
@@ -243,7 +244,8 @@ namespace Application.Services
             (int status, int pageIndex = 0, int pageSize = 10)
         {
             // Get all post by status
-            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize) ?? throw new NotExistsException();
+            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize) 
+                ?? throw new NotExistsException();
             // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
             return new SuccessResponseModel
@@ -297,7 +299,28 @@ namespace Application.Services
             // Get ListWorkDate of the account
             List<DateTime?> workDates = await _unitOfWork.JobScheduleRepo
                 .GetWorkDateListByConnectorIdAndStatusAsync(connectorId, (int)TaskEDStatus.Completed);
-            
+
+            if (workDates == null)
+            {
+                post.PostStatus = (int)PostStatus.Accepted;
+                _unitOfWork.PostRepo.Update(post);
+
+                jobSchedule.ConnectorId = connectorId;
+                jobSchedule.OnTask = true;
+                _unitOfWork.JobScheduleRepo.Update(jobSchedule);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                var data = _mapper.Map<PostViewModel>(post);
+
+                return new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Apply post success",
+                    Result = data
+                };
+            }
+
             List<DateTime> nonNullableWorkDates = workDates
                 .Where(date => date.HasValue)
                 .Select(date => date.Value)

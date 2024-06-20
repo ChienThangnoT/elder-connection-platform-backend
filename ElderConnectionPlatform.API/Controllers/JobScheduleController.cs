@@ -41,46 +41,23 @@ namespace ElderConnectionPlatform.API.Controllers
         public async Task<IActionResult> GetAllJobScheduleByConnectorId
             (string connectorId, int pageIndex = 0, int pageSize = 10)
         {
-            try
-            {
-                var jobSchedule = await _jobScheduleService.GetJobScheduleByConnectorIdAsync
-                    (connectorId, pageIndex, pageSize);
+            var jobSchedule = await _jobScheduleService.GetJobScheduleByConnectorIdAsync
+                (connectorId, pageIndex, pageSize);
 
-                return jobSchedule == null
-                   ? NotFound()
-                   : (IActionResult)Ok(jobSchedule);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = e.Message
-                });
-            }
+            return jobSchedule == null
+               ? NotFound()
+               : (IActionResult)Ok(jobSchedule);
+
         }
 
         [HttpGet("get-job-schedule-task-progress/{id}")]
         public async Task<IActionResult> GetJobScheduleTaskProgress(int id)
         {
-            try
-            {
-                var jobSchedule = await _jobScheduleService.GetJobScheduleProcessAsync(id);
+            var jobSchedule = await _jobScheduleService.GetJobScheduleProcessAsync(id);
 
-                return jobSchedule == null
-                   ? NotFound()
-                   : (IActionResult)Ok(jobSchedule);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = e.Message
-                });
-            }
+            return jobSchedule == null
+               ? NotFound()
+               : (IActionResult)Ok(jobSchedule);
         }
     }
 }

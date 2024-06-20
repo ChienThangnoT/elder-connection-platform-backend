@@ -100,7 +100,8 @@ namespace Application.Services
                 ?? throw new NotExistsException();
             // Get all job schedule claimed by connector
             var jobSchedules = await _unitOfWork.JobScheduleRepo.GetJobScheduleListByConnectorIdAsync(
-                               connectorId, pageIndex, pageSize);
+                               connectorId, pageIndex, pageSize)
+                ?? throw new NotExistsException();
             // Map to JobScheduleViewModel
             var result = _mapper.Map<Pagination<JobScheduleViewModel>>(jobSchedules);
 

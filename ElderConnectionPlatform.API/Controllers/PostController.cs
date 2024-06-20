@@ -83,23 +83,11 @@ namespace ElderConnectionPlatform.API.Controllers
         [HttpGet("get-post-by-customer-id/{customerId}")]
         public async Task<IActionResult> GetPostByCustomerId(string customerId, int pageIndex = 0, int pageSize = 10)
         {
-            try
-            {
-                var posts = await _postService.GetAllPostByCustomerIdAsync(customerId, pageIndex, pageSize);
+            var posts = await _postService.GetAllPostByCustomerIdAsync(customerId, pageIndex, pageSize);
 
-                return posts == null
-                    ? throw new NotExistsException()
-                    : (IActionResult)Ok(posts);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = ex.Message
-                });
-            }
+            return posts == null
+                ? throw new NotExistsException()
+                : (IActionResult)Ok(posts);
         }
         #endregion
 
@@ -126,7 +114,7 @@ namespace ElderConnectionPlatform.API.Controllers
 
         #region Apply post
         [HttpPost("apply-post/{postId}")]
-        public async Task<IActionResult> ApplyPost(int postId, [Required]string connectorId)
+        public async Task<IActionResult> ApplyPost(int postId, [Required] string connectorId)
         {
             try
             {
@@ -152,8 +140,8 @@ namespace ElderConnectionPlatform.API.Controllers
         public async Task<IActionResult> CheckPostExpired(int postId)
         {
             var result = await _postService.CheckIfPostIsexpired(postId);
-            return  (result == null) 
-                ? NotFound() 
+            return (result == null)
+                ? NotFound()
                 : Ok(result);
         }
         #endregion

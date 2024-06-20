@@ -64,6 +64,10 @@ namespace Infracstructures.Repositories
         {
             var query = _dbSet.Where(r => r.JobScheduleId == jobScheduleId)
                 .OrderByDescending(r => r.CreateAt);
+            if (!query.Any())
+            {
+                return null;
+            }
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
     }
