@@ -92,10 +92,17 @@ namespace Infracstructures
 
             //Configure the local database connection
 
-            services.AddDbContext<ElderConnectionContext>(options =>
-            {
-                options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
-            });
+            //services.AddDbContext<ElderConnectionContext>(options =>
+            //{
+            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"),
+            //        sqlServerOptionsAction: sqlOptions =>
+            //        {
+            //            sqlOptions.EnableRetryOnFailure(
+            //                maxRetryCount: 3,
+            //                maxRetryDelay: TimeSpan.FromSeconds(3),
+            //                errorNumbersToAdd: null);
+            //        });
+            //});
 
             return services;
         }
