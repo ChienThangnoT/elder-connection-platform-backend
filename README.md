@@ -28,6 +28,6 @@ Dự án được thực hiện bởi nhóm gồm 6 thành viên:
 ## Liên hệ
 - Để biết thêm thông tin hoặc hỗ trợ, vui lòng liên hệ chúng tôi qua email: elderconnect01005@gmail.com.
 
-Chúc bạn và người dùng của mình có những trải nghiệm học tập tuyệt vời trên Elder Connection!
+Chúc bạn và người thân của mình trải nghiệm những dịch vụ tuyệt vời của trên Elder Connection!
 
 Copyright © 2024 ElderConnect
