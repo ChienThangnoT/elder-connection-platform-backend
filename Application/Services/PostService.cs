@@ -110,6 +110,9 @@ namespace Application.Services
             // Check if post exist
             var post = await _unitOfWork.PostRepo.GetByIdAsync(postId) ?? throw new NotExistsException();
 
+            if (post.PostStatus != (int)PostStatus.Public)
+                throw new AlreadyClaimedException();
+
             //Get related job schedule and task
             var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId);
             var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByJobScheduleIdAsync(jobSchedule.JobScheduleId);
@@ -145,7 +148,7 @@ namespace Application.Services
                 ?? throw new NotExistsException();
 
             // Check if the post has been claimed or not
-            if (post.PostStatus != (int)PostStatus.Posted)
+            if (post.PostStatus != (int)PostStatus.Public)
                 throw new AlreadyClaimedException();
 
             // Check if service, address exist
@@ -284,7 +287,7 @@ namespace Application.Services
             var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
                 ?? throw new NotExistsException();
             // Check if the post has been claimed or not
-            if (post.PostStatus != (int)PostStatus.Posted)
+            if (post.PostStatus != (int)PostStatus.Public)
                 throw new AlreadyClaimedException();
 
             // Get ListDayWork of the post the account applied for
