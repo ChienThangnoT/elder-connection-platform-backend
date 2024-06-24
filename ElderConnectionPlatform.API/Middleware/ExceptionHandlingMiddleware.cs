@@ -46,7 +46,7 @@ namespace ElderConnectionPlatform.API.Middleware
             {
                 Status = statusCode,
                 Message = exception.Message,
-                Errors = exception.StackTrace
+                Errors = null
             };
 
             var jsonResponse = JsonConvert.SerializeObject(response);

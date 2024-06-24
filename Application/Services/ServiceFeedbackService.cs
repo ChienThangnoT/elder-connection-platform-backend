@@ -26,14 +26,10 @@ namespace Application.Services
 
 		public async Task<BaseResponseModel> GetServiceFeedbackViewModelAsync(int serviceFeedbackId)
 		{
-			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId);
-			if (check == null)
-			{
-				throw new NotExistsException();
-			}
-			var feedbacks = await _unitOfWork.ServiceFeedbackRepo.GetFeedbackByServiceIdAsync(serviceFeedbackId);
+			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId) ?? throw new NotExistsException();
+            var feedbacks = await _unitOfWork.ServiceFeedbackRepo.GetFeedbackByServiceIdAsync(serviceFeedbackId);
 
-			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks);
+			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks) ?? new object();
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,
@@ -46,19 +42,11 @@ namespace Application.Services
 
 		public async Task<BaseResponseModel> GetServiceFeedbackViewModelPaginationAsync(int serviceFeedbackId, int pageIndex, int pageSize)
 		{
-			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId);
-			if (check == null)
-			{
-				throw new NotExistsException();
-			}
-			var feedbacks = await _unitOfWork.ServiceFeedbackRepo
+			var check = await _unitOfWork.ServiceFeedbackRepo.GetByIdAsync(serviceFeedbackId) ?? throw new NotExistsException();
+            var feedbacks = await _unitOfWork.ServiceFeedbackRepo
 				.GetFeedbackByServiceIdPaginationAsync(serviceFeedbackId, pageIndex, pageSize);
 
-			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks);
-			if (feedbackViewModel == null)
-			{
-				throw new NotExistsException();
-			}
+			var feedbackViewModel = _mapper.Map<Pagination<ServiceFeedbackViewModel>>(feedbacks) ?? new object();
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,

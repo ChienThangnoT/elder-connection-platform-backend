@@ -45,7 +45,7 @@ namespace Application.Services
 		public async Task<BaseResponseModel> GetAllSaleAsync(int pageIndex, int pageSize)
 		{
 			var sales = await _unitOfWork.SaleRepo.GetAllSaleAsync(pageIndex, pageSize);
-			var saleViewModels = _mapper.Map<Pagination<SaleViewModel>>(sales); 
+			var saleViewModels = _mapper.Map<Pagination<SaleViewModel>>(sales) ?? new object(); 
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,

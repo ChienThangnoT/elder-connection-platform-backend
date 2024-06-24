@@ -73,23 +73,11 @@ namespace ElderConnectionPlatform.API.Controllers
         public async Task<IActionResult> GetAllTaskByJobScheduleId
             (int jobScheduleId, int pageIndex = 0, int pageSize = 10)
         {
-            try
-            {
-                var taskEDs = await _taskEDService.GetTaskEDListByJobScheduleIdAsync(jobScheduleId, pageIndex, pageSize);
+            var taskEDs = await _taskEDService.GetTaskEDListByJobScheduleIdAsync(jobScheduleId, pageIndex, pageSize);
 
-                return taskEDs == null
-                    ? NotFound()
-                    : (IActionResult)Ok(taskEDs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = ex.Message
-                });
-            }
+            return taskEDs == null
+                ? NotFound()
+                : (IActionResult)Ok(taskEDs);
         }
         #endregion
 
@@ -97,22 +85,10 @@ namespace ElderConnectionPlatform.API.Controllers
         [HttpPut("update-task-status/{taskId}")]
         public async Task<IActionResult> UpdateTaskStatus(int taskId, TaskEDUpdateViewModel taskEDUpdateViewModel)
         {
-            try
-            {
-                var taskED = await _taskEDService.UpdateTaskEDStatus(taskId, taskEDUpdateViewModel);
-                return (taskED == null)
-                    ? NotFound()
-                    : Ok(taskED);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = ex.Message
-                });
-            }
+            var taskED = await _taskEDService.UpdateTaskEDStatus(taskId, taskEDUpdateViewModel);
+            return (taskED == null)
+                ? NotFound()
+                : Ok(taskED);
         }
         #endregion
     }

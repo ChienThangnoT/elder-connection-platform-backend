@@ -35,7 +35,7 @@ namespace Application.Services
 			}
 			var feedbacks = await _unitOfWork.ConnectorFeedbackRepo.GetFeedbackByConnectorIdAsync(connectorId);
 
-			var feedbackViewModel = _mapper.Map<Pagination<ConnectorFeedbackViewModel>>(feedbacks);
+			var feedbackViewModel = _mapper.Map<Pagination<ConnectorFeedbackViewModel>>(feedbacks) ?? new object();
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,
@@ -56,11 +56,7 @@ namespace Application.Services
 			var feedbacks = await _unitOfWork.ConnectorFeedbackRepo
 				.GetFeedbackByConnectorIdPaginationAsync(connectorId, pageIndex, pageSize);
 			
-			var feedbackViewModel = _mapper.Map<Pagination<ConnectorFeedbackViewModel>>(feedbacks);
-			if (feedbackViewModel == null)
-			{
-				throw new NotExistsException();
-			}
+			var feedbackViewModel = _mapper.Map<Pagination<ConnectorFeedbackViewModel>>(feedbacks) ?? new object();
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,

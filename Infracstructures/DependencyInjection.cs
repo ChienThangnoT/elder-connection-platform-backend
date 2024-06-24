@@ -94,7 +94,14 @@ namespace Infracstructures
 
             //services.AddDbContext<ElderConnectionContext>(options =>
             //{
-            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"));
+            //    options.UseSqlServer(config.GetConnectionString("ElderConnectionDB"),
+            //        sqlServerOptionsAction: sqlOptions =>
+            //        {
+            //            sqlOptions.EnableRetryOnFailure(
+            //                maxRetryCount: 3,
+            //                maxRetryDelay: TimeSpan.FromSeconds(3),
+            //                errorNumbersToAdd: null);
+            //        });
             //});
 
             return services;

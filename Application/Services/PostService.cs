@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +28,15 @@ namespace Application.Services
         private readonly IMapper _mapper;
         private readonly IJobScheduleService _jobScheduleService;
         private readonly ITaskEDService _taskEDService;
+        private readonly ITransactionHistoryService _transactionHistoryService;
 
-        public PostService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService, ITaskEDService taskEDService)
+        public PostService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService, ITaskEDService taskEDService, ITransactionHistoryService transactionHistoryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jobScheduleService = jobScheduleService;
             _taskEDService = taskEDService;
+            _transactionHistoryService = transactionHistoryService;
         }
 
         #region Create Post Async
@@ -67,7 +70,8 @@ namespace Application.Services
             // Create post
             postCreateViewModel.JobScheduleId = jobScheduleResult.JobScheduleId;
             postCreateViewModel.PostStatus = (int)PostStatus.Public;
-            postCreateViewModel.Price = isExistService.FinalPrice;
+            float typeHour = Int32.Parse(isExistService.ServiceTypeHours);
+            postCreateViewModel.Price = isExistService.FinalPrice* typeHour*dates.Length;
             postCreateViewModel.SalaryAfterWork = postCreateViewModel.Price - (postCreateViewModel.Price * 0.1f);
             var post = _mapper.Map<Post>(postCreateViewModel);
             await _unitOfWork.PostRepo.AddAsync(post);
@@ -93,6 +97,16 @@ namespace Application.Services
                 await _taskEDService.CreateTaskED(taskEDCreateViewModel);
             }
 
+            var addTransactionService = await _transactionHistoryService.CreateTransasctionForService(isExistAccount.Id, post.Price);
+            if(addTransactionService != true)
+            {
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Payment for post failed",
+                };
+            }
+
             var result = _mapper.Map<PostViewModel>(post);
 
             return new SuccessResponseModel
@@ -109,6 +123,9 @@ namespace Application.Services
         {
             // Check if post exist
             var post = await _unitOfWork.PostRepo.GetByIdAsync(postId) ?? throw new NotExistsException();
+
+            if (post.PostStatus != (int)PostStatus.Public)
+                throw new AlreadyClaimedException();
 
             //Get related job schedule and task
             var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId);
@@ -145,7 +162,7 @@ namespace Application.Services
                 ?? throw new NotExistsException();
 
             // Check if the post has been claimed or not
-            if (post.PostStatus != (int)PostStatus.Posted)
+            if (post.PostStatus != (int)PostStatus.Public)
                 throw new AlreadyClaimedException();
 
             // Check if service, address exist
@@ -227,7 +244,7 @@ namespace Application.Services
             // Get all post by customer id
             var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize);
             // Map to view model
-            var result = _mapper.Map<Pagination<PostViewModel>>(posts);
+            var result = _mapper.Map<Pagination<PostViewModel>>(posts) ?? new object();
 
             return new SuccessResponseModel
             {
@@ -243,9 +260,9 @@ namespace Application.Services
             (int status, int pageIndex = 0, int pageSize = 10)
         {
             // Get all post by status
-            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize) ?? throw new NotExistsException();
+            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize);
             // Map to view model
-            var result = _mapper.Map<Pagination<PostViewModel>>(posts);
+            var result = _mapper.Map<Pagination<PostViewModel>>(posts) ?? new object();
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,
@@ -282,7 +299,7 @@ namespace Application.Services
             var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(post.JobScheduleId)
                 ?? throw new NotExistsException();
             // Check if the post has been claimed or not
-            if (post.PostStatus != (int)PostStatus.Posted)
+            if (post.PostStatus != (int)PostStatus.Public)
                 throw new AlreadyClaimedException();
 
             // Get ListDayWork of the post the account applied for
@@ -297,7 +314,28 @@ namespace Application.Services
             // Get ListWorkDate of the account
             List<DateTime?> workDates = await _unitOfWork.JobScheduleRepo
                 .GetWorkDateListByConnectorIdAndStatusAsync(connectorId, (int)TaskEDStatus.Completed);
-            
+
+            if (workDates == null)
+            {
+                post.PostStatus = (int)PostStatus.Accepted;
+                _unitOfWork.PostRepo.Update(post);
+
+                jobSchedule.ConnectorId = connectorId;
+                jobSchedule.OnTask = true;
+                _unitOfWork.JobScheduleRepo.Update(jobSchedule);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                var data = _mapper.Map<PostViewModel>(post);
+
+                return new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Apply post success",
+                    Result = data
+                };
+            }
+
             List<DateTime> nonNullableWorkDates = workDates
                 .Where(date => date.HasValue)
                 .Select(date => date.Value)

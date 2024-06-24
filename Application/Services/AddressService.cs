@@ -28,10 +28,11 @@ namespace Application.Services
         #region  Get Account Address By Account Id
         public async Task<BaseResponseModel> GetAccountAddressByAccountIdAsync(string accountId, int pageSize, int pageIndex)
         {
-            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId) ?? throw new AccountAlreadyExistsException();
+            var account = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId) 
+                ?? throw new NotExistsException();
             var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageIndex, pageSize);
 
-            var result = _mapper.Map<Pagination<AddressViewModel>>(addressList);
+            var result = _mapper.Map<Pagination<AddressViewModel>>(addressList) ?? new object();
             
             return new SuccessResponseModel
             {

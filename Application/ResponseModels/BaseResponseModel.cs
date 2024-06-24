@@ -14,6 +14,7 @@ namespace Application.ResponseModels
         public int Status { get; set; }
 
         public string Message { get; set; }
+
     }
 
     public class FailedResponseModel : BaseResponseModel
@@ -23,8 +24,8 @@ namespace Application.ResponseModels
 
     public class SuccessResponseModel : BaseResponseModel
     {
-        public object? Result { get; set; }
-    }  
+        public object? Result { get; set; } = new object();
+    }
     public class EmailTokenModel : BaseResponseModel
     {
         [IgnoreDataMember]

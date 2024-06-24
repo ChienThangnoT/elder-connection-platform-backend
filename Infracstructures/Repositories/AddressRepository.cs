@@ -21,6 +21,10 @@ namespace Infracstructures.Repositories
         public async Task<Pagination<Address>> GetAccountAddressByAccountIdAsync(string accountId, int pageIndex, int pageSize)
         {
             var query = _dbSet.Where(r => r.AccountId == accountId);
+            if (!query.Any())
+            {
+                return null;
+            }
             return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
     }
