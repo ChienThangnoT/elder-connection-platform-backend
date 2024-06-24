@@ -21,6 +21,10 @@ namespace Infracstructures.Repositories
 		public async Task<Pagination<TrainingProgram>> GetAllTrainingProgramAsync(int pageIndex, int pageSize)
 		{
 			var query = _context.TrainingPrograms.AsQueryable();
+			if (!query.Any())
+			{
+				return null;
+			}
 			return await ToListPaginationAsync(query, pageIndex, pageSize);
 		}
 
