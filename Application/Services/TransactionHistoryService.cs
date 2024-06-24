@@ -79,7 +79,7 @@ namespace Application.Services
                 TransactionAmount = amount ,
                 WalletBalanceChange = amount,
                 CurrentWallet = accountExits.WalletBalance,
-                PaymentMethod = "VNPAY",
+                PaymentMethod = TransactionMethod.VNPAY.ToString(),
                 PaymentDate = DateTime.UtcNow,
                 TransactionType = Transactiontype.NAP_TIEN.ToString(),
                 CurrencyCode = "VND",
@@ -209,5 +209,35 @@ namespace Application.Services
             
         }
         #endregion
+
+        #region Create transaction for service payment
+        public async Task<bool> CreateTransasctionForService(string accountId, float amount)
+        {
+            var accountExits = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId)
+              ?? throw new NotExistsException();
+            TransactionModel transaction = new TransactionModel
+            {
+                AccountId = accountId,
+                AccountName = accountExits.UserName,
+                TransactionAmount = amount,
+                WalletBalanceChange = amount,
+                CurrentWallet = accountExits.WalletBalance,
+                PaymentMethod = TransactionMethod.SYSTEM.ToString(),
+                PaymentDate = DateTime.UtcNow,
+                TransactionType = Transactiontype.THANH_TOAN.ToString(),
+                CurrencyCode = "VND",
+                Status = (int)TransactionStatus.Success
+            };
+            var transmodel = _mapper.Map<TransactionHistory>(transaction);
+
+            await _unitOfWork.TransactionHistoryRepo.AddAsync(transmodel);
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
+        }
+        #endregion
+
+
+
     }
 }

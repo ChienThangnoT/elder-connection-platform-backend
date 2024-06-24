@@ -45,7 +45,9 @@ namespace Application.Services
 		public async Task<BaseResponseModel> GetAllTrainingProgramAsync(int pageIndex, int pageSize)
 		{
 			var trainingProgram = await _unitOfWork.TrainingProgramRepo.GetAllTrainingProgramAsync(pageIndex, pageSize);
-			var trainingProgramViewModels = _mapper.Map<Pagination<TrainingProgramViewModel>>(trainingProgram);
+			var trainingProgramViewModels = _mapper.Map<Pagination<TrainingProgramViewModel>>(trainingProgram) ?? new object();
+
+
 			var response = new SuccessResponseModel
 			{
 				Status = StatusCodes.Status200OK,

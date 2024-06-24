@@ -20,6 +20,8 @@ namespace Application.IServices
         Task<BaseResponseModel> RequestTopUpWalletAsync(string accountId, float amount, HttpContext context);
         //Task<BaseResponseModel> RequestDepositToWallet(string accountId, int transId, Dictionary<string, StringValues> collections);
         Task<BaseResponseModel> RequestDepositToWallet_v2(VnPayModel vnPayModel);
+
+        Task<bool> CreateTransasctionForService(string accountId, float amount);
     }
 }
                                                                         

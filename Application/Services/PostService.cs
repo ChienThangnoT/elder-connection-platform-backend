@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +28,15 @@ namespace Application.Services
         private readonly IMapper _mapper;
         private readonly IJobScheduleService _jobScheduleService;
         private readonly ITaskEDService _taskEDService;
+        private readonly ITransactionHistoryService _transactionHistoryService;
 
-        public PostService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService, ITaskEDService taskEDService)
+        public PostService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService, ITaskEDService taskEDService, ITransactionHistoryService transactionHistoryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jobScheduleService = jobScheduleService;
             _taskEDService = taskEDService;
+            _transactionHistoryService = transactionHistoryService;
         }
 
         #region Create Post Async
@@ -67,7 +70,8 @@ namespace Application.Services
             // Create post
             postCreateViewModel.JobScheduleId = jobScheduleResult.JobScheduleId;
             postCreateViewModel.PostStatus = (int)PostStatus.Public;
-            postCreateViewModel.Price = isExistService.FinalPrice;
+            float typeHour = Int32.Parse(isExistService.ServiceTypeHours);
+            postCreateViewModel.Price = isExistService.FinalPrice* typeHour*dates.Length;
             postCreateViewModel.SalaryAfterWork = postCreateViewModel.Price - (postCreateViewModel.Price * 0.1f);
             var post = _mapper.Map<Post>(postCreateViewModel);
             await _unitOfWork.PostRepo.AddAsync(post);
@@ -91,6 +95,16 @@ namespace Application.Services
                     TaskUpdateAt = DateTime.Now
                 };
                 await _taskEDService.CreateTaskED(taskEDCreateViewModel);
+            }
+
+            var addTransactionService = await _transactionHistoryService.CreateTransasctionForService(isExistAccount.Id, post.Price);
+            if(addTransactionService != true)
+            {
+                return new FailedResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Payment for post failed",
+                };
             }
 
             var result = _mapper.Map<PostViewModel>(post);

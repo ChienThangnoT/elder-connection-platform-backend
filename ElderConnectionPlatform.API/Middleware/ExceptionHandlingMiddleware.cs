@@ -21,11 +21,11 @@ namespace ElderConnectionPlatform.API.Middleware
             }
             catch (AccountAlreadyExistsException ex)
             {
-                await HandleExceptionAsync(context, ex, StatusCodes.Status200OK);
+                await HandleExceptionAsync(context, ex, StatusCodes.Status409Conflict);
             } 
             catch (NotExistsException ex)
             {
-                await HandleExceptionAsync(context, ex, StatusCodes.Status200OK);
+                await HandleExceptionAsync(context, ex, StatusCodes.Status404NotFound);
             }
             catch (ArgumentException ex)
             {
