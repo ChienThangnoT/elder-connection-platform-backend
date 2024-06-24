@@ -3,6 +3,7 @@ using Application.Exceptions;
 using Application.IServices;
 using Application.ResponseModels;
 using Application.ViewModels.JobScheduleViewModels;
+using Application.ViewModels.TrainingProgramViewModels;
 using AutoMapper;
 using Domain.Enums.TaskEnums;
 using Domain.Models;
@@ -76,6 +77,20 @@ namespace Application.Services
             };
         }
         #endregion
+
+        public async Task<BaseResponseModel> GetAllJobScheduleAsync(int pageIndex, int pageSize)
+        {
+            var jobSchedules = await _unitOfWork.JobScheduleRepo.GetAllJobScheduleAsync(pageIndex, pageSize);
+            var jobSchedulesViewModels = _mapper.Map<Pagination<JobScheduleViewModel>>(jobSchedules);
+            var response = new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Job Schedule retrieved successfully",
+                Result = jobSchedulesViewModels
+            };
+
+            return response;
+        }
 
         #region GetJobScheduleById
         public async Task<BaseResponseModel> GetJobScheduleByIdAsync(int id)

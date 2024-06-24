@@ -13,8 +13,16 @@ namespace Infracstructures.Repositories
 {
     public class JobScheduleRepository : GenericRepository<JobSchedule>, IJobScheduleRepository
     {
+        private readonly ElderConnectionContext _context;
         public JobScheduleRepository(ElderConnectionContext context) : base(context)
         {
+            _context = context;
+        }
+
+        public async Task<Pagination<JobSchedule>> GetAllJobScheduleAsync(int pageIndex, int pageSize)
+        {
+            var query = _context.JobSchedules.AsQueryable();
+            return await ToListPaginationAsync(query, pageIndex, pageSize);
         }
 
         public async Task<JobSchedule?> GetJobScheduleByIdAsync(int id)
