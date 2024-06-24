@@ -29,14 +29,14 @@ if (string.IsNullOrEmpty(connection))
 }
 
 // Configure SQL Server with retry options
-//builder.Services.AddDbContext<ElderConnectionContext>(options =>
-//    options.UseSqlServer(connection, sqlOptions =>
-//    {
-//        sqlOptions.EnableRetryOnFailure(
-//            maxRetryCount: 3,
-//            maxRetryDelay: TimeSpan.FromSeconds(3),
-//            errorNumbersToAdd: null);
-//    }));
+builder.Services.AddDbContext<ElderConnectionContext>(options =>
+    options.UseSqlServer(connection, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(3),
+            errorNumbersToAdd: null);
+    }));
 
 
 // Add services to the container.
