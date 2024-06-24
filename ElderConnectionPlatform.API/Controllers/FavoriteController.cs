@@ -23,62 +23,26 @@ namespace ElderConnectionPlatform.API.Controllers
         [HttpGet("get-favorite-list/{favoriteId}")]
         public async Task<IActionResult> GetFavoriteListById(int favoriteId)
         {
-            try
-            {
-                var favorite = await _favoriteService.GetFavoriteListByIdAsync(favoriteId);
-                return favorite == null
-                   ? NotFound()
-                   : (IActionResult)Ok(favorite);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = e.Message
-                });
-            }
+            var favorite = await _favoriteService.GetFavoriteListByIdAsync(favoriteId);
+            return favorite == null
+               ? NotFound()
+               : Ok(favorite);
         }
 
         [HttpGet("get-favorite-list-by-customer-id/{customerId}")]
         public async Task<IActionResult> GetFavoriteListByCustomerId(string customerId, int pageIndex = 0, int pageSize = 10)
         {
-            try
-            {
-                var favorites = await _favoriteService.GetFavoriteListByCustomerIdAsync(customerId, pageIndex, pageSize);
-                return favorites == null
-                   ? NotFound()
-                   : (IActionResult)Ok(favorites);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Bad request.",
-                    Errors = e.Message
-                });
-            }
+            var favorites = await _favoriteService.GetFavoriteListByCustomerIdAsync(customerId, pageIndex, pageSize);
+            return favorites == null
+               ? NotFound()
+               : Ok(favorites);
         }
 
         [HttpPost("create-favorite-list")]
         public async Task<IActionResult> CreateFavoriteList(FavoriteListCreateViewModel favoriteListCreateViewModel)
         {
-            try
-            {
-                var result = await _favoriteService.CreateConnectorToFavoriteListAsync(favoriteListCreateViewModel);
-                return Ok(result);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new FailedResponseModel
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Message = "Invalid parameters.",
-                    Errors = e.Message
-                });
-            }
+            var result = await _favoriteService.CreateConnectorToFavoriteListAsync(favoriteListCreateViewModel);
+            return Ok(result);
         }
     }
 }

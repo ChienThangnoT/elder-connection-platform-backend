@@ -21,11 +21,11 @@ namespace ElderConnectionPlatform.API.Middleware
             }
             catch (AccountAlreadyExistsException ex)
             {
-                await HandleExceptionAsync(context, ex, StatusCodes.Status409Conflict);
+                await HandleExceptionAsync(context, ex, StatusCodes.Status200OK);
             } 
             catch (NotExistsException ex)
             {
-                await HandleExceptionAsync(context, ex, StatusCodes.Status404NotFound);
+                await HandleExceptionAsync(context, ex, StatusCodes.Status200OK);
             }
             catch (ArgumentException ex)
             {
@@ -46,7 +46,7 @@ namespace ElderConnectionPlatform.API.Middleware
             {
                 Status = statusCode,
                 Message = exception.Message,
-                Errors = exception.StackTrace
+                Errors = null
             };
 
             var jsonResponse = JsonConvert.SerializeObject(response);
