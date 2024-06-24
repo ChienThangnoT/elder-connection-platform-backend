@@ -228,8 +228,7 @@ namespace Application.Services
             var isExistAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(id)
                 ?? throw new NotExistsException();
             // Get all post by customer id
-            var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize)
-                ?? throw new NotExistsException();
+            var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize);
             // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
 
@@ -247,8 +246,7 @@ namespace Application.Services
             (int status, int pageIndex = 0, int pageSize = 10)
         {
             // Get all post by status
-            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize) 
-                ?? throw new NotExistsException();
+            var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize);
             // Map to view model
             var result = _mapper.Map<Pagination<PostViewModel>>(posts);
             return new SuccessResponseModel
