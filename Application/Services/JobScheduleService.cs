@@ -65,7 +65,7 @@ namespace Application.Services
         public async Task<IEnumerable<BaseResponseModel>> GetAllJobSchedulesAsync()
         {
             var jobSchedules = await _unitOfWork.JobScheduleRepo.GetAllAsync();
-            var result = _mapper.Map<IEnumerable<JobScheduleViewModel>>(jobSchedules);
+            var result = _mapper.Map<IEnumerable<JobScheduleViewModel>>(jobSchedules) ?? new object();
             return new List<BaseResponseModel>
             {
                 new SuccessResponseModel
@@ -81,7 +81,7 @@ namespace Application.Services
         public async Task<BaseResponseModel> GetAllJobScheduleAsync(int pageIndex, int pageSize)
         {
             var jobSchedules = await _unitOfWork.JobScheduleRepo.GetAllJobScheduleAsync(pageIndex, pageSize);
-            var jobSchedulesViewModels = _mapper.Map<Pagination<JobScheduleViewModel>>(jobSchedules);
+            var jobSchedulesViewModels = _mapper.Map<Pagination<JobScheduleViewModel>>(jobSchedules) ?? new object();
             var response = new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,

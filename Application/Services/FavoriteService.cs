@@ -82,16 +82,7 @@ namespace Application.Services
         {
             var isExistCustomer = await _unitOfWork.AccountRepo.GetAccountByIdAsync(customerId) ?? throw new NotExistsException();
             var favoriteList = await _unitOfWork.FavoriteRepo.GetFavoriteListByCustomerIdAsync(customerId, pageIndex, pageSize);
-            var result = _mapper.Map<Pagination<FavoriteDetailViewModel>>(favoriteList);
-            
-            if(result == null)
-            {
-                return new SuccessResponseModel
-                {
-                    Status = StatusCodes.Status200OK,
-                    Message = "Get favorite list by customer id null",
-                };
-            }
+            var result = _mapper.Map<Pagination<FavoriteDetailViewModel>>(favoriteList) ?? new object();
 
             return new SuccessResponseModel
             {

@@ -32,7 +32,7 @@ namespace Application.Services
                 ?? throw new NotExistsException();
             var addressList = await _unitOfWork.AddressRepo.GetAccountAddressByAccountIdAsync(accountId, pageIndex, pageSize);
 
-            var result = _mapper.Map<Pagination<AddressViewModel>>(addressList);
+            var result = _mapper.Map<Pagination<AddressViewModel>>(addressList) ?? new object();
             
             return new SuccessResponseModel
             {

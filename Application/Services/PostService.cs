@@ -244,7 +244,7 @@ namespace Application.Services
             // Get all post by customer id
             var posts = await _unitOfWork.PostRepo.GetAllPostByCustomerIdAsync(id, pageIndex, pageSize);
             // Map to view model
-            var result = _mapper.Map<Pagination<PostViewModel>>(posts);
+            var result = _mapper.Map<Pagination<PostViewModel>>(posts) ?? new object();
 
             return new SuccessResponseModel
             {
@@ -262,7 +262,7 @@ namespace Application.Services
             // Get all post by status
             var posts = await _unitOfWork.PostRepo.GetAllPostByStatusAsync(status, pageIndex, pageSize);
             // Map to view model
-            var result = _mapper.Map<Pagination<PostViewModel>>(posts);
+            var result = _mapper.Map<Pagination<PostViewModel>>(posts) ?? new object();
             return new SuccessResponseModel
             {
                 Status = StatusCodes.Status200OK,

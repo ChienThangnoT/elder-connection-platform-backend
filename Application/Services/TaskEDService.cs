@@ -94,7 +94,7 @@ namespace Application.Services
                                               jobScheduleId, pageIndex, pageSize)
                 ?? throw new NotExistsException(); 
             // Map to TaskEDViewModel
-            var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs);
+            var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs) ?? new object();
 
             return new SuccessResponseModel
             {
