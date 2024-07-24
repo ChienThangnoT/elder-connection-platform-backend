@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "ElderConnection",
+      "defaultValue": "ElderConnectResource",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
@@ -12,7 +12,7 @@
     },
     "resourceGroupLocation": {
       "type": "string",
-      "defaultValue": "southeastasia",
+      "defaultValue": "eastus",
       "metadata": {
         "_parameterType": "location",
         "description": "Location of the resource group. Resource groups could have different location than resources."
@@ -49,17 +49,17 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "ElderConnectionPlatformAPIapi",
+              "name": "ElderConnectPlatformAPIapi",
               "type": "Microsoft.ApiManagement/service",
               "location": "[parameters('resourceLocation')]",
               "properties": {
-                "publisherEmail": "daigiaghe@gmail.com",
-                "publisherName": "ElderConnectionPlatform",
+                "publisherEmail": "vongoctandung2002@gmail.com",
+                "publisherName": "ElderConnect",
                 "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
                 "hostnameConfigurations": [
                   {
                     "type": "Proxy",
-                    "hostName": "elderconnectionplatformapiapi.azure-api.net",
+                    "hostName": "elderconnectplatformapiapi.azure-api.net",
                     "encodedCertificate": null,
                     "keyVaultId": null,
                     "certificatePassword": null,
@@ -95,7 +95,7 @@
             },
             {
               "type": "Microsoft.ApiManagement/service/apis",
-              "name": "ElderConnectionPlatformAPIapi/ElderConnectionPlatformAPI",
+              "name": "ElderConnectPlatformAPIapi/ElderConnectionPlatformAPI",
               "properties": {
                 "displayName": "ElderConnectionPlatformAPI",
                 "apiRevision": "1",
@@ -118,7 +118,7 @@
               },
               "apiVersion": "2019-12-01",
               "dependsOn": [
-                "ElderConnectionPlatformAPIapi"
+                "ElderConnectPlatformAPIapi"
               ]
             }
           ]
