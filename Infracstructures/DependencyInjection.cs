@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.IRepositories;
 using Application.IServices;
+using Application.Library;
 using Application.Services;
 using Infracstructures.Mappers;
 using Infracstructures.Repositories;
@@ -17,6 +18,8 @@ namespace Infracstructures
             // Configure UnitOfWork
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            
+
             // Configure AutoMapper
             services.AddAutoMapper(typeof(MapperConfigs).Assembly);
 
@@ -27,14 +30,14 @@ namespace Infracstructures
             // Configure Adress services and repositories
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IAddressService, AddressService>();
-            
+
             // Configure Account services and repositories
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
-            
+
             // Configure Service services and repositories
             services.AddTransient<IServiceRepository, ServiceRepository>();
-            services.AddTransient<IServiceService, ServiceService>(); 
+            services.AddTransient<IServiceService, ServiceService>();
 
             // Configure ServiceType services and repositories
             services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
@@ -56,25 +59,25 @@ namespace Infracstructures
             services.AddTransient<IConnectorInfoRepository, ConnectorInfoRepository>();
             services.AddTransient<IConnectorInfoService, ConnectorInfoService>();
 
-			// Configure Sale services and repositories
-			services.AddTransient<ISaleRepository, SaleRepository>();
-			services.AddTransient<ISaleService, SaleService>();
+            // Configure Sale services and repositories
+            services.AddTransient<ISaleRepository, SaleRepository>();
+            services.AddTransient<ISaleService, SaleService>();
 
             // Configure TaskED services and repositories
             services.AddTransient<ITaskEDRepository, TaskEDRepository>();
             services.AddTransient<ITaskEDService, TaskEDService>();
 
-			// Configure ConnectorFeedback services and repositories
-			services.AddTransient<IConnectorFeedbackRepository, ConnectorFeedbackRepository>();
-			services.AddTransient<IConnectorFeedbackService, ConnectorFeedbackService>();
+            // Configure ConnectorFeedback services and repositories
+            services.AddTransient<IConnectorFeedbackRepository, ConnectorFeedbackRepository>();
+            services.AddTransient<IConnectorFeedbackService, ConnectorFeedbackService>();
 
-			// Configure ServiceFeedback services and repositories
-			services.AddTransient<IServiceFeedbackRepository, ServiceFeedbackRepository>();
-			services.AddTransient<IServiceFeedbackService, ServiceFeedbackService>();
+            // Configure ServiceFeedback services and repositories
+            services.AddTransient<IServiceFeedbackRepository, ServiceFeedbackRepository>();
+            services.AddTransient<IServiceFeedbackService, ServiceFeedbackService>();
 
-			// Configure TrainingProgram services and repositories
-			services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
-			services.AddTransient<ITrainingProgramService, TrainingProgramService>();
+            // Configure TrainingProgram services and repositories
+            services.AddTransient<ITrainingProgramRepository, TrainingProgramRepository>();
+            services.AddTransient<ITrainingProgramService, TrainingProgramService>();
 
             // Configure Favorite services and repositories
             services.AddTransient<IFavoriteRepository, FavoriteRepository>();

@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Library;
 using Application.ResponseModels;
+using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.TransactionHistoryViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -18,10 +19,14 @@ namespace Application.IServices
         Task<BaseResponseModel> GetAllTransactionHistoryByAccountIdAsync(
             string id, int pageIndex = 0, int pageSize = 10);
         Task<BaseResponseModel> RequestTopUpWalletAsync(string accountId, float amount, HttpContext context);
+        Task<BaseResponseModel> RequestTopUpWalletWithPayOsAsync(string accountId, float amount);
         //Task<BaseResponseModel> RequestDepositToWallet(string accountId, int transId, Dictionary<string, StringValues> collections);
         Task<BaseResponseModel> RequestDepositToWallet_v2(VnPayModel vnPayModel);
+        Task<BaseResponseModel> RequestDepositToWalletWithPayOs(int transactionId, string status);
 
         Task<bool> CreateTransasctionForService(string accountId, float amount);
+
+        Task<Pagination<TransactionHistoryViewModel>> GetAllTransactionAsync(int pageIndex = 0, int pageSize = 10);
     }
 }
                                                                         

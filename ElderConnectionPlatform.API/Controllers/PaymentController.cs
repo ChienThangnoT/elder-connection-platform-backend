@@ -35,6 +35,27 @@ namespace ElderConnectionPlatform.API.Controllers
                 });
             }
 
+        } 
+
+
+        [HttpPost("request-top-up-wallet-with-payos")]
+        public async Task<IActionResult> RequestTopUpWalletWithPayOs(string accountId, float amount)
+        {
+            try
+            {
+                var paymenturl = await _transactionHistoryService.RequestTopUpWalletWithPayOsAsync(accountId, amount);
+                return Ok(paymenturl);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Invalid parameters.",
+                    Errors = ex.Message
+                });
+            }
+
         }
 
         //[HttpPost("request-deposit-to-wallet")]
@@ -62,6 +83,38 @@ namespace ElderConnectionPlatform.API.Controllers
             try
             {
                 var result = await _transactionHistoryService.RequestDepositToWallet_v2(vnpayResponse);
+
+                if (result.Status == 400)
+                {
+                    
+                    return BadRequest(new FailedResponseModel
+                    {
+                        Status = StatusCodes.Status400BadRequest,
+                        Message = "Payment faild"
+                    });
+                }
+                return Ok(new SuccessResponseModel
+                {
+                    Status = StatusCodes.Status200OK,
+                    Message = "Payment success"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = ex.Message
+                });
+            }
+        }
+        
+        [HttpGet("request-deposit-to-wallet-with-payos")]
+        public async Task<IActionResult> RequestDepositToWalletWithPayOs(int transactionId, string status)
+        {
+            try
+            {
+                var result = await _transactionHistoryService.RequestDepositToWalletWithPayOs(transactionId, status);
 
                 if (result.Status == 400)
                 {

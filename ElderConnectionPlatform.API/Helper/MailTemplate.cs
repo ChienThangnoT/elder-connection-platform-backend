@@ -14,7 +14,7 @@
                 <body>
                     <div style=""container"">
                         <div style=""header"">
-                            <img src=""https://firebasestorage.googleapis.com/v0/b/estudyhub-a1699.appspot.com/o/logo%2Flogo-black.png?alt=media&token=892e67fd-fa5a-4a95-8705-de863eb9afe5"" alt=""Logo"" style=""width:120px;"">
+                            <img src=""https://firebasestorage.googleapis.com/v0/b/elderconnection.appspot.com/o/System%2Flogo.jpg?alt=media&token=cafff375-cb63-44d1-9b0e-11904cb405ce"" alt=""Logo"" style=""width:120px;"">
                         </div>
                         <div style=""content"">
                             <h3>Xác thực Account của bạn</h3>
