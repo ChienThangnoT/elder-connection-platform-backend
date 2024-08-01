@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Library;
 using Application.ResponseModels;
+using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.TransactionHistoryViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -24,6 +25,8 @@ namespace Application.IServices
         Task<BaseResponseModel> RequestDepositToWalletWithPayOs(int transactionId, string status);
 
         Task<bool> CreateTransasctionForService(string accountId, float amount);
+
+        Task<Pagination<TransactionHistoryViewModel>> GetAllTransactionAsync(int pageIndex = 0, int pageSize = 10);
     }
 }
                                                                         
