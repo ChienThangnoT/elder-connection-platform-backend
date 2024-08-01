@@ -51,15 +51,24 @@ namespace Infracstructures.Repositories
         /// </summary>
         /// <param name="include"> The linq expression for include relations we want. </param>
         /// <returns> Return the list of TModel include relations. </returns>
-        public virtual async Task<List<TModel>> GetAllAsync(Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null)
+        public virtual async Task<List<TModel>> GetAllAsync(
+    Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null,
+    Func<IQueryable<TModel>, IQueryable<TModel>>? filter = null)
         {
             IQueryable<TModel> query = _dbSet;
             if (include != null)
             {
                 query = include(query);
             }
+
+            if (filter != null)
+            {
+                query = filter(query);
+            }
+
             return await query.ToListAsync();
         }
+
 
         public virtual async Task<TModel?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
 

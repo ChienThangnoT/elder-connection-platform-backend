@@ -58,6 +58,26 @@ namespace ElderConnectionPlatform.API.Controllers
 
         }
 
+        [HttpPost("send-salary-service")]
+        public async Task<IActionResult> ReceiveSalaryService(string accountId, float amount)
+        {
+            try
+            {
+                var paymenturl = await _transactionHistoryService.ReceiveSalaryService(accountId, amount);
+                return Ok(paymenturl);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new FailedResponseModel
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Message = "Invalid parameters.",
+                    Errors = ex.Message
+                });
+            }
+
+        }
+
         //[HttpPost("request-deposit-to-wallet")]
         //public async Task<IActionResult> RequestDepositToWallet( string accountId, int transId,[FromQuery] PaymentQueryModel queryModel)
         //{
@@ -110,11 +130,11 @@ namespace ElderConnectionPlatform.API.Controllers
         }
         
         [HttpGet("request-deposit-to-wallet-with-payos")]
-        public async Task<IActionResult> RequestDepositToWalletWithPayOs(int transactionId, string status)
+        public async Task<IActionResult> RequestDepositToWalletWithPayOs([FromQuery] PayOSResponeModel request)
         {
             try
             {
-                var result = await _transactionHistoryService.RequestDepositToWalletWithPayOs(transactionId, status);
+                var result = await _transactionHistoryService.RequestDepositToWalletWithPayOs(request);
 
                 if (result.Status == 400)
                 {

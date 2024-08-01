@@ -21,12 +21,15 @@ namespace Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IJobScheduleService _jobScheduleService;
+        private readonly ITransactionHistoryService _transactionHistoryService;
 
-        public TaskEDService(IUnitOfWork unitOfWork, IMapper mapper, IJobScheduleService jobScheduleService)
+        public TaskEDService(IUnitOfWork unitOfWork, IMapper mapper,
+            IJobScheduleService jobScheduleService, ITransactionHistoryService transactionHistoryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jobScheduleService = jobScheduleService;
+            _transactionHistoryService = transactionHistoryService;
         }
 
         #region CreateTaskED
@@ -92,7 +95,7 @@ namespace Application.Services
             // Get all task of job schedule
             var taskEDs = await _unitOfWork.TaskEDRepo.GetTaskEDListByJobScheduleIdAsync(
                                               jobScheduleId, pageIndex, pageSize)
-                ?? throw new NotExistsException(); 
+                ?? throw new NotExistsException();
             // Map to TaskEDViewModel
             var result = _mapper.Map<Pagination<TaskEDViewModel>>(taskEDs) ?? new object();
 
@@ -122,7 +125,17 @@ namespace Application.Services
                 // Update job schedule progress
                 var jobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(taskED.JobScheduleId)
                     ?? throw new NotExistsException();
-                await _jobScheduleService.CalculateJobScheduleProgress(jobSchedule.JobScheduleId);
+                var process  = await _jobScheduleService.CalculateJobScheduleProgress(jobSchedule.JobScheduleId);
+                if(process == 100)
+                {
+                     var posts = await _unitOfWork.PostRepo.GetAllAsync(
+                    filter: posts => posts.Where(post => post.JobScheduleId == jobSchedule.JobScheduleId)
+                );
+                var postItem = posts.FirstOrDefault();
+                await _transactionHistoryService.ReceiveSalaryService(jobSchedule.ConnectorId, postItem.SalaryAfterWork);
+                }
+                
+
             }
             var result = _mapper.Map<TaskEDViewModel>(taskED);
             return new SuccessResponseModel

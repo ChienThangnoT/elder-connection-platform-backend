@@ -159,8 +159,8 @@ namespace Application.Services
             };
 
             long orderCode = long.Parse(DateTimeOffset.Now.ToString("yyMMddHHmmss"));
-            string returnUrl = $"https://elderconnection.vercel.app/success?transactionId={orderId}";
-            string cancelUrl = $"https://elderconnection.vercel.app/cancel?transactionId={orderId}";
+            string returnUrl = $"https://elderconnect.azurewebsites.net/api/payments/request-deposit-to-wallet-with-payos?transactionId={orderId}";
+            string cancelUrl = $"https://elderconnect.azurewebsites.net/api/payments/request-deposit-to-wallet-with-payos?transactionId={orderId}";
 
 
             var payOSModel = new PaymentData(
@@ -196,11 +196,11 @@ namespace Application.Services
         #endregion
 
         #region Request Deposit To Wallet
-        public async Task<BaseResponseModel> RequestDepositToWalletWithPayOs(int transactionId, string status)
+        public async Task<BaseResponseModel> RequestDepositToWalletWithPayOs(PayOSResponeModel payOSModel)
         {
-            var trans = await GetTransactionById(transactionId);
+            var trans = await GetTransactionById(payOSModel.transactionId);
             var getAccount = await _unitOfWork.AccountRepo.GetAccountByIdAsync(trans.AccountId);
-            if (status.ToUpper() == "PAID")
+            if (payOSModel.status.ToUpper() == "PAID")
             {
                 trans.CurrentWallet += (float)trans.TransactionAmount;
                 trans.TransactionNo = DateTimeOffset.Now.ToString("yyMMddHHmmss");
@@ -350,6 +350,45 @@ namespace Application.Services
             await _unitOfWork.SaveChangesAsync();
 
             return true;
+        }
+
+        #endregion
+        
+        
+        #region Receive salary
+        public async Task<BaseResponseModel> ReceiveSalaryService(string accountId, float amount)
+        {
+            var accountExits = await _unitOfWork.AccountRepo.GetAccountByIdAsync(accountId)
+              ?? throw new NotExistsException();
+            TransactionModel transaction = new TransactionModel
+            {
+                AccountId = accountId,
+                AccountName = accountExits.UserName,
+                TransactionAmount = amount,
+                WalletBalanceChange = amount,
+                CurrentWallet = accountExits.WalletBalance + amount,
+                PaymentMethod = TransactionMethod.SYSTEM.ToString(),
+                PaymentDate = DateTime.UtcNow,
+                TransactionType = Transactiontype.NHAN_TIEN.ToString(),
+                CurrencyCode = "VND",
+                Status = (int)TransactionStatus.Success
+            };
+
+            accountExits.WalletBalance += amount;
+
+
+            var transmodel = _mapper.Map<TransactionHistory>(transaction);
+
+            _unitOfWork.AccountRepo.Update(accountExits);
+            await _unitOfWork.TransactionHistoryRepo.AddAsync(transmodel);
+            await _unitOfWork.SaveChangesAsync();
+
+            return new SuccessResponseModel
+            {
+                Status = StatusCodes.Status200OK,
+                Message = "Send salary to Connector Wallet Success",
+                Result = transmodel
+            };
         }
 
         #endregion

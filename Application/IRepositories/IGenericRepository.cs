@@ -12,7 +12,9 @@ namespace Application.IRepositories
     public interface IGenericRepository<T> where T : class
     {
         Task<List<T>> GetAllAsync();
-        Task<List<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
+        Task<List<T>> GetAllAsync(
+    Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+    Func<IQueryable<T>, IQueryable<T>>? filter = null);
 
         Task<T?> GetByIdAsync(int id);
 

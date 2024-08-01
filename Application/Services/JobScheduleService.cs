@@ -165,7 +165,7 @@ namespace Application.Services
         #endregion
 
         #region CalculateJobScheduleProgress
-        public async Task CalculateJobScheduleProgress(int jobScheduleId)
+        public async Task<float> CalculateJobScheduleProgress(int jobScheduleId)
         {
             var isExistJobSchedule = await _unitOfWork.JobScheduleRepo.GetByIdAsync(jobScheduleId)
                 ?? throw new NotExistsException();
@@ -181,6 +181,7 @@ namespace Application.Services
             isExistJobSchedule.TaskProcess = (int)progress;
             _unitOfWork.JobScheduleRepo.Update(isExistJobSchedule);
             await _unitOfWork.SaveChangesAsync();
+            return (float)progress;
         }
         #endregion
     }

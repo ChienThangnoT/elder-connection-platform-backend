@@ -22,9 +22,10 @@ namespace Application.IServices
         Task<BaseResponseModel> RequestTopUpWalletWithPayOsAsync(string accountId, float amount);
         //Task<BaseResponseModel> RequestDepositToWallet(string accountId, int transId, Dictionary<string, StringValues> collections);
         Task<BaseResponseModel> RequestDepositToWallet_v2(VnPayModel vnPayModel);
-        Task<BaseResponseModel> RequestDepositToWalletWithPayOs(int transactionId, string status);
+        Task<BaseResponseModel> RequestDepositToWalletWithPayOs(PayOSResponeModel payOSModel);
 
         Task<bool> CreateTransasctionForService(string accountId, float amount);
+        Task<BaseResponseModel> ReceiveSalaryService(string accountId, float amount);
 
         Task<Pagination<TransactionHistoryViewModel>> GetAllTransactionAsync(int pageIndex = 0, int pageSize = 10);
     }
