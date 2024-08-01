@@ -3,10 +3,12 @@ using Application.Exceptions;
 using Application.IServices;
 using Application.Library;
 using Application.ResponseModels;
+using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.TransactionHistoryViewModels;
 using AutoMapper;
 using Domain.Enums.TransactionHistoryEnums;
 using Domain.Models;
+using Infracstructures.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
@@ -235,9 +237,30 @@ namespace Application.Services
 
             return true;
         }
+
         #endregion
 
+        #region Get All Transactions
+        public async Task<Pagination<TransactionHistoryViewModel>> GetAllTransactionAsync(int pageIndex = 0, int pageSize = 10)
+        {
+            if (pageIndex < 0)
+            {
+                string msg = "Page index cannot be less than 0. Input page index: " + pageIndex;
+                throw new ArgumentException(msg);
+            }
 
+            if (pageSize <= 0)
+            {
+                string msg = "Page size cannot be less than 1. Input page size: " + pageSize;
+                throw new ArgumentException(msg);
+            }
+            var transactions = await _unitOfWork.TransactionHistoryRepo.ToPaginationAsync(pageIndex, pageSize);
+
+            var result = _mapper.Map<Pagination<TransactionHistoryViewModel>>(transactions);
+
+            return result; 
+        }
+        #endregion
 
     }
 }
