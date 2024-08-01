@@ -9,6 +9,7 @@ namespace Domain.Enums.TransactionHistoryEnums
     public enum TransactionMethod
     {
         VNPAY = 1,
-        SYSTEM =2
+        SYSTEM =2,
+        VietQR =3
     }
 }

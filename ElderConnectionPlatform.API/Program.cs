@@ -1,7 +1,11 @@
+using Application.Library;
+using Domain.Models;
 using ElderConnectionPlatform.API;
 using ElderConnectionPlatform.API.Middleware;
 using Infracstructures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Net.payOS;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,15 +32,23 @@ if (string.IsNullOrEmpty(connection))
     throw new InvalidOperationException("No connection string found.");
 }
 
-// Configure SQL Server with retry options
-//builder.Services.AddDbContext<ElderConnectionContext>(options =>
-//    options.UseSqlServer(connection, sqlOptions =>
-//    {
-//        sqlOptions.EnableRetryOnFailure(
-//            maxRetryCount: 3,
-//            maxRetryDelay: TimeSpan.FromSeconds(3),
-//            errorNumbersToAdd: null);
-//    }));
+builder.Services.AddSingleton(x =>
+    new PayOSService(
+        builder.Configuration["payOS:clientId"],
+        builder.Configuration["payOS:apiKey"],
+        builder.Configuration["payOS:checksumKey"]
+    )
+);
+
+//Configure SQL Server with retry options
+builder.Services.AddDbContext<ElderConnectionContext>(options =>
+    options.UseSqlServer(connection, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(3),
+            errorNumbersToAdd: null);
+    }));
 
 
 // Add services to the container.
