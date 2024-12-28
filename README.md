@@ -30,7 +30,7 @@ Dự án được thực hiện bởi nhóm gồm 6 thành viên:
 - [Elder Connection Partner Mobile](https://github.com/thanhlong109/elder-connection-partner-mobile)
 - [Elder Connection Mobile](https://github.com/thanhlong109/elder-connection-mobile)
 - [Elder Connection Frontend](https://github.com/thanhlong109/elder-connection-fe)
-- [Elder Connection Bacckend](https://github.com/ChienThangnoT/elder-connection-platform-backend)
+- [Elder Connection Backend](https://github.com/ChienThangnoT/elder-connection-platform-backend)
 
 ## Liên Hệ
 - Để biết thêm thông tin hoặc hỗ trợ, vui lòng liên hệ chúng tôi qua email: elderconnect01005@gmail.com.
